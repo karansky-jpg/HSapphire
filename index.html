@@ -1,0 +1,1022 @@
+SAPPHIRE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Sapphire - Smart Ordering</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            royalGreen: {
+              DEFAULT: '#0A5C36',
+              dark: '#063d23',
+              light: '#eefcf5',
+            },
+            royalBlue: {
+              DEFAULT: '#0B3C5D',
+              dark: '#07273d',
+              light: '#f0f5fa',
+            },
+            accentGold: '#D4AF37',
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    h1, h2, h3, .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+    /* Hide scrollbars */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+  <!-- TOP PREMIUM APP BAR -->
+  <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <!-- Logo & Name -->
+      <div class="flex items-center gap-3">
+        <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-12 w-12 object-contain" onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=100'">
+        <div>
+          <h1 class="text-xl font-bold text-royalGreen flex items-center gap-1 leading-none">
+            Sapphire <span class="text-accentGold text-sm font-serif">★ ★ ★ ★ ★</span>
+          </h1>
+          <p class="text-xs text-gray-500 tracking-wider uppercase mt-0.5">Hotel & Restaurant</p>
+        </div>
+      </div>
+
+      <!-- Live Location Badge -->
+      <div id="session-badge" class="hidden md:flex items-center gap-2 bg-royalGreen-light border border-royalGreen/20 px-3 py-1.5 rounded-full text-royalGreen font-semibold text-sm">
+        <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+        <span id="session-label">Checking Table...</span>
+      </div>
+
+      <!-- Cart Button Trigger -->
+      <button onclick="toggleCart(true)" class="relative bg-royalBlue text-white p-2.5 rounded-xl flex items-center gap-2 hover:bg-royalBlue-dark transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-accentGold text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+        <span class="hidden sm:inline text-sm font-medium">Cart</span>
+      </button>
+    </div>
+
+    <!-- Small Mobile Table Badge Banner -->
+    <div id="mobile-session-badge" class="bg-royalGreen text-white text-center py-1.5 text-xs font-semibold tracking-wider flex items-center justify-center gap-2 md:hidden">
+      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+      <span id="mobile-session-label">Loading location...</span>
+    </div>
+  </header>
+
+  <!-- SELECTION INTERFACE (Lobby Screen if no table code in URL) -->
+  <div id="lobby-screen" class="hidden fixed inset-0 z-50 bg-royalBlue-dark bg-opacity-95 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full my-8 shadow-2xl text-center relative border border-accentGold/20">
+      <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-20 w-20 mx-auto object-contain mb-4">
+      <h2 class="text-3xl font-bold text-royalBlue mb-1 font-serif">Welcome to Hotel Sapphire</h2>
+      <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Please select your Table Number (for Restaurant Dine-In) or Room Number (for Room Service) to begin your digital dining experience.</p>
+      
+      <div class="mb-6">
+        <div class="flex border-b border-gray-100 justify-center gap-6 mb-4">
+          <button onclick="switchLobbyTab('restaurant')" id="tab-btn-restaurant" class="pb-2 border-b-2 border-royalGreen text-royalGreen font-bold transition text-base">Restaurant Dining (R1 - R10)</button>
+          <button onclick="switchLobbyTab('rooms')" id="tab-btn-rooms" class="pb-2 border-b-2 border-transparent text-gray-400 hover:text-royalBlue transition text-base">Room Service (T1 - T10)</button>
+        </div>
+
+        <!-- Restaurant Grid -->
+        <div id="lobby-restaurant-grid" class="grid grid-cols-5 gap-3 max-w-md mx-auto">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Room Grid -->
+        <div id="lobby-rooms-grid" class="hidden grid grid-cols-5 gap-3 max-w-md mx-auto">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="text-xs text-gray-400 border-t border-gray-100 pt-4">
+        Can't find your desk? Please contact our hospitality staff for immediate assistance.
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDER STATUS TOP STRIP (Floating Notification) -->
+  <div id="active-status-bar" class="hidden max-w-6xl mx-auto w-full px-4 mt-4">
+    <div class="rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border" id="status-card-container">
+      <div class="flex items-center gap-3">
+        <div class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" id="status-pulse-ping"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3" id="status-indicator-dot"></span>
+        </div>
+        <div>
+          <span class="text-xs uppercase tracking-wider text-gray-400 block font-semibold">Active Session Status</span>
+          <h4 class="font-bold text-gray-800" id="current-status-title">Active &amp; Seated</h4>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+        <div class="text-right">
+          <span class="text-xs text-gray-400 block">Current Bill Balance</span>
+          <span class="font-bold text-royalGreen text-lg" id="running-total">₹0.00</span>
+        </div>
+        <button onclick="requestBill()" class="bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-red-700 transition shadow-sm active:scale-95" id="request-bill-btn">
+          Ask for Bill
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN FOOD BROWSER -->
+  <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-6">
+    <!-- Category Quick Filters -->
+    <div class="flex items-center justify-between gap-4 mb-6">
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 w-full" id="category-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Search Input -->
+    <div class="relative mb-8 max-w-md">
+      <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </span>
+      <input type="text" id="menu-search" oninput="filterMenu()" placeholder="Search dishes, desserts, mocktails..." class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-royalGreen focus:border-transparent shadow-sm">
+    </div>
+
+    <!-- Menu Items Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-grid">
+      <!-- Rendered dynamically -->
+      <div class="col-span-full text-center py-20 text-gray-400">
+        <svg class="animate-spin h-10 w-10 mx-auto mb-4 text-royalGreen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="font-serif text-lg">Curating premium culinary selections...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-royalBlue text-white py-12 mt-12 border-t border-accentGold/20">
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-10 w-10 object-contain brightness-0 invert">
+          <h3 class="text-xl font-bold font-serif text-white">Hotel Sapphire</h3>
+        </div>
+        <p class="text-sm text-gray-300 leading-relaxed">Experience royal hospitality, handpicked culinary delights, and state-of-the-art contact-free dining. Made for your comfort.</p>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4 text-accentGold font-serif">Quick Guidelines</h4>
+        <ul class="text-sm text-gray-300 space-y-2">
+          <li>• Place your orders directly from the device.</li>
+          <li>• Monitor your food preparations in real-time.</li>
+          <li>• Ready for the bill? Simply tap "Ask for Bill" at the top.</li>
+          <li>• Self-directed. Fast. Contact-free.</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4 text-accentGold font-serif">Hospitality Desk</h4>
+        <p class="text-sm text-gray-300">Need emergency assistance? Call us directly from your room intercom at <span class="font-semibold text-white">999</span>, or let our staff know.</p>
+        <div class="mt-4 flex gap-2">
+          <span class="text-xs bg-royalGreen/50 border border-royalGreen text-green-300 px-3 py-1 rounded-full">5-Star Cleanliness</span>
+          <span class="text-xs bg-royalGreen/50 border border-royalGreen text-green-300 px-3 py-1 rounded-full">Automated Billing</span>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 mt-8 pt-8 border-t border-white/10 text-center text-xs text-gray-400">
+      &copy; 2026 Hotel Sapphire Group. All rights reserved. Managed digitally.
+    </div>
+  </footer>
+
+  <!-- CART SIDE DRAWER (Hidden by default) -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+    <div class="absolute inset-0 overflow-hidden">
+      <!-- Backdrop -->
+      <div onclick="toggleCart(false)" class="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity" aria-hidden="true"></div>
+
+      <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+        <div class="pointer-events-auto w-screen max-w-md">
+          <div class="flex h-full flex-col bg-white shadow-2xl border-l border-gray-100">
+            <!-- Cart Header -->
+            <div class="px-6 py-5 bg-royalBlue text-white flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accentGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                <h2 class="text-lg font-bold font-serif" id="slide-over-title">Your Order Basket</h2>
+              </div>
+              <button onclick="toggleCart(false)" class="text-gray-300 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Cart Body / Items -->
+            <div class="flex-1 overflow-y-auto px-6 py-4 space-y-4" id="cart-items-container">
+              <!-- Rendered Dynamically -->
+            </div>
+
+            <!-- Pricing Breakdown -->
+            <div class="border-t border-gray-100 bg-gray-50 px-6 py-6 space-y-3">
+              <div class="flex justify-between text-sm text-gray-500">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">₹0.00</span>
+              </div>
+              <div class="flex justify-between text-xs text-gray-400">
+                <span>CGST (5%)</span>
+                <span id="cart-cgst">₹0.00</span>
+              </div>
+              <div class="flex justify-between text-xs text-gray-400">
+                <span>SGST (5%)</span>
+                <span id="cart-sgst">₹0.00</span>
+              </div>
+              <div class="flex justify-between text-base font-bold text-gray-800 border-t border-gray-200/60 pt-3">
+                <span>Estimated Total (incl. GST)</span>
+                <span id="cart-estimated-total" class="text-royalGreen text-lg">₹0.00</span>
+              </div>
+
+              <!-- Action button inside Cart -->
+              <button onclick="placeOrder()" id="place-order-btn" class="w-full mt-4 bg-royalGreen text-white py-3.5 rounded-2xl font-semibold hover:bg-royalGreen-dark transition-all duration-200 shadow-md active:scale-98 flex items-center justify-center gap-2">
+                <span>Send Order to Kitchen</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WAITER CALLED OVERLAY MODAL -->
+  <div id="waiter-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-accentGold text-center">
+      <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="h-10 w-10 text-red-600 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </div>
+      <h3 class="text-2xl font-bold font-serif text-royalBlue mb-2">Bill Requested!</h3>
+      <p class="text-gray-500 text-sm mb-4">A waiter is on their way with your final physical bill. Please prepare your preferred payment option.</p>
+      
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 mb-6">
+        <span class="text-xs text-gray-400 uppercase tracking-wider block">Your Final Bill Amount</span>
+        <span class="text-3xl font-extrabold text-royalGreen" id="modal-final-bill">₹0.00</span>
+        <p class="text-xs text-gray-400 mt-1">Includes 5% CGST + 5% SGST</p>
+      </div>
+
+      <button onclick="dismissWaiterModal()" class="w-full bg-royalBlue text-white py-3 rounded-2xl hover:bg-royalBlue-dark font-semibold transition active:scale-95">
+        Dismiss Notice
+      </button>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // SUPABASE CREDENTIALS & INITIAL SETUP
+    const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
+    const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
+    
+    // Global parameters
+    let currentTable = null;
+    let menuItems = [];
+    let cart = [];
+    let activeSession = null; // Stored DB record of order/session for current table
+    let selectedCategory = 'All';
+
+    // Premium Fallback Menu
+    const FALLBACK_MENU = [
+      { name: "Hara Bhara Kebab", category: "Starters", price: 220, description: "Delicately spiced spinach, green peas, and potato patties fried to perfection." },
+      { name: "Paneer Tikka Multani", category: "Starters", price: 290, description: "Cottage cheese squares stuffed with cream, mushrooms, herbs, grilled in clay oven." },
+      { name: "Murg Tikka Lazeez", category: "Starters", price: 340, description: "Succulent chicken chunks marinated in special royal green yogurt mix, cooked over charcoal." },
+      { name: "Dal Makhani Sapphire", category: "Main Course", price: 280, description: "Black lentils slow cooked overnight with butter and fresh tomato cream sauce." },
+      { name: "Murg Makhani (Butter Chicken)", category: "Main Course", price: 380, description: "Charcoal grilled chicken pulled off-bone, simmered in premium rich cream tomato gravy." },
+      { name: "Subz Shahi Biryani", category: "Main Course", price: 290, description: "Long grain basmati rice layered with garden fresh vegetables, saffron, and aromatic spices." },
+      { name: "Kesar Pista Kulfi", category: "Dessert", price: 140, description: "Traditional Indian frozen ice cream enriched with pure saffron threads and crushed pistachios." },
+      { name: "Sizzling Chocolate Brownie", category: "Dessert", price: 190, description: "Hot homemade brownie served with premium vanilla scoop on a sizzling iron platter." },
+      { name: "Virgin Mojito Splash", category: "Beverages", price: 120, description: "Muddled fresh mint sprigs, lime wedges, simple syrup topped with sparkling club soda." },
+      { name: "Cold Coffee Premium", category: "Beverages", price: 150, description: "Chilled blended espresso, whole milk, and rich vanilla ice cream topped with chocolate shaving." }
+    ];
+
+    // Read parameters from URL or LocalStorage
+    function initSession() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let table = urlParams.get('table');
+
+      if (!table) {
+        table = localStorage.getItem('sapphire_session_table');
+      }
+
+      if (table && isValidTable(table)) {
+        currentTable = table;
+        localStorage.setItem('sapphire_session_table', table);
+        
+        // Ensure table is in query parameter for continuous direct reference
+        if (!urlParams.get('table')) {
+          window.history.replaceState(null, '', `?table=${table}`);
+        }
+
+        // Hide lobby, configure page labels
+        document.getElementById('lobby-screen').classList.add('hidden');
+        document.getElementById('session-badge').classList.remove('hidden');
+        
+        const friendlyName = getFriendlyTableName(table);
+        document.getElementById('session-label').textContent = friendlyName;
+        document.getElementById('mobile-session-label').textContent = friendlyName;
+
+        // Initialize Supabase Sync/State
+        checkOrCreateTableSession();
+      } else {
+        // Show lobby selection screen
+        showLobby();
+      }
+    }
+
+    function isValidTable(table) {
+      const isRoom = /^T\d+$/.test(table) && parseInt(table.slice(1)) <= 10;
+      const isTable = /^R\d+$/.test(table) && parseInt(table.slice(1)) <= 10;
+      return isRoom || isTable;
+    }
+
+    function getFriendlyTableName(table) {
+      if (table.startsWith('R')) {
+        return `Dining Table ${table}`;
+      } else if (table.startsWith('T')) {
+        return `Room Service ${table}`;
+      }
+      return table;
+    }
+
+    // Lobby Selection UI Handler
+    function showLobby() {
+      document.getElementById('lobby-screen').classList.remove('hidden');
+      
+      // Populate Restaurant dining
+      const restGrid = document.getElementById('lobby-restaurant-grid');
+      restGrid.innerHTML = '';
+      for (let i = 1; i <= 10; i++) {
+        restGrid.innerHTML += `
+          <button onclick="selectLobbyLocation('R${i}')" class="bg-royalGreen-light hover:bg-royalGreen hover:text-white border border-royalGreen/20 p-3 rounded-2xl font-bold transition text-royalGreen flex flex-col items-center justify-center">
+            <span class="text-xs uppercase font-normal text-gray-500 hover:text-white/80">Table</span>
+            R${i}
+          </button>
+        `;
+      }
+
+      // Populate Rooms
+      const roomGrid = document.getElementById('lobby-rooms-grid');
+      roomGrid.innerHTML = '';
+      for (let i = 1; i <= 10; i++) {
+        roomGrid.innerHTML += `
+          <button onclick="selectLobbyLocation('T${i}')" class="bg-royalBlue-light hover:bg-royalBlue hover:text-white border border-royalBlue/20 p-3 rounded-2xl font-bold transition text-royalBlue flex flex-col items-center justify-center">
+            <span class="text-xs uppercase font-normal text-gray-500">Room</span>
+            T${i}
+          </button>
+        `;
+      }
+    }
+
+    function selectLobbyLocation(tableId) {
+      window.location.search = `?table=${tableId}`;
+    }
+
+    function switchLobbyTab(tab) {
+      const restBtn = document.getElementById('tab-btn-restaurant');
+      const roomBtn = document.getElementById('tab-btn-rooms');
+      const restGrid = document.getElementById('lobby-restaurant-grid');
+      const roomGrid = document.getElementById('lobby-rooms-grid');
+
+      if (tab === 'restaurant') {
+        restBtn.className = "pb-2 border-b-2 border-royalGreen text-royalGreen font-bold transition text-base";
+        roomBtn.className = "pb-2 border-b-2 border-transparent text-gray-400 hover:text-royalBlue transition text-base";
+        restGrid.classList.remove('hidden');
+        roomGrid.classList.add('hidden');
+      } else {
+        roomBtn.className = "pb-2 border-b-2 border-royalBlue text-royalBlue font-bold transition text-base";
+        restBtn.className = "pb-2 border-b-2 border-transparent text-gray-400 hover:text-royalGreen transition text-base";
+        roomGrid.classList.remove('hidden');
+        restGrid.classList.add('hidden');
+      }
+    }
+
+    // SUPABASE INTEGRATION CALLS (Robust Handlers)
+    async function requestSupabase(endpoint, method = 'GET', body = null) {
+      const url = `${SUPABASE_URL}${endpoint}`;
+      const headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=representation"
+      };
+      
+      const config = { method, headers };
+      if (body) {
+        config.body = JSON.stringify(body);
+      }
+
+      try {
+        const res = await fetch(url, config);
+        if (!res.ok) {
+          throw new Error(`DB request failed with status code ${res.status}`);
+        }
+        return await res.json();
+      } catch (err) {
+        console.warn("Supabase integration error. Falling back to simulated network.", err);
+        return null;
+      }
+    }
+
+    // Session Management in DB
+    async function checkOrCreateTableSession() {
+      // Fetch active session if exists
+      let orders = await requestSupabase(`orders?table_id=eq.${currentTable}&status=neq.completed`, 'GET');
+      
+      if (orders && orders.length > 0) {
+        activeSession = orders[0];
+      } else {
+        // Localstorage check for active order if Supabase is running locally/offline
+        let localBackup = localStorage.getItem(`sapphire_session_backup_${currentTable}`);
+        if (localBackup) {
+          activeSession = JSON.parse(localBackup);
+        } else {
+          // Create new active session record
+          const payload = {
+            table_id: currentTable,
+            items: JSON.stringify([]),
+            total_amount: 0,
+            status: 'active', // Active continuous GREEN status
+            created_at: new Date().toISOString()
+          };
+          
+          let created = await requestSupabase('orders', 'POST', [payload]);
+          if (created && created.length > 0) {
+            activeSession = created[0];
+          } else {
+            // Local simulation backup
+            payload.id = Date.now();
+            activeSession = payload;
+          }
+          localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(activeSession));
+        }
+      }
+
+      // Propagate Local Storage so counter can read updates in real-time
+      localStorage.setItem(`table_status_${currentTable}`, activeSession.status);
+      localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(activeSession));
+
+      updateSessionUI();
+    }
+
+    function updateSessionUI() {
+      if (!activeSession) return;
+
+      const activeBar = document.getElementById('active-status-bar');
+      const pulsePing = document.getElementById('status-pulse-ping');
+      const dot = document.getElementById('status-indicator-dot');
+      const container = document.getElementById('status-card-container');
+      const title = document.getElementById('current-status-title');
+      const runningTotal = document.getElementById('running-total');
+      const requestBtn = document.getElementById('request-bill-btn');
+
+      activeBar.classList.remove('hidden');
+
+      let colorClass = "";
+      let label = "";
+
+      // Check current state
+      switch (activeSession.status) {
+        case 'active':
+          // Continuous GREEN light (Customer seated & browsing)
+          colorClass = "bg-green-500";
+          label = "Seated & Browsing Menu";
+          container.className = "rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border bg-green-50/60 border-green-200";
+          requestBtn.classList.remove('hidden');
+          break;
+        case 'ordered':
+          // YELLOW light (Food is preparing / do not disturb)
+          colorClass = "bg-amber-500";
+          label = "Culinary preparations in progress";
+          container.className = "rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border bg-amber-50/60 border-amber-200";
+          requestBtn.classList.remove('hidden');
+          break;
+        case 'bill_requested':
+          // RED light (Waiter bringing the invoice)
+          colorClass = "bg-red-600";
+          label = "Billing requested. Waiter on the way!";
+          container.className = "rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border bg-red-50/60 border-red-200";
+          requestBtn.classList.add('hidden'); // hidden since already requested
+          
+          // Trigger modal
+          document.getElementById('modal-final-bill').textContent = `₹${parseFloat(activeSession.total_amount).toFixed(2)}`;
+          document.getElementById('waiter-modal').classList.remove('hidden');
+          break;
+      }
+
+      // Apply light coloring
+      pulsePing.className = `animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${colorClass}`;
+      dot.className = `relative inline-flex rounded-full h-3 w-3 ${colorClass}`;
+      title.textContent = label;
+      
+      // Update running total
+      runningTotal.textContent = `₹${parseFloat(activeSession.total_amount || 0).toFixed(2)}`;
+    }
+
+    // LOAD DYNAMIC MENU FROM GOOGLE SHEET
+    async function loadMenu() {
+      const sheetUrl = "https://docs.google.com/spreadsheets/d/1_YNC57MPCAUlxlNydQzcrgKPZwBI0CB12awVte6u4_A/export?format=csv";
+      
+      try {
+        const response = await fetch(sheetUrl);
+        if (!response.ok) throw new Error("Could not fetch CSV from Sheet");
+        const text = await response.text();
+        
+        const parsed = parseCSV(text);
+        if (parsed && parsed.length > 0) {
+          menuItems = parsed;
+        } else {
+          menuItems = FALLBACK_MENU;
+        }
+      } catch (err) {
+        console.warn("Failed to read from Google Sheets, mounting fallback design menu.", err);
+        menuItems = FALLBACK_MENU;
+      }
+
+      renderCategories();
+      renderMenu();
+    }
+
+    function parseCSV(text) {
+      const lines = text.split('\n');
+      if (lines.length < 2) return null;
+
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+      const items = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        let line = lines[i];
+        if (!line.trim()) continue;
+
+        const values = [];
+        let current = '';
+        let inQuotes = false;
+
+        for (let j = 0; j < line.length; j++) {
+          let char = line[j];
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            values.push(current.trim().replace(/^"|"$/g, ''));
+            current = '';
+          } else {
+            current += char;
+          }
+        }
+        values.push(current.trim().replace(/^"|"$/g, ''));
+
+        const row = {};
+        headers.forEach((header, index) => {
+          row[header.toLowerCase()] = values[index] || '';
+        });
+
+        const name = row.name || row.item || row.title || '';
+        const price = parseFloat(row.price || row.rate || row.cost) || 0;
+        const category = row.category || row.type || 'Main Course';
+        const description = row.description || row.ingredients || row.details || '';
+
+        if (name && price > 0) {
+          items.push({ name, category, price, description });
+        }
+      }
+      return items;
+    }
+
+    function renderCategories() {
+      const categories = ['All', ...new Set(menuItems.map(item => item.category))];
+      const listContainer = document.getElementById('category-list');
+      listContainer.innerHTML = '';
+
+      categories.forEach(cat => {
+        const isActive = selectedCategory === cat;
+        const activeStyles = "bg-royalGreen text-white shadow-sm font-semibold border-transparent";
+        const inactiveStyles = "bg-white text-gray-600 hover:text-royalGreen hover:bg-royalGreen-light border-gray-200";
+        
+        listContainer.innerHTML += `
+          <button onclick="setCategory('${cat}')" class="whitespace-nowrap px-5 py-2.5 rounded-full border text-sm transition-all flex items-center gap-1.5 active:scale-95 ${isActive ? activeStyles : inactiveStyles}">
+            ${cat}
+          </button>
+        `;
+      });
+    }
+
+    function setCategory(cat) {
+      selectedCategory = cat;
+      renderCategories();
+      renderMenu();
+    }
+
+    function renderMenu(filterText = '') {
+      const grid = document.getElementById('menu-grid');
+      grid.innerHTML = '';
+
+      const query = filterText.toLowerCase();
+      const filtered = menuItems.filter(item => {
+        const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+        const matchesQuery = item.name.toLowerCase().includes(query) || item.description.toLowerCase().includes(query);
+        return matchesCategory && matchesQuery;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 text-gray-400">
+            <p class="text-lg">No culinary matches found for "${filterText}" in ${selectedCategory}.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        // Check if item in current cart
+        const cartItem = cart.find(c => c.name === item.name);
+        const quantity = cartItem ? cartItem.qty : 0;
+
+        grid.innerHTML += `
+          <div class="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-xs hover:shadow-md transition duration-300 flex flex-col h-full group hover:border-royalGreen/10">
+            <!-- Details Panel -->
+            <div class="p-6 flex-grow flex flex-col justify-between">
+              <div>
+                <div class="flex items-start justify-between gap-2 mb-2">
+                  <span class="text-xs font-bold text-accentGold uppercase tracking-wider">${item.category}</span>
+                  <span class="font-serif font-extrabold text-royalGreen text-lg">₹${parseFloat(item.price).toFixed(2)}</span>
+                </div>
+                <h3 class="text-lg font-bold text-royalBlue group-hover:text-royalGreen transition mb-1">${item.name}</h3>
+                <p class="text-gray-500 text-xs leading-relaxed line-clamp-3">${item.description || 'No description available for this item.'}</p>
+              </div>
+
+              <!-- Quantity Controls / Add to Basket -->
+              <div class="mt-6 pt-4 border-t border-gray-50 flex items-center justify-between">
+                ${quantity === 0 ? `
+                  <button onclick="addToCart('${encodeURIComponent(item.name)}', ${item.price})" class="w-full bg-royalGreen-light text-royalGreen hover:bg-royalGreen hover:text-white px-4 py-2.5 rounded-2xl text-xs font-semibold tracking-wide transition-all active:scale-95 flex items-center justify-center gap-1.5 border border-royalGreen/15">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg> Add to Basket
+                  </button>
+                ` : `
+                  <div class="flex items-center justify-between w-full">
+                    <span class="text-xs font-semibold text-royalGreen bg-royalGreen-light px-2.5 py-1 rounded-full border border-royalGreen/10">In basket: ${quantity}</span>
+                    <div class="flex items-center gap-1">
+                      <button onclick="adjustQty('${encodeURIComponent(item.name)}', -1)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center font-bold text-sm transition">-</button>
+                      <span class="w-6 text-center font-bold text-sm text-royalBlue">${quantity}</span>
+                      <button onclick="adjustQty('${encodeURIComponent(item.name)}', 1)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center font-bold text-sm transition">+</button>
+                    </div>
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function filterMenu() {
+      const txt = document.getElementById('menu-search').value;
+      renderMenu(txt);
+    }
+
+    // CART OPERATIONS
+    function toggleCart(show) {
+      const drawer = document.getElementById('cart-drawer');
+      if (show) {
+        drawer.classList.remove('hidden');
+        renderCartItems();
+      } else {
+        drawer.classList.add('hidden');
+      }
+    }
+
+    function addToCart(encodedName, price) {
+      const name = decodeURIComponent(encodedName);
+      const existing = cart.find(c => c.name === name);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      localStorage.setItem(`sapphire_cart_${currentTable}`, JSON.stringify(cart));
+      updateCartBadge();
+      renderMenu();
+    }
+
+    function adjustQty(encodedName, amount) {
+      const name = decodeURIComponent(encodedName);
+      const item = cart.find(c => c.name === name);
+      if (!item) return;
+
+      item.qty += amount;
+      if (item.qty <= 0) {
+        cart = cart.filter(c => c.name !== name);
+      }
+      localStorage.setItem(`sapphire_cart_${currentTable}`, JSON.stringify(cart));
+      updateCartBadge();
+      renderMenu();
+      if (!document.getElementById('cart-drawer').classList.contains('hidden')) {
+        renderCartItems();
+      }
+    }
+
+    function updateCartBadge() {
+      const totalCount = cart.reduce((acc, curr) => acc + curr.qty, 0);
+      document.getElementById('cart-count').textContent = totalCount;
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cart-items-container');
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center p-8">
+            <svg class="h-16 w-16 text-gray-300 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <h4 class="font-bold text-gray-700">Basket is empty</h4>
+            <p class="text-sm text-gray-400 mt-1">Pick some delicious items from the main menu to start dining.</p>
+          </div>
+        `;
+        document.getElementById('cart-subtotal').textContent = "₹0.00";
+        document.getElementById('cart-cgst').textContent = "₹0.00";
+        document.getElementById('cart-sgst').textContent = "₹0.00";
+        document.getElementById('cart-estimated-total').textContent = "₹0.00";
+        document.getElementById('place-order-btn').disabled = true;
+        document.getElementById('place-order-btn').classList.add('opacity-50', 'cursor-not-allowed');
+        return;
+      }
+
+      document.getElementById('place-order-btn').disabled = false;
+      document.getElementById('place-order-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+      let subtotal = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.qty;
+        subtotal += itemTotal;
+
+        container.innerHTML += `
+          <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 flex items-center justify-between gap-2">
+            <div class="flex-grow">
+              <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
+              <p class="text-xs text-gray-500 mt-0.5">₹${parseFloat(item.price).toFixed(2)} each</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1.5 bg-white border border-gray-150 rounded-lg p-1 shadow-2xs">
+                <button onclick="adjustQty('${encodeURIComponent(item.name)}', -1)" class="w-6 h-6 rounded-md bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold transition">-</button>
+                <span class="w-5 text-center font-bold text-xs text-royalBlue">${item.qty}</span>
+                <button onclick="adjustQty('${encodeURIComponent(item.name)}', 1)" class="w-6 h-6 rounded-md bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold transition">+</button>
+              </div>
+              <span class="font-semibold text-royalGreen text-sm w-16 text-right">₹${itemTotal.toFixed(2)}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      const cgst = subtotal * 0.05;
+      const sgst = subtotal * 0.05;
+      const total = subtotal + cgst + sgst;
+
+      document.getElementById('cart-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('cart-cgst').textContent = `₹${cgst.toFixed(2)}`;
+      document.getElementById('cart-sgst').textContent = `₹${sgst.toFixed(2)}`;
+      document.getElementById('cart-estimated-total').textContent = `₹${total.toFixed(2)}`;
+    }
+
+    // PLACE ORDER & SYNC WITH DB
+    async function placeOrder() {
+      if (cart.length === 0) return;
+
+      // Disable button
+      const orderBtn = document.getElementById('place-order-btn');
+      orderBtn.disabled = true;
+      orderBtn.innerHTML = `
+        <svg class="animate-spin h-5 w-5 mr-3 text-white" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg> Sending order...
+      `;
+
+      try {
+        // Calculate new aggregates
+        let existingItems = [];
+        if (activeSession && activeSession.items) {
+          try {
+            existingItems = JSON.parse(activeSession.items);
+          } catch (e) {
+            existingItems = [];
+          }
+        }
+
+        // Merge cart items into active session items
+        cart.forEach(cartItem => {
+          const match = existingItems.find(ex => ex.name === cartItem.name);
+          if (match) {
+            match.qty += cartItem.qty;
+          } else {
+            existingItems.push({ ...cartItem });
+          }
+        });
+
+        const subtotal = existingItems.reduce((acc, curr) => acc + (curr.price * curr.qty), 0);
+        const cgst = subtotal * 0.05;
+        const sgst = subtotal * 0.05;
+        const total = subtotal + cgst + sgst;
+
+        const updatedPayload = {
+          items: JSON.stringify(existingItems),
+          total_amount: total,
+          status: 'ordered', // Status turns YELLOW indicating prepared food queue
+          updated_at: new Date().toISOString()
+        };
+
+        // Call database
+        let updatedResult = null;
+        if (activeSession && activeSession.id) {
+          updatedResult = await requestSupabase(`orders?id=eq.${activeSession.id}`, 'PATCH', updatedPayload);
+        }
+
+        if (updatedResult && updatedResult.length > 0) {
+          activeSession = updatedResult[0];
+        } else {
+          // Simulated fallback
+          activeSession = {
+            ...activeSession,
+            ...updatedPayload,
+            status: 'ordered'
+          };
+        }
+
+        // Save progress to LocalStorage for offline and counter tracking
+        localStorage.setItem(`table_status_${currentTable}`, 'ordered');
+        localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(activeSession));
+        localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(activeSession));
+
+        // Clear local Cart
+        cart = [];
+        localStorage.removeItem(`sapphire_cart_${currentTable}`);
+        updateCartBadge();
+        
+        // UI updates
+        toggleCart(false);
+        renderMenu();
+        updateSessionUI();
+
+        // Inform customer using a custom HTML element overlay (No native browser alerts)
+        showCustomAlert("Success", "Your premium dish orders have been dispatched directly to the Kitchen master chef!", "success");
+
+      } catch (err) {
+        console.error(err);
+        showCustomAlert("Error", "Could not dispatch your order. Please try again.", "error");
+      } finally {
+        orderBtn.disabled = false;
+        orderBtn.innerHTML = `
+          <span>Send Order to Kitchen</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        `;
+      }
+    }
+
+    // REQUEST BILL TRIGGER
+    async function requestBill() {
+      if (!activeSession) return;
+
+      const updatedPayload = {
+        status: 'bill_requested', // Sets RED status indicator
+        updated_at: new Date().toISOString()
+      };
+
+      let updatedResult = await requestSupabase(`orders?id=eq.${activeSession.id}`, 'PATCH', updatedPayload);
+
+      if (updatedResult && updatedResult.length > 0) {
+        activeSession = updatedResult[0];
+      } else {
+        activeSession = {
+          ...activeSession,
+          ...updatedPayload,
+        };
+      }
+
+      localStorage.setItem(`table_status_${currentTable}`, 'bill_requested');
+      localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(activeSession));
+      localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(activeSession));
+
+      updateSessionUI();
+    }
+
+    function dismissWaiterModal() {
+      document.getElementById('waiter-modal').classList.add('hidden');
+    }
+
+    // CUSTOM MODAL ALERTS FOR AN INTEGRATED IFRAME FEEL (Never use browser alert())
+    function showCustomAlert(title, message, type) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs";
+      
+      const isSuccess = type === 'success';
+      const themeColor = isSuccess ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50';
+      const icon = isSuccess ? 
+        `<svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>` :
+        `<svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
+
+      alertDiv.innerHTML = `
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-gray-100 text-center animate-bounce-short">
+          <div class="w-16 h-16 ${themeColor} rounded-full flex items-center justify-center mx-auto mb-4">
+            ${icon}
+          </div>
+          <h3 class="text-xl font-bold font-serif text-royalBlue mb-1">${title}</h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-6">${message}</p>
+          <button onclick="this.closest('.fixed').remove()" class="w-full bg-royalGreen text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-royalGreen-dark transition">
+            Excellent
+          </button>
+        </div>
+      `;
+      document.body.appendChild(alertDiv);
+    }
+
+    // POLLING MONITOR TO SYNC CHANGES MADE FROM COUNTER (e.g. checkout clearing session)
+    setInterval(async () => {
+      if (!currentTable || !activeSession) return;
+
+      // Poll Supabase
+      const latest = await requestSupabase(`orders?id=eq.${activeSession.id}`, 'GET');
+      if (latest && latest.length > 0) {
+        const item = latest[0];
+        
+        // If the table status changed to completed, it means counter checked it out!
+        if (item.status === 'completed') {
+          // Reset local session data
+          localStorage.removeItem(`sapphire_cart_${currentTable}`);
+          localStorage.removeItem(`sapphire_session_backup_${currentTable}`);
+          localStorage.removeItem(`table_status_${currentTable}`);
+          localStorage.removeItem(`table_session_${currentTable}`);
+          cart = [];
+          activeSession = null;
+          location.reload();
+        } else {
+          activeSession = item;
+          localStorage.setItem(`table_status_${currentTable}`, item.status);
+          localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(item));
+          localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(item));
+          updateSessionUI();
+        }
+      } else {
+        // Fallback local storage sync in case of local simulation
+        const localStatus = localStorage.getItem(`table_status_${currentTable}`);
+        if (localStatus === 'completed') {
+          localStorage.removeItem(`sapphire_cart_${currentTable}`);
+          localStorage.removeItem(`sapphire_session_backup_${currentTable}`);
+          localStorage.removeItem(`table_status_${currentTable}`);
+          localStorage.removeItem(`table_session_${currentTable}`);
+          cart = [];
+          activeSession = null;
+          location.reload();
+        }
+      }
+    }, 4000);
+
+    // Initializer
+    window.addEventListener('DOMContentLoaded', () => {
+      initSession();
+      loadMenu();
+
+      // Load existing cart if any
+      const savedCart = localStorage.getItem(`sapphire_cart_${currentTable}`);
+      if (savedCart) {
+        try {
+          cart = JSON.parse(savedCart);
+          updateCartBadge();
+        } catch (e) {
+          cart = [];
+        }
+      }
+    });
+  </script>
+</body>
+</html>
