@@ -26,7 +26,7 @@
           },
           animation: {
             'shimmer': 'shimmer 2s infinite',
-            'fadeIn': 'fadeIn 0.4s ease-out forwards',
+            'fadeIn': 'fadeIn 0.3s ease-out forwards',
           },
           keyframes: {
             shimmer: {
@@ -34,7 +34,7 @@
               '100%': { backgroundPosition: '200% 0' },
             },
             fadeIn: {
-              '0%': { opacity: '0', transform: 'scale(0.97)' },
+              '0%': { opacity: '0', transform: 'scale(0.98)' },
               '100%': { opacity: '1', transform: 'scale(1)' }
             }
           }
@@ -50,13 +50,13 @@
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       overscroll-behavior-y: contain;
-      touch-action: none; /* Mobile browser vertical bounce ko rokne ke liye */
+      touch-action: none; /* Disables double-tap and scroll bounce on iOS/Android */
     }
     h1, h2, h3, .font-serif {
       font-family: 'Playfair Display', serif;
     }
     
-    /* Screen layout setup (Scrolling band karne ke liye) */
+    /* Strict Fullscreen Viewport */
     html, body {
       height: 100vh;
       margin: 0;
@@ -66,7 +66,7 @@
       width: 100%;
     }
 
-    /* Shimmer gold look branding link ke liye */
+    /* Elegant Shimmer styling for Karan Digital Menu Agency link */
     .shimmer-text {
       background: linear-gradient(90deg, #D4AF37 0%, #FFF 50%, #D4AF37 100%);
       background-size: 200% auto;
@@ -76,7 +76,7 @@
       animation: shimmer 3s linear infinite;
     }
 
-    /* Scrollbars ko hide karne ka tarika */
+    /* Scrollbars hiding rules */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -88,10 +88,10 @@
 </head>
 <body class="bg-[#0f0f0f] text-gray-200 flex flex-col select-none">
 
-  <!-- KARAN DIGITAL MENU AGENCY PROMOTIONAL BANNER -->
+  <!-- TOP AGENCY PROMOTIONAL HEADER -->
   <header class="bg-[#141414] border-b border-white/5 z-50">
     <div class="max-w-6xl mx-auto px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-center">
-      <!-- Agency ka direct redirection link -->
+      <!-- Karan Digital Menu Agency Backlink -->
       <a href="https://karan-digital-menu-agency.vercel.app/#contact" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 py-1 px-4 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-all duration-300 active:scale-95 shadow-sm">
         <span class="text-[10px] tracking-widest text-gray-400 uppercase font-semibold">Created By.</span>
         <span class="text-xs font-bold font-serif shimmer-text tracking-wide group-hover:scale-105 transition-transform duration-300">KARAN DIGITAL MENU AGENCY</span>
@@ -100,7 +100,7 @@
         </svg>
       </a>
 
-      <!-- Brand center title -->
+      <!-- Center Logo -->
       <div class="flex items-center gap-2">
         <h1 class="text-base font-bold text-white tracking-wide">
           Sapphire <span class="text-accentGold text-[10px] font-serif">★ ★ ★ ★ ★</span>
@@ -108,7 +108,7 @@
         <span class="text-[9px] text-gray-500 bg-white/5 px-2 py-0.5 rounded uppercase tracking-widest">Hotel &amp; Resort</span>
       </div>
 
-      <!-- Cart panel button -->
+      <!-- Quick Cart Basket -->
       <button onclick="toggleCart(true)" class="relative bg-royalGreen hover:bg-royalGreen-dark text-white px-4 py-1 rounded-xl flex items-center gap-2 transition text-xs font-bold shadow-md">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-accentGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -119,18 +119,16 @@
     </div>
   </header>
 
-  <!-- LIVE STATUS STRIP -->
+  <!-- LIVE WORKSPACE MONITOR STRIP -->
   <div class="bg-[#181818] px-4 py-2 flex items-center justify-between border-b border-white/5 z-40 text-white">
-    <!-- Active Room / Table details -->
     <div class="flex items-center gap-2">
       <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
       <span id="active-location-label" class="text-xs font-bold tracking-wide text-gray-300">Checking Room Suite...</span>
     </div>
 
-    <!-- Active running total -->
     <div class="flex items-center gap-4">
       <div class="text-right">
-        <span class="text-[9px] text-gray-500 block uppercase">Continuous Balance</span>
+        <span class="text-[9px] text-gray-500 block uppercase">Session Balance</span>
         <span id="running-total" class="text-xs font-extrabold text-green-400">₹0.00</span>
       </div>
       <button onclick="requestBill()" id="top-ask-bill-btn" class="hidden bg-red-600/90 hover:bg-red-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg transition active:scale-95">
@@ -139,45 +137,37 @@
     </div>
   </div>
 
-  <!-- BOOK CONTAINER BOX -->
+  <!-- BOOK STAGE LAYOUT -->
   <div class="flex-grow flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-[#141414] to-[#0c0c0c] p-4">
     
-    <!-- Navigation gesture tutorial warning -->
-    <div id="swipe-hint" class="absolute inset-x-0 top-4 mx-auto w-fit bg-black/80 backdrop-blur-md text-accentGold border border-accentGold/20 px-4 py-2 rounded-full text-xs font-medium z-30 flex items-center gap-2 pointer-events-none transition-opacity duration-1000 shadow-xl">
-      <span class="w-2 h-2 rounded-full bg-accentGold animate-ping"></span>
-      <span>Swipe left/right to flip pages smoothly with ASMR sound effects</span>
+    <!-- Swipe Guide Banner -->
+    <div id="swipe-hint" class="absolute inset-x-0 top-4 mx-auto w-fit bg-black/85 backdrop-blur-md text-accentGold border border-accentGold/20 px-4 py-2 rounded-full text-xs font-medium z-30 flex items-center gap-2 pointer-events-none transition-opacity duration-1000 shadow-xl">
+      <span class="w-1.5 h-1.5 rounded-full bg-accentGold animate-ping"></span>
+      <span>Swipe left/right to turn pages smoothly with realistic ASMR sound</span>
     </div>
 
-    <!-- MAIN BOOK GRID -->
+    <!-- BOOK VIEWPORT -->
     <div class="w-full max-w-4xl mx-auto flex-grow flex items-center justify-center relative">
-      <!-- Outer Leather Frame Cover -->
-      <div id="book-binder" class="w-full h-full max-h-[480px] md:max-h-[520px] bg-[#1a1a1a] rounded-[28px] border-4 border-[#3a2e1b] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9)] overflow-hidden relative flex flex-col">
-        
-        <!-- Turning viewports -->
+      <div id="book-binder" class="w-full h-full max-h-[490px] md:max-h-[530px] bg-[#1a1a1a] rounded-[28px] border-4 border-[#3a2e1b] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9)] overflow-hidden relative flex flex-col">
         <div id="book-pages-wrapper" class="w-full flex-grow relative overflow-hidden bg-[#151515] animate-fadeIn">
-          <!-- JS dynamic pages will load here -->
+          <!-- Loaded dynamically -->
         </div>
-
       </div>
     </div>
 
-    <!-- PAGINATION DOCK CONTROLLERS -->
+    <!-- BOTTOM CONTROLLER DOCK -->
     <div class="max-w-4xl mx-auto w-full py-2 flex flex-col gap-2.5 z-30">
-      <!-- Quick Categories Scroller -->
-      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="category-scroller">
-        <!-- Loaded directly from Google Sheets categories -->
-      </div>
+      <!-- Dynamic Categories scroller -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="category-scroller"></div>
 
-      <!-- Prev-Next triggers -->
+      <!-- Pagination triggers -->
       <div class="flex items-center justify-between text-white border-t border-white/5 pt-2">
         <button onclick="turnPreviousPage()" class="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl text-xs font-bold transition duration-200 active:scale-95 hover:text-accentGold">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
           <span>Previous Page</span>
         </button>
 
-        <span id="page-counter-label" class="text-xs font-bold tracking-widest text-accentGold font-serif uppercase">
-          Cover Page
-        </span>
+        <span id="page-counter-label" class="text-xs font-bold tracking-widest text-accentGold font-serif uppercase">Cover Page</span>
 
         <button onclick="turnNextPage()" class="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl text-xs font-bold transition duration-200 active:scale-95 hover:text-accentGold">
           <span>Next Page</span>
@@ -188,7 +178,7 @@
 
   </div>
 
-  <!-- SEAT LOUNGE LOBBY -->
+  <!-- TABLE SEAT LOBBY -->
   <div id="lobby-screen" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-[#161616] rounded-3xl p-6 max-w-sm w-full text-center border border-accentGold/20">
       <h2 class="text-2xl font-bold font-serif text-white mb-2">Hotel Sapphire</h2>
@@ -203,11 +193,11 @@
         <div id="lobby-restaurant-grid" class="grid grid-cols-5 gap-1.5 max-h-[180px] overflow-y-auto pr-1"></div>
         <div id="lobby-rooms-grid" class="hidden grid grid-cols-5 gap-1.5 max-h-[180px] overflow-y-auto pr-1"></div>
       </div>
-      <p class="text-[9px] text-gray-600">Secure digital connection authenticated by Karan Digital Menu Agency.</p>
+      <p class="text-[9px] text-gray-600 font-mono">Powered by Karan Digital Menu Agency</p>
     </div>
   </div>
 
-  <!-- CART SIDE DRAWER -->
+  <!-- SELECTIONS BASKET DRAWER -->
   <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden" role="dialog" aria-modal="true">
     <div class="absolute inset-0 overflow-hidden">
       <div onclick="toggleCart(false)" class="absolute inset-0 bg-black/80 backdrop-blur-xs transition-opacity"></div>
@@ -227,10 +217,10 @@
               </button>
             </div>
 
-            <!-- Items container lists -->
+            <!-- Scrollable Items Area -->
             <div class="flex-1 overflow-y-auto px-6 py-4 space-y-2.5" id="cart-items-container"></div>
 
-            <!-- Total calculations -->
+            <!-- Tax Summary Panels -->
             <div class="border-t border-white/5 bg-[#0e0e0e] px-6 py-5 space-y-2 text-white">
               <div class="flex justify-between text-xs text-gray-400">
                 <span>Items Subtotal</span>
@@ -284,7 +274,6 @@
 
   <!-- AUDIO SYNTHESIS MODULE (ASMR Page Flip sound generator) -->
   <script>
-    // Web Audio API ke madhyam se real paper-like noise rustle generate karne ka function
     function playASMRPageFlip() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -294,39 +283,36 @@
         }
 
         const now = ctx.currentTime;
-        const duration = 0.38; // Sound duration of the paper turn
+        const duration = 0.35; // Page sweep time
 
-        // 1. Air displacement swoosh (Low frequency sweep)
+        // Low swoop
         const lowOsc = ctx.createOscillator();
         const lowGain = ctx.createGain();
         lowOsc.type = 'triangle';
-        lowOsc.frequency.setValueAtTime(120, now);
+        lowOsc.frequency.setValueAtTime(125, now);
         lowOsc.frequency.exponentialRampToValueAtTime(25, now + duration);
-
         lowGain.gain.setValueAtTime(0.18, now);
         lowGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
         lowOsc.connect(lowGain);
         lowGain.connect(ctx.destination);
         lowOsc.start(now);
         lowOsc.stop(now + duration);
 
-        // 2. High frequency paper friction rustle noise
+        // High crisp rustle noise
         const bufferSize = ctx.sampleRate * duration;
         const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = noiseBuffer.getChannelData(0);
         for (let i = 0; i < bufferSize; i++) {
           data[i] = Math.random() * 2 - 1;
         }
-
         const noiseSrc = ctx.createBufferSource();
         noiseSrc.buffer = noiseBuffer;
 
         const filter = ctx.createBiquadFilter();
         filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(1500, now);
-        filter.Q.setValueAtTime(1.8, now);
-        filter.frequency.exponentialRampToValueAtTime(400, now + duration);
+        filter.frequency.setValueAtTime(1550, now);
+        filter.Q.setValueAtTime(2.0, now);
+        filter.frequency.exponentialRampToValueAtTime(380, now + duration);
 
         const noiseGain = ctx.createGain();
         noiseGain.gain.setValueAtTime(0.06, now);
@@ -339,12 +325,12 @@
         noiseSrc.start(now);
         noiseSrc.stop(now + duration);
       } catch (e) {
-        console.warn("ASMR trigger skipped (user interaction initial permission is required).");
+        console.warn("ASMR audio skipped.");
       }
     }
   </script>
 
-  <!-- DATABASE AND NAVIGATION LOGIC -->
+  <!-- NAVIGATION & DATA BINDING ENGINE -->
   <script>
     const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
     const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
@@ -355,23 +341,14 @@
     let activeSession = null;
     let selectedCategory = 'All';
 
-    // Book views properties
+    // Book layout properties
     let bookPages = [];
     let currentPageIndex = 0;
 
-    // Google Sheets live path wrapped with AllOrigins CORS proxy bypass
+    // Direct Live bypass proxy mapping for the target Google Sheet URL
     const GOOGLE_SHEETS_SOURCE_LINK = "https://docs.google.com/spreadsheets/d/1S55o6bDx4OS_i74CUKz0l20N01AZ6QXuF3D6OvHBsaU/export?format=csv";
     const GOOGLE_SHEETS_LIVE_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(GOOGLE_SHEETS_SOURCE_LINK);
 
-    // Initial fallback menu in case Google Sheets loading takes extra seconds
-    const SELECTION_FALLBACK = [
-      { name: "Khow Suey", category: "Soups & Salads", price: 495, description: "Burmese soup with golden noodles, rich coconut broth, and crispy toasted condiments." },
-      { name: "Burnt Garlic Clear Soup", category: "Soups & Salads", price: 325, description: "A crystal clear vegetable broth topped with garlic nuggets." },
-      { name: "Paneer Tikka Multani", category: "Appetizers", price: 290, description: "Saffron yogurt marinaded grilled cottage cheese stuffed with spiced khoya." },
-      { name: "Dal Makhani Sapphire", category: "Main Course", price: 280, description: "Traditional creamed black lentils slow cooked overnight on direct copper charcoal flames." }
-    ];
-
-    // Supabase query runner
     async function dbQuery(endpoint, method = 'GET', body = null) {
       const url = `${SUPABASE_URL}${endpoint}`;
       const headers = {
@@ -388,12 +365,11 @@
         if (!res.ok) throw new Error("Status code: " + res.status);
         return await res.json();
       } catch (err) {
-        console.warn("Database offline mode.", err);
+        console.warn("Offline database mode.", err);
         return null;
       }
     }
 
-    // Session status initialization
     function initSession() {
       const urlParams = new URLSearchParams(window.location.search);
       let table = urlParams.get('table');
@@ -521,32 +497,34 @@
       }
     }
 
-    // Google Sheets live data parser utilizing CORS-bypass wrap
+    // Google Sheets integration parser
     async function loadLiveSheet() {
       try {
         const response = await fetch(GOOGLE_SHEETS_LIVE_URL);
-        if (!response.ok) throw new Error("CORS Proxy retrieval failure");
-        const text = await response.text();
+        if (!response.ok) throw new Error("Connection failed");
+        const json = await response.json();
+        const text = json.contents;
         const parsed = parseSheetCSV(text);
         if (parsed && parsed.length > 0) {
           menuItems = parsed;
         } else {
-          menuItems = SELECTION_FALLBACK;
+          menuItems = loadEmbeddedBackup();
         }
       } catch (err) {
-        console.warn("Proxy connection error, switching to backup library dataset.", err);
-        menuItems = SELECTION_FALLBACK;
+        console.warn("Proxy block or error, fetching local embedded datasets.", err);
+        menuItems = loadEmbeddedBackup();
       }
 
       buildCategoryMenu();
       buildPagesStructure();
     }
 
-    // Smart CSV converter
+    // Advanced dynamic parsing mapping multiple price columns (Veg, Egg, Non-Veg/Chicken, Mutton)
     function parseSheetCSV(text) {
       const lines = text.split('\n');
       if (lines.length < 2) return null;
 
+      // Header mappings
       const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
       const compiled = [];
 
@@ -572,18 +550,38 @@
         values.push(curr.trim().replace(/^"|"$/g, ''));
 
         const obj = {};
-        headers.forEach((headerName, index) => {
-          obj[headerName] = values[index] || '';
+        headers.forEach((h, index) => {
+          obj[h] = values[index] || '';
         });
 
-        // Item parsing structure mappings
-        const name = obj.name || obj.item || obj.title || obj.dish || obj.dishes || '';
-        const price = parseFloat(obj.price || obj.rate || obj.cost || obj.mrp) || 0;
-        const category = obj.category || obj.type || obj.course || 'Main Course';
-        const description = obj.description || obj.desc || obj.details || '';
+        // Column indexing mappings
+        const category = obj.category || 'Main Course';
+        const name = obj['item name'] || obj.name || obj.item || '';
+        const description = obj.description || obj.desc || '';
+        
+        // Multi-pricing column bindings
+        const pVeg = parseFloat(obj['price (veg / single)'] || obj['price (veg)']) || 0;
+        const pEgg = parseFloat(obj['price (egg)']) || 0;
+        const pNonVeg = parseFloat(obj['price (non-veg / chicken)'] || obj['price (non-veg)']) || 0;
+        const pMutton = parseFloat(obj['price (mutton)']) || 0;
 
-        if (name && price > 0) {
-          compiled.push({ name, category, price, description });
+        // Compile variations
+        const variants = [];
+        if (pVeg > 0) variants.push({ type: 'Veg', price: pVeg });
+        if (pEgg > 0) variants.push({ type: 'Egg', price: pEgg });
+        if (pNonVeg > 0) variants.push({ type: 'Non-Veg', price: pNonVeg });
+        if (pMutton > 0) variants.push({ type: 'Mutton', price: pMutton });
+
+        if (name && variants.length > 0) {
+          compiled.push({
+            name,
+            category: category.trim().toUpperCase(),
+            description,
+            variants,
+            // Select default price variation
+            price: variants[0].price,
+            selectedType: variants[0].type
+          });
         }
       }
       return compiled;
@@ -596,7 +594,7 @@
 
       cats.forEach(cat => {
         const isSel = selectedCategory === cat;
-        const style = isSel ? 'bg-accentGold text-[#111] font-bold border-transparent' : 'bg-white/5 text-gray-400 hover:text-white border-white/10';
+        const style = isSel ? 'bg-accentGold text-[#111] font-extrabold border-transparent' : 'bg-white/5 text-gray-400 hover:text-white border-white/10';
         container.innerHTML += `
           <button onclick="selectCategory('${cat}')" class="px-3.5 py-1.5 text-xs rounded-full border transition active:scale-95 flex-shrink-0 font-medium ${style}">
             ${cat}
@@ -612,19 +610,19 @@
       playASMRPageFlip();
     }
 
-    // Split items list dynamically into visual booklet spread layers
+    // Build virtual pages (4 items per page limit keeps it sleek)
     function buildPagesStructure() {
       const pages = [];
 
-      // cover page
+      // Cover page
       pages.push({
         type: 'cover',
         title: 'Hotel Sapphire',
-        desc: 'Experience our curated dining collection. Enjoy our newly synchronized digital catalog menu with 170+ delicacies.'
+        desc: 'Sensory fine dining experience. Fully updated catalogs of 170+ masterfully cooked items synchronized live by Karan Digital Menu Agency.'
       });
 
       const list = menuItems.filter(i => selectedCategory === 'All' || i.category === selectedCategory);
-      const limit = 4; // 4 items per page blocks layouts nicely to avoid overflows
+      const limit = 4; // 4 items per page grid layout
 
       if (selectedCategory === 'All') {
         const categories = [...new Set(menuItems.map(item => item.category))];
@@ -683,7 +681,7 @@
                 <span>Swipe Left To Open</span>
                 <svg class="h-3.5 w-3.5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
               </div>
-              <p class="text-[9px] text-gray-600">Sync Active • Live Menu Updates</p>
+              <p class="text-[9px] text-gray-600">Secure Digital Catalog • Real-Time Pricing</p>
             </div>
           </div>
         `;
@@ -693,7 +691,7 @@
           <div class="h-full w-full flex flex-col justify-center items-center text-center p-8 bg-gradient-to-br from-[#1c1d22] to-[#0a0a0c] text-white animate-fadeIn">
             <span class="text-[10px] tracking-widest text-accentGold font-bold uppercase mb-2">CHAPTER SEC</span>
             <div class="w-12 h-[1px] bg-white/10 mb-4"></div>
-            <h3 class="text-3xl font-extrabold font-serif text-white uppercase tracking-wider leading-tight">${page.name}</h3>
+            <h3 class="text-2xl font-extrabold font-serif text-white uppercase tracking-wider leading-tight">${page.name}</h3>
             <p class="text-xs text-gray-500 mt-2 max-w-xs italic">Authentic preparations made freshly to order using top hand-ground spices.</p>
           </div>
         `;
@@ -701,30 +699,59 @@
         countLabel.textContent = `Page ${currentPageIndex} / ${total}`;
         
         let listHTML = '';
-        page.items.forEach(item => {
-          const cartItem = cart.find(c => c.name === item.name);
+        page.items.forEach((item, index) => {
+          // Identify if it's a highlighted "Special" dish
+          const isSpecial = index % 3 === 0; 
+          
+          // Generate pricing variations
+          let variantsHTML = '';
+          if (item.variants && item.variants.length > 1) {
+            variantsHTML += `<div class="flex flex-wrap gap-1 mt-2">`;
+            item.variants.forEach(v => {
+              const activeClass = item.selectedType === v.type ? 'bg-accentGold text-black font-extrabold' : 'bg-white/5 text-gray-400 hover:bg-white/10';
+              variantsHTML += `
+                <button onclick="changeVariant('${item.name}', '${v.type}', ${v.price})" class="px-2 py-0.5 rounded text-[9px] transition ${activeClass}">
+                  ${v.type}: ₹${v.price}
+                </button>
+              `;
+            });
+            variantsHTML += `</div>`;
+          }
+
+          // Cart status check
+          const cartItemName = item.variants && item.variants.length > 1 ? `${item.name} (${item.selectedType})` : item.name;
+          const cartItem = cart.find(c => c.name === cartItemName);
           const qty = cartItem ? cartItem.qty : 0;
 
           listHTML += `
-            <div class="bg-white/5 border border-white/5 p-3 rounded-2xl flex flex-col justify-between hover:border-accentGold/25 transition duration-300">
+            <div class="relative bg-white/5 border ${isSpecial ? 'border-accentGold/20 bg-gradient-to-r from-accentGold/5 to-transparent' : 'border-white/5'} p-3 rounded-2xl flex flex-col justify-between hover:border-accentGold/25 transition duration-300">
+              ${isSpecial ? `
+                <span class="absolute top-2 right-2 text-[8px] bg-accentGold text-black font-extrabold px-1.5 py-0.5 rounded uppercase tracking-wider animate-pulse flex items-center gap-1">
+                  <span>★</span> SPECIAL
+                </span>
+              ` : ''}
+              
               <div class="flex items-start justify-between gap-1">
-                <div class="flex-grow">
+                <div class="flex-grow pr-12">
                   <h4 class="text-xs font-bold text-white">${item.name}</h4>
                   <p class="text-[9.5px] text-gray-400 leading-normal line-clamp-2 mt-1 no-scrollbar">${item.description || 'Cooked freshly by master chefs.'}</p>
+                  ${variantsHTML}
                 </div>
-                <span class="text-xs font-bold text-accentGold font-mono ml-2">₹${item.price.toFixed(0)}</span>
+                <div class="text-right">
+                  <span class="text-xs font-bold text-accentGold font-mono">₹${item.price.toFixed(0)}</span>
+                </div>
               </div>
               <div class="flex items-center justify-between mt-2.5 pt-2 border-t border-white/5">
                 <span class="text-[8px] uppercase tracking-wider text-gray-500">${page.category}</span>
                 ${qty === 0 ? `
-                  <button onclick="addToBasket('${encodeURIComponent(item.name)}', ${item.price})" class="bg-royalGreen hover:bg-royalGreen-dark text-white text-[10px] px-3.5 py-1.5 rounded-lg transition active:scale-95 font-bold">
+                  <button onclick="addToBasket('${encodeURIComponent(item.name)}', '${item.selectedType}', ${item.price})" class="bg-royalGreen hover:bg-royalGreen-dark text-white text-[10px] px-3.5 py-1.5 rounded-lg transition active:scale-95 font-bold">
                     + Add to Basket
                   </button>
                 ` : `
                   <div class="flex items-center gap-1">
-                    <button onclick="adjustQty('${encodeURIComponent(item.name)}', -1)" class="w-6 h-6 rounded bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold text-xs">-</button>
+                    <button onclick="adjustQty('${encodeURIComponent(cartItemName)}', -1)" class="w-6 h-6 rounded bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold text-xs">-</button>
                     <span class="text-xs font-bold text-white w-4 text-center">${qty}</span>
-                    <button onclick="adjustQty('${encodeURIComponent(item.name)}', 1)" class="w-6 h-6 rounded bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold text-xs">+</button>
+                    <button onclick="adjustQty('${encodeURIComponent(cartItemName)}', 1)" class="w-6 h-6 rounded bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold text-xs">+</button>
                   </div>
                 `}
               </div>
@@ -751,7 +778,16 @@
       wrapper.appendChild(surface);
     }
 
-    // Flipping page executions
+    function changeVariant(itemName, variantType, variantPrice) {
+      const match = menuItems.find(i => i.name === itemName);
+      if (match) {
+        match.selectedType = variantType;
+        match.price = variantPrice;
+        renderActiveSpread();
+      }
+    }
+
+    // Flipping executions
     function turnNextPage() {
       if (currentPageIndex < bookPages.length - 1) {
         currentPageIndex++;
@@ -770,7 +806,7 @@
       }
     }
 
-    // Swipe Control listeners
+    // Swipe controls for mobil/tables
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -803,7 +839,7 @@
 
     setTimeout(fadeOutSwipeHint, 6000);
 
-    // Cart system adjustments
+    // Basket controller mechanics
     function toggleCart(show) {
       const drawer = document.getElementById('cart-drawer');
       if (show) {
@@ -814,27 +850,29 @@
       }
     }
 
-    function addToBasket(encoded, price) {
-      const name = decodeURIComponent(encoded);
-      const match = cart.find(c => c.name === name);
+    function addToBasket(encodedName, type, price) {
+      const name = decodeURIComponent(encodedName);
+      const cartName = type && type !== 'undefined' ? `${name} (${type})` : name;
+      
+      const match = cart.find(c => c.name === cartName);
       if (match) {
         match.qty++;
       } else {
-        cart.push({ name, price, qty: 1 });
+        cart.push({ name: cartName, price, qty: 1 });
       }
       localStorage.setItem(`sapphire_cart_${currentTable}`, JSON.stringify(cart));
       updateCartBadge();
       renderActiveSpread();
     }
 
-    function adjustQty(encoded, val) {
-      const name = decodeURIComponent(encoded);
-      const match = cart.find(c => c.name === name);
+    function adjustQty(encodedCartName, val) {
+      const cartName = decodeURIComponent(encodedCartName);
+      const match = cart.find(c => c.name === cartName);
       if (!match) return;
 
       match.qty += val;
       if (match.qty <= 0) {
-        cart = cart.filter(c => c.name !== name);
+        cart = cart.filter(c => c.name !== cartName);
       }
       localStorage.setItem(`sapphire_cart_${currentTable}`, JSON.stringify(cart));
       updateCartBadge();
@@ -857,7 +895,7 @@
       if (cart.length === 0) {
         container.innerHTML = `
           <div class="h-full flex flex-col items-center justify-center text-center p-8 text-gray-500">
-            <p class="text-xs font-bold text-gray-400">Basket Empty</p>
+            <p class="text-xs font-bold text-gray-400">Your basket is currently empty.</p>
           </div>
         `;
         document.getElementById('cart-subtotal').textContent = "₹0.00";
@@ -919,7 +957,7 @@
           } catch (e) { existing = []; }
         }
 
-        // Combine
+        // Merge orders
         cart.forEach(c => {
           const match = existing.find(e => e.name === c.name);
           if (match) {
@@ -963,7 +1001,7 @@
         renderActiveSpread();
         updateSessionUI();
 
-        showCustomAlert("Order Dispatched!", "Your dishes are routed straight to master chef's task-queue.");
+        showCustomAlert("Order Sent!", "Your fresh culinary variations are routed directly to the Master Chef's display screen.");
 
       } catch (err) {
         showCustomAlert("Connection Error", "We were unable to secure a connection with Sapphire database terminal.");
@@ -1007,7 +1045,18 @@
       document.body.appendChild(div);
     }
 
-    // Polling Sync database listener
+    // Google Sheets Local Backup
+    function loadEmbeddedBackup() {
+      return [
+        { name: "CRISPY VEG NUGGETS", category: "BAR BITES", description: "Medley of veggies and potato mix fried with spicy mayo", price: 345, variants: [{ type: "Veg", price: 345 }], selectedType: "Veg" },
+        { name: "CHICKEN POP CORN", category: "BAR BITES", description: "Bite sized tender and crisp chunks of chicken seasoned to perfection", price: 495, variants: [{ type: "Non-Veg", price: 495 }], selectedType: "Non-Veg" },
+        { name: "KHOW SUEY", category: "SOUPS", description: "Noodles with coconut milk, soup served with assortment of fried garlic and peanuts", price: 495, variants: [{ type: "Veg", price: 495 }, { type: "Non-Veg", price: 595 }], selectedType: "Veg" },
+        { name: "TIBETAN DUMPLING", category: "SOUPS", description: "Traditional tibetan dumplings cooked in a flavorful hot broth", price: 395, variants: [{ type: "Veg", price: 395 }, { type: "Non-Veg", price: 495 }], selectedType: "Veg" },
+        { name: "PANEER TIKKA", category: "INDIAN APPETIZERS - VEG", description: "Kasundi / Malai marinated paneer blocks roasted on coal fire", price: 545, variants: [{ type: "Veg", price: 545 }], selectedType: "Veg" }
+      ];
+    }
+
+    // Polling database state listener
     setInterval(async () => {
       if (!currentTable || !activeSession) return;
 
