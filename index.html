@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hotel Sapphire - Interactive Digital Menu</title>
   
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -26,8 +27,6 @@
           animation: {
             'shimmer': 'shimmer 2s infinite',
             'fadeIn': 'fadeIn 0.4s ease-out forwards',
-            'flipNext': 'flipNext 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards',
-            'flipPrev': 'flipPrev 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards'
           },
           keyframes: {
             shimmer: {
@@ -37,16 +36,6 @@
             fadeIn: {
               '0%': { opacity: '0', transform: 'scale(0.97)' },
               '100%': { opacity: '1', transform: 'scale(1)' }
-            },
-            flipNext: {
-              '0%': { transform: 'rotateY(0deg)', opacity: '1' },
-              '50%': { opacity: '0.5' },
-              '100%': { transform: 'rotateY(-180deg)', opacity: '0' }
-            },
-            flipPrev: {
-              '0%': { transform: 'rotateY(180deg)', opacity: '0' },
-              '50%': { opacity: '0.5' },
-              '100%': { transform: 'rotateY(0deg)', opacity: '1' }
             }
           }
         }
@@ -54,19 +43,20 @@
     }
   </script>
 
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       overscroll-behavior-y: contain;
-      touch-action: none; /* Disables all standard mobile browser bounce/scrolling */
+      touch-action: none; /* Mobile browser vertical bounce ko rokne ke liye */
     }
     h1, h2, h3, .font-serif {
       font-family: 'Playfair Display', serif;
     }
     
-    /* Strict Viewport Layout (Completely disables overall scrolling) */
+    /* Screen layout setup (Scrolling band karne ke liye) */
     html, body {
       height: 100vh;
       margin: 0;
@@ -76,19 +66,7 @@
       width: 100%;
     }
 
-    /* Interactive Book Stage Styling */
-    .book-container {
-      perspective: 1800px;
-    }
-
-    /* Individual Book Page Styles */
-    .book-page-surface {
-      backface-visibility: hidden;
-      transform-style: preserve-3d;
-      transform-origin: left center;
-    }
-
-    /* Premium Shimmering brand link effect */
+    /* Shimmer gold look branding link ke liye */
     .shimmer-text {
       background: linear-gradient(90deg, #D4AF37 0%, #FFF 50%, #D4AF37 100%);
       background-size: 200% auto;
@@ -98,7 +76,7 @@
       animation: shimmer 3s linear infinite;
     }
 
-    /* Hide standard scrollbars on submenus */
+    /* Scrollbars ko hide karne ka tarika */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -110,8 +88,10 @@
 </head>
 <body class="bg-[#0f0f0f] text-gray-200 flex flex-col select-none">
 
+  <!-- KARAN DIGITAL MENU AGENCY PROMOTIONAL BANNER -->
   <header class="bg-[#141414] border-b border-white/5 z-50">
     <div class="max-w-6xl mx-auto px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-center">
+      <!-- Agency ka direct redirection link -->
       <a href="https://karan-digital-menu-agency.vercel.app/#contact" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 py-1 px-4 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-all duration-300 active:scale-95 shadow-sm">
         <span class="text-[10px] tracking-widest text-gray-400 uppercase font-semibold">Created By.</span>
         <span class="text-xs font-bold font-serif shimmer-text tracking-wide group-hover:scale-105 transition-transform duration-300">KARAN DIGITAL MENU AGENCY</span>
@@ -120,6 +100,7 @@
         </svg>
       </a>
 
+      <!-- Brand center title -->
       <div class="flex items-center gap-2">
         <h1 class="text-base font-bold text-white tracking-wide">
           Sapphire <span class="text-accentGold text-[10px] font-serif">★ ★ ★ ★ ★</span>
@@ -127,6 +108,7 @@
         <span class="text-[9px] text-gray-500 bg-white/5 px-2 py-0.5 rounded uppercase tracking-widest">Hotel &amp; Resort</span>
       </div>
 
+      <!-- Cart panel button -->
       <button onclick="toggleCart(true)" class="relative bg-royalGreen hover:bg-royalGreen-dark text-white px-4 py-1 rounded-xl flex items-center gap-2 transition text-xs font-bold shadow-md">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-accentGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -137,12 +119,15 @@
     </div>
   </header>
 
+  <!-- LIVE STATUS STRIP -->
   <div class="bg-[#181818] px-4 py-2 flex items-center justify-between border-b border-white/5 z-40 text-white">
+    <!-- Active Room / Table details -->
     <div class="flex items-center gap-2">
       <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
       <span id="active-location-label" class="text-xs font-bold tracking-wide text-gray-300">Checking Room Suite...</span>
     </div>
 
+    <!-- Active running total -->
     <div class="flex items-center gap-4">
       <div class="text-right">
         <span class="text-[9px] text-gray-500 block uppercase">Continuous Balance</span>
@@ -154,26 +139,36 @@
     </div>
   </div>
 
+  <!-- BOOK CONTAINER BOX -->
   <div class="flex-grow flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-[#141414] to-[#0c0c0c] p-4">
     
+    <!-- Navigation gesture tutorial warning -->
     <div id="swipe-hint" class="absolute inset-x-0 top-4 mx-auto w-fit bg-black/80 backdrop-blur-md text-accentGold border border-accentGold/20 px-4 py-2 rounded-full text-xs font-medium z-30 flex items-center gap-2 pointer-events-none transition-opacity duration-1000 shadow-xl">
       <span class="w-2 h-2 rounded-full bg-accentGold animate-ping"></span>
       <span>Swipe left/right to flip pages smoothly with ASMR sound effects</span>
     </div>
 
+    <!-- MAIN BOOK GRID -->
     <div class="w-full max-w-4xl mx-auto flex-grow flex items-center justify-center relative">
+      <!-- Outer Leather Frame Cover -->
       <div id="book-binder" class="w-full h-full max-h-[480px] md:max-h-[520px] bg-[#1a1a1a] rounded-[28px] border-4 border-[#3a2e1b] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9)] overflow-hidden relative flex flex-col">
         
+        <!-- Turning viewports -->
         <div id="book-pages-wrapper" class="w-full flex-grow relative overflow-hidden bg-[#151515] animate-fadeIn">
-          </div>
+          <!-- JS dynamic pages will load here -->
+        </div>
 
       </div>
     </div>
 
+    <!-- PAGINATION DOCK CONTROLLERS -->
     <div class="max-w-4xl mx-auto w-full py-2 flex flex-col gap-2.5 z-30">
+      <!-- Quick Categories Scroller -->
       <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="category-scroller">
-        </div>
+        <!-- Loaded directly from Google Sheets categories -->
+      </div>
 
+      <!-- Prev-Next triggers -->
       <div class="flex items-center justify-between text-white border-t border-white/5 pt-2">
         <button onclick="turnPreviousPage()" class="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl text-xs font-bold transition duration-200 active:scale-95 hover:text-accentGold">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
@@ -193,6 +188,7 @@
 
   </div>
 
+  <!-- SEAT LOUNGE LOBBY -->
   <div id="lobby-screen" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-[#161616] rounded-3xl p-6 max-w-sm w-full text-center border border-accentGold/20">
       <h2 class="text-2xl font-bold font-serif text-white mb-2">Hotel Sapphire</h2>
@@ -211,6 +207,7 @@
     </div>
   </div>
 
+  <!-- CART SIDE DRAWER -->
   <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden" role="dialog" aria-modal="true">
     <div class="absolute inset-0 overflow-hidden">
       <div onclick="toggleCart(false)" class="absolute inset-0 bg-black/80 backdrop-blur-xs transition-opacity"></div>
@@ -230,8 +227,10 @@
               </button>
             </div>
 
+            <!-- Items container lists -->
             <div class="flex-1 overflow-y-auto px-6 py-4 space-y-2.5" id="cart-items-container"></div>
 
+            <!-- Total calculations -->
             <div class="border-t border-white/5 bg-[#0e0e0e] px-6 py-5 space-y-2 text-white">
               <div class="flex justify-between text-xs text-gray-400">
                 <span>Items Subtotal</span>
@@ -260,6 +259,7 @@
     </div>
   </div>
 
+  <!-- WAITER CALLED NOTICE MODAL -->
   <div id="waiter-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-[#161616] rounded-3xl p-6 max-w-sm w-full text-center border border-red-500/20 text-white">
       <div class="w-12 h-12 bg-red-950/40 border border-red-500/25 rounded-full flex items-center justify-center mx-auto mb-3 text-red-500 animate-bounce">
@@ -282,7 +282,9 @@
     </div>
   </div>
 
+  <!-- AUDIO SYNTHESIS MODULE (ASMR Page Flip sound generator) -->
   <script>
+    // Web Audio API ke madhyam se real paper-like noise rustle generate karne ka function
     function playASMRPageFlip() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -292,15 +294,16 @@
         }
 
         const now = ctx.currentTime;
-        const duration = 0.40; 
+        const duration = 0.38; // Sound duration of the paper turn
 
+        // 1. Air displacement swoosh (Low frequency sweep)
         const lowOsc = ctx.createOscillator();
         const lowGain = ctx.createGain();
         lowOsc.type = 'triangle';
-        lowOsc.frequency.setValueAtTime(110, now);
-        lowOsc.frequency.exponentialRampToValueAtTime(30, now + duration);
+        lowOsc.frequency.setValueAtTime(120, now);
+        lowOsc.frequency.exponentialRampToValueAtTime(25, now + duration);
 
-        lowGain.gain.setValueAtTime(0.20, now);
+        lowGain.gain.setValueAtTime(0.18, now);
         lowGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
 
         lowOsc.connect(lowGain);
@@ -308,6 +311,7 @@
         lowOsc.start(now);
         lowOsc.stop(now + duration);
 
+        // 2. High frequency paper friction rustle noise
         const bufferSize = ctx.sampleRate * duration;
         const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = noiseBuffer.getChannelData(0);
@@ -320,12 +324,12 @@
 
         const filter = ctx.createBiquadFilter();
         filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(1400, now);
-        filter.Q.setValueAtTime(2.0, now);
-        filter.frequency.exponentialRampToValueAtTime(500, now + duration);
+        filter.frequency.setValueAtTime(1500, now);
+        filter.Q.setValueAtTime(1.8, now);
+        filter.frequency.exponentialRampToValueAtTime(400, now + duration);
 
         const noiseGain = ctx.createGain();
-        noiseGain.gain.setValueAtTime(0.07, now);
+        noiseGain.gain.setValueAtTime(0.06, now);
         noiseGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
 
         noiseSrc.connect(filter);
@@ -335,11 +339,12 @@
         noiseSrc.start(now);
         noiseSrc.stop(now + duration);
       } catch (e) {
-        console.warn("ASMR audio generation bypassed.");
+        console.warn("ASMR trigger skipped (user interaction initial permission is required).");
       }
     }
   </script>
 
+  <!-- DATABASE AND NAVIGATION LOGIC -->
   <script>
     const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
     const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
@@ -350,18 +355,23 @@
     let activeSession = null;
     let selectedCategory = 'All';
 
+    // Book views properties
     let bookPages = [];
     let currentPageIndex = 0;
 
-    const GOOGLE_SHEETS_LIVE_URL = "https://docs.google.com/spreadsheets/d/1S55o6bDx4OS_i74CUKz0l20N01AZ6QXuF3D6OvHBsaU/gviz/tq?tqx=out:csv";
+    // Google Sheets live path wrapped with AllOrigins CORS proxy bypass
+    const GOOGLE_SHEETS_SOURCE_LINK = "https://docs.google.com/spreadsheets/d/1S55o6bDx4OS_i74CUKz0l20N01AZ6QXuF3D6OvHBsaU/export?format=csv";
+    const GOOGLE_SHEETS_LIVE_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(GOOGLE_SHEETS_SOURCE_LINK);
 
+    // Initial fallback menu in case Google Sheets loading takes extra seconds
     const SELECTION_FALLBACK = [
-      { name: "Khow Suey", category: "Soups & Salads", price: 495, description: "Creamy Burmese broth with delicate wheat noodles." },
-      { name: "Burnt Garlic Clear Soup", category: "Soups & Salads", price: 325, description: "A crystal clear vegetable broth topped with golden garlic." },
-      { name: "Paneer Tikka Multani", category: "Appetizers", price: 290, description: "Paneer cubes baked to golden bubbles." },
-      { name: "Dal Makhani Sapphire", category: "Main Course", price: 280, description: "Velvety black lentils simmered with churned white butter." }
+      { name: "Khow Suey", category: "Soups & Salads", price: 495, description: "Burmese soup with golden noodles, rich coconut broth, and crispy toasted condiments." },
+      { name: "Burnt Garlic Clear Soup", category: "Soups & Salads", price: 325, description: "A crystal clear vegetable broth topped with garlic nuggets." },
+      { name: "Paneer Tikka Multani", category: "Appetizers", price: 290, description: "Saffron yogurt marinaded grilled cottage cheese stuffed with spiced khoya." },
+      { name: "Dal Makhani Sapphire", category: "Main Course", price: 280, description: "Traditional creamed black lentils slow cooked overnight on direct copper charcoal flames." }
     ];
 
+    // Supabase query runner
     async function dbQuery(endpoint, method = 'GET', body = null) {
       const url = `${SUPABASE_URL}${endpoint}`;
       const headers = {
@@ -378,11 +388,12 @@
         if (!res.ok) throw new Error("Status code: " + res.status);
         return await res.json();
       } catch (err) {
-        console.warn("Offline fallback state enabled.", err);
+        console.warn("Database offline mode.", err);
         return null;
       }
     }
 
+    // Session status initialization
     function initSession() {
       const urlParams = new URLSearchParams(window.location.search);
       let table = urlParams.get('table');
@@ -408,15 +419,13 @@
     }
 
     function isValidTable(table) {
-      // FIX: Tables (T1-T10) & Rooms (R1-R10) Validation
-      const isTable = /^T\d+$/.test(table) && parseInt(table.slice(1)) <= 10;
-      const isRoom = /^R\d+$/.test(table) && parseInt(table.slice(1)) <= 10;
-      return isTable || isRoom;
+      const isRoom = /^T\d+$/.test(table) && parseInt(table.slice(1)) <= 10;
+      const isTable = /^R\d+$/.test(table) && parseInt(table.slice(1)) <= 10;
+      return isRoom || isTable;
     }
 
     function getFriendlyName(table) {
-      // FIX: Friendly labels corrected
-      return table.startsWith('T') ? `Dining Table ${table.slice(1)}` : `Suite Room ${table.slice(1)}`;
+      return table.startsWith('R') ? `Dining Table ${table.slice(1)}` : `Suite Room ${table.slice(1)}`;
     }
 
     function showLobby() {
@@ -425,18 +434,16 @@
       const rGrid = document.getElementById('lobby-restaurant-grid');
       rGrid.innerHTML = '';
       for (let i = 1; i <= 10; i++) {
-        // FIX: Restaurant grid maps to Tables (T1-T10)
         rGrid.innerHTML += `
-          <button onclick="selectLocation('T${i}')" class="bg-royalGreen/10 border border-royalGreen/20 p-2 rounded-xl text-xs font-bold text-royalGreen hover:bg-royalGreen hover:text-white transition">T${i}</button>
+          <button onclick="selectLocation('R${i}')" class="bg-royalGreen/10 border border-royalGreen/20 p-2 rounded-xl text-xs font-bold text-royalGreen hover:bg-royalGreen hover:text-white transition">R${i}</button>
         `;
       }
 
       const rmGrid = document.getElementById('lobby-rooms-grid');
       rmGrid.innerHTML = '';
       for (let i = 1; i <= 10; i++) {
-        // FIX: Rooms grid maps to Room Service (R1-R10)
         rmGrid.innerHTML += `
-          <button onclick="selectLocation('R${i}')" class="bg-royalBlue/10 border border-royalBlue/20 p-2 rounded-xl text-xs font-bold text-royalBlue hover:bg-royalBlue hover:text-white transition">R${i}</button>
+          <button onclick="selectLocation('T${i}')" class="bg-royalBlue/10 border border-royalBlue/20 p-2 rounded-xl text-xs font-bold text-royalBlue hover:bg-royalBlue hover:text-white transition">T${i}</button>
         `;
       }
     }
@@ -514,10 +521,11 @@
       }
     }
 
+    // Google Sheets live data parser utilizing CORS-bypass wrap
     async function loadLiveSheet() {
       try {
         const response = await fetch(GOOGLE_SHEETS_LIVE_URL);
-        if (!response.ok) throw new Error("Network connection dropped");
+        if (!response.ok) throw new Error("CORS Proxy retrieval failure");
         const text = await response.text();
         const parsed = parseSheetCSV(text);
         if (parsed && parsed.length > 0) {
@@ -526,7 +534,7 @@
           menuItems = SELECTION_FALLBACK;
         }
       } catch (err) {
-        console.warn("Direct loading error, applying visual fallback framework.", err);
+        console.warn("Proxy connection error, switching to backup library dataset.", err);
         menuItems = SELECTION_FALLBACK;
       }
 
@@ -534,6 +542,7 @@
       buildPagesStructure();
     }
 
+    // Smart CSV converter
     function parseSheetCSV(text) {
       const lines = text.split('\n');
       if (lines.length < 2) return null;
@@ -567,6 +576,7 @@
           obj[headerName] = values[index] || '';
         });
 
+        // Item parsing structure mappings
         const name = obj.name || obj.item || obj.title || obj.dish || obj.dishes || '';
         const price = parseFloat(obj.price || obj.rate || obj.cost || obj.mrp) || 0;
         const category = obj.category || obj.type || obj.course || 'Main Course';
@@ -602,16 +612,19 @@
       playASMRPageFlip();
     }
 
+    // Split items list dynamically into visual booklet spread layers
     function buildPagesStructure() {
       const pages = [];
+
+      // cover page
       pages.push({
         type: 'cover',
         title: 'Hotel Sapphire',
-        desc: 'Experience our curated dining collection. Enjoy our newly synchronized digital catalog menu.'
+        desc: 'Experience our curated dining collection. Enjoy our newly synchronized digital catalog menu with 170+ delicacies.'
       });
 
       const list = menuItems.filter(i => selectedCategory === 'All' || i.category === selectedCategory);
-      const limit = 4;
+      const limit = 4; // 4 items per page blocks layouts nicely to avoid overflows
 
       if (selectedCategory === 'All') {
         const categories = [...new Set(menuItems.map(item => item.category))];
@@ -681,7 +694,7 @@
             <span class="text-[10px] tracking-widest text-accentGold font-bold uppercase mb-2">CHAPTER SEC</span>
             <div class="w-12 h-[1px] bg-white/10 mb-4"></div>
             <h3 class="text-3xl font-extrabold font-serif text-white uppercase tracking-wider leading-tight">${page.name}</h3>
-            <p class="text-xs text-gray-500 mt-2 max-w-xs italic">Authentic preparations made freshly to order.</p>
+            <p class="text-xs text-gray-500 mt-2 max-w-xs italic">Authentic preparations made freshly to order using top hand-ground spices.</p>
           </div>
         `;
       } else if (page.type === 'dishes') {
@@ -738,6 +751,7 @@
       wrapper.appendChild(surface);
     }
 
+    // Flipping page executions
     function turnNextPage() {
       if (currentPageIndex < bookPages.length - 1) {
         currentPageIndex++;
@@ -756,6 +770,7 @@
       }
     }
 
+    // Swipe Control listeners
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -788,6 +803,7 @@
 
     setTimeout(fadeOutSwipeHint, 6000);
 
+    // Cart system adjustments
     function toggleCart(show) {
       const drawer = document.getElementById('cart-drawer');
       if (show) {
@@ -903,6 +919,7 @@
           } catch (e) { existing = []; }
         }
 
+        // Combine
         cart.forEach(c => {
           const match = existing.find(e => e.name === c.name);
           if (match) {
@@ -990,6 +1007,7 @@
       document.body.appendChild(div);
     }
 
+    // Polling Sync database listener
     setInterval(async () => {
       if (!currentTable || !activeSession) return;
 
