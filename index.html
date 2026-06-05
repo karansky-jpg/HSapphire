@@ -1,1 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hotel Sapphire - Premium Digital Menu</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            royalGreen: {
+              DEFAULT: '#0A5C36',
+              dark: '#063d23',
+              light: '#eefcf5',
+            },
+            royalBlue: {
+              DEFAULT: '#0B3C5D',
+              dark: '#07273d',
+              light: '#f0f5fa',
+            },
+            accentGold: '#D4AF37',
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Premium Page Flip Book Transition Styling */
+    .menu-book-container {
+      perspective: 1500px;
+    }
+    .page-sheet {
+      transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.4s ease;
+      transform-style: preserve-3d;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-[#071F13] text-gray-900 min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
 
+  <!-- TOP AGENCY BRANDING BAR -->
+  <div class="bg-royalBlue text-white text-xs py-2 px-4 flex justify-between items-center z-50 border-b border-white/10 shadow-md">
+    <span class="font-medium tracking-wide">HOTEL SAPPHIRE DIGITAL CONCIERGE</span>
+    <a href="https://karan-digital-menu-agency.vercel.app/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 text-accentGold font-bold hover:underline transition">
+      <span>Created by Karan Digital Menu Agency</span>
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+    </a>
+  </div>
+
+  <!-- HOTEL HERO LOGO & TITLE -->
+  <header class="bg-gradient-to-b from-[#0A5C36] to-[#052e1b] py-6 px-4 text-center border-b border-accentGold/20">
+    <div class="max-w-4xl mx-auto flex flex-col items-center">
+      <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-20 w-20 object-contain drop-shadow-lg mb-3 animate-pulse" onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=100'">
+      <h1 class="text-3xl font-serif font-bold text-white tracking-wide">Hotel Sapphire</h1>
+      <p class="text-xs text-accentGold font-serif tracking-widest uppercase mt-1">Culinary Mastery &amp; Premium Hospitality</p>
+      
+      <!-- Session Room/Table Indicator -->
+      <div id="session-badge" class="mt-4 inline-flex items-center gap-2 bg-black/40 border border-accentGold/30 text-accentGold text-xs font-bold px-4 py-2 rounded-full cursor-pointer hover:bg-black/60 transition" onclick="openLocationSelector()">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+        <span id="current-location-text">Setting Table / Room...</span>
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- QUICK CATEGORY INDEX NAVIGATION -->
+  <nav class="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+    <div id="category-index-scroller" class="max-w-7xl mx-auto px-4 py-3 flex gap-3 overflow-x-auto hide-scrollbar scroll-smooth">
+      <!-- Generated dynamically based on category pages -->
+    </div>
+  </nav>
+
+  <!-- MAIN PAGINATED MENU BOOK CONTAINER -->
+  <main class="flex-grow py-6 px-4 max-w-6xl mx-auto w-full flex flex-col justify-center">
+    <div class="menu-book-container relative w-full bg-white rounded-3xl shadow-2xl min-h-[580px] overflow-hidden flex flex-col justify-between border-4 border-royalGreen/30">
+      
+      <!-- Background Elegant Decors -->
+      <div class="absolute inset-0 bg-gradient-to-br from-royalGreen-light/40 via-white to-royalBlue-light/30 pointer-events-none"></div>
+      
+      <!-- Live Page Render Wrapper -->
+      <div id="menu-page-wrapper" class="relative flex-grow p-6 sm:p-8 flex flex-col justify-between z-10">
+        <!-- Content will be injected dynamically -->
+        <div class="flex flex-col items-center justify-center text-center py-24 text-gray-500">
+          <svg class="animate-spin h-12 w-12 text-royalGreen mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <p class="font-serif text-lg font-bold text-royalGreen">Assembling Sapphire Book Menu...</p>
+          <p class="text-xs text-gray-400 mt-1">Configuring 170+ items directly from Google Sheets API</p>
+        </div>
+      </div>
+
+      <!-- Navigation & Page Counters Controller -->
+      <div class="bg-gray-50 border-t border-gray-100 px-6 py-4 flex items-center justify-between z-20">
+        <button id="prev-page-btn" onclick="prevPage()" class="bg-royalBlue hover:bg-royalBlue-dark text-white p-3 rounded-2xl font-bold text-sm transition flex items-center gap-2 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+          <span>Prev Page</span>
+        </button>
+
+        <span id="page-indicator" class="text-xs font-bold text-royalBlue bg-royalBlue-light border border-royalBlue/20 px-4 py-2 rounded-xl tracking-widest font-mono">
+          PAGE 1 / 1
+        </span>
+
+        <button id="next-page-btn" onclick="nextPage()" class="bg-royalBlue hover:bg-royalBlue-dark text-white p-3 rounded-2xl font-bold text-sm transition flex items-center gap-2 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
+          <span>Next Page</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FLOATING INTERACTIVE CART BAR -->
+  <section id="floating-cart-bar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-lg bg-royalGreen/95 backdrop-blur-lg text-white p-4 rounded-2xl shadow-xl z-50 flex items-center justify-between border border-accentGold/30">
+    <div class="flex items-center gap-3">
+      <div class="bg-accentGold p-2.5 rounded-xl text-royalGreen animate-bounce shadow-inner">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      </div>
+      <div>
+        <h4 id="cart-float-qty" class="font-extrabold text-sm text-accentGold">0 Items Selected</h4>
+        <p id="cart-float-total" class="text-xs text-white/90">Running Subtotal: ₹0.00</p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="openBillStatusModal()" class="bg-white/10 hover:bg-white/20 text-white font-bold text-xs py-2 px-3 rounded-xl border border-white/20 transition">
+        Status / Bill
+      </button>
+      <button onclick="openCartModal()" class="bg-accentGold hover:bg-yellow-500 text-royalGreen font-extrabold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
+        Place KOT
+      </button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#051F12] text-gray-500 text-center py-6 border-t border-white/5 z-10 text-xs">
+    <p class="mb-1">&copy; 2026 Hotel Sapphire. All Rights Reserved.</p>
+    <a href="https://karan-digital-menu-agency.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-accentGold font-semibold hover:underline">
+      Powered by Karan Digital Menu Agency
+    </a>
+  </footer>
+
+  <!-- MODAL: ROOM / TABLE LOCATION SELECTOR (MANDATORY ON LOAD) -->
+  <div id="location-selector-modal" class="fixed inset-0 z-55 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl p-6 border border-accentGold/20 relative animate-scaleUp">
+      <div class="text-center mb-6">
+        <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-14 w-14 object-contain mx-auto mb-2">
+        <h3 class="text-xl font-bold text-royalBlue font-serif">Welcome to Sapphire</h3>
+        <p class="text-xs text-gray-400 mt-1 font-sans">Please define your location to coordinate orders with the desk</p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Mapping Tabs -->
+        <div class="grid grid-cols-2 gap-2 p-1 bg-gray-100 rounded-xl text-center font-bold text-xs">
+          <button id="tab-select-table" onclick="toggleSelectorTab('table')" class="py-2.5 rounded-lg bg-royalGreen text-white transition shadow-3xs">Dining Table (T)</button>
+          <button id="tab-select-room" onclick="toggleSelectorTab('room')" class="py-2.5 rounded-lg text-gray-600 hover:bg-gray-200 transition">Room Service (R)</button>
+        </div>
+
+        <!-- Grid Options -->
+        <div id="selector-grid-wrapper" class="max-h-[220px] overflow-y-auto p-1">
+          <div id="selector-grid" class="grid grid-cols-5 gap-2.5">
+            <!-- Render T1-T10 or R1-R10 dynamically -->
+          </div>
+        </div>
+
+        <button onclick="confirmLocationSelection()" id="confirm-location-btn" disabled class="w-full bg-royalBlue text-white py-3 rounded-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-sm">
+          Access Digital Book Menu
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CART REVIEW & SEND ORDER (KOT) -->
+  <div id="cart-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-accentGold/20 my-8">
+      <!-- Modal Header -->
+      <div class="bg-royalGreen text-white px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-accentGold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <h3 class="font-bold text-lg font-serif text-white">Review Kitchen Order Ticket</h3>
+        </div>
+        <button onclick="closeCartModal()" class="text-white/80 hover:text-white transition">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <!-- Item review container -->
+      <div class="p-6 max-h-[50vh] overflow-y-auto space-y-4" id="cart-items-container">
+        <!-- Render items here dynamically -->
+      </div>
+
+      <!-- Tax Calculations (Mandated 5% SGST & 5% CGST) -->
+      <div class="border-t border-gray-100 bg-gray-50 p-6 space-y-2">
+        <div class="flex justify-between text-sm text-gray-500">
+          <span>Subtotal</span>
+          <span id="cart-subtotal">₹0.00</span>
+        </div>
+        <div class="flex justify-between text-xs text-gray-400">
+          <span>CGST (5.0%)</span>
+          <span id="cart-cgst">₹0.00</span>
+        </div>
+        <div class="flex justify-between text-xs text-gray-400">
+          <span>SGST (5.0%)</span>
+          <span id="cart-sgst">₹0.00</span>
+        </div>
+        <div class="flex justify-between text-base font-bold text-royalBlue border-t border-gray-200/60 pt-3">
+          <span>Grand Total</span>
+          <span id="cart-total" class="text-royalGreen font-extrabold text-lg">₹0.00</span>
+        </div>
+      </div>
+
+      <!-- Action Footer Buttons -->
+      <div class="p-4 bg-gray-100 border-t border-gray-200/50 flex gap-3">
+        <button onclick="closeCartModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-xl font-bold transition text-xs text-center">
+          Add More Items
+        </button>
+        <button onclick="placeOrder()" class="flex-1 bg-royalGreen hover:bg-royalGreen-dark text-white py-3 rounded-xl font-bold transition text-xs shadow-md">
+          Send KOT to Kitchen
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PORTAL SESSION BILL & STATUS MONITOR -->
+  <div id="bill-status-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-royalBlue/20">
+      
+      <!-- Modal Header -->
+      <div class="bg-royalBlue text-white px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-accentGold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+          <h3 class="font-bold text-lg font-serif">KOT Status &amp; Billing</h3>
+        </div>
+        <button onclick="closeBillStatusModal()" class="text-white/80 hover:text-white transition">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 max-h-[55vh] overflow-y-auto" id="bill-status-content">
+        <!-- Loaded by JS based on live Supabase feedback -->
+      </div>
+
+      <!-- Action Footer -->
+      <div class="p-4 bg-gray-50 border-t border-gray-100 flex gap-3">
+        <button onclick="requestBill()" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold text-xs transition shadow-md">
+          Ask for Bill
+        </button>
+        <button onclick="closeBillStatusModal()" class="flex-1 bg-royalBlue hover:bg-royalBlue-dark text-white py-3 rounded-xl font-bold text-xs transition">
+          Continue Menu Book
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM FLOATING TOAST BANNER (NO ALERTS DIRECTIVE) -->
+  <div id="toast-banner" class="hidden fixed top-6 right-6 z-100 bg-royalBlue text-white px-5 py-3 rounded-2xl shadow-2xl border border-accentGold/30 flex items-center gap-3 transition duration-300 max-w-sm">
+    <div id="toast-icon-wrapper" class="bg-accentGold/20 p-2 rounded-lg text-accentGold">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    </div>
+    <p id="toast-message" class="text-xs font-bold leading-tight"></p>
+  </div>
+
+  <!-- CUSTOM CONFIRM DIALOG (NO CONFIRMS DIRECTIVE) -->
+  <div id="confirm-modal" class="hidden fixed inset-0 z-100 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center border border-royalBlue/20 shadow-2xl">
+      <h4 id="confirm-title" class="font-serif font-bold text-lg text-royalBlue mb-1">Are you sure?</h4>
+      <p id="confirm-desc" class="text-xs text-gray-400 mb-5"></p>
+      <div class="flex gap-2">
+        <button id="confirm-cancel-btn" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 py-2.5 rounded-lg font-bold text-xs transition">Cancel</button>
+        <button id="confirm-approve-btn" class="flex-1 bg-royalGreen text-white py-2.5 rounded-lg font-bold text-xs transition">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION LOGIC -->
+  <script>
+    // SUPABASE INTEGRATION DETAILS
+    const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
+    const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
+
+    // LIVE APPS SCRIPT SHEET API CONFIGURATION (Using your Apps Script Deployment URL)
+    // Replace with exact URL if required. Features rich simulation fallback containing full categories
+    const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzR5bQ20p89e7W9f23O70S0M7L92v73S08_102v7/exec";
+
+    // App state
+    let rawMenuItems = [];
+    let organizedPages = [];
+    let currentPageIndex = 0;
+    
+    let activeCart = [];
+    let selectedLocation = null; // e.g. T1 - T10 (Table), R1 - R10 (Room)
+    let currentTabType = 'table'; // table / room
+    let databaseSession = null;
+
+    // Rich fallback data to populate beautiful, categorized sheets if Google Script is temporarily unavailable
+    const richFallbackMenu = [
+      { category: "STARTERS & SOUP", name: "Paneer Tikka Angara", price: 320, desc: "Smoky cottage cheese cubes marinated in high-heat spices, grilled in clay tandoor", tags: "Veg, Spicy" },
+      { category: "STARTERS & SOUP", name: "Veg Tandoori Platter", price: 540, desc: "Assortment of kebabs, mushrooms, tandoori aloo, and paneer shashlik", tags: "Veg" },
+      { category: "STARTERS & SOUP", name: "Chicken Malai Kebab", price: 420, desc: "Mouth-melting chicken breast skewers marinated in cashew cream and cardamom", tags: "Non-Veg" },
+      { category: "STARTERS & SOUP", name: "Lemon Coriander Soup", price: 180, desc: "A tangy broth infused with coriander roots and squeezed lime juice", tags: "Veg" },
+      { category: "MAIN COURSE - VEG", name: "Paneer Butter Masala", price: 340, desc: "Rich butter-laden tomato curry cooked with fresh hand-churned paneer cubes", tags: "Veg" },
+      { category: "MAIN COURSE - VEG", name: "Dal Makhani Dum Sunk", price: 290, desc: "Slow cooked black lentils simmered overnight on coal ashes, finished with cream", tags: "Veg" },
+      { category: "MAIN COURSE - VEG", name: "Kadai Vegetable", price: 310, desc: "Assorted vegetables wok-tossed with freshly crushed coriander seeds and chillies", tags: "Veg, Spicy" },
+      { category: "MAIN COURSE - NON-VEG", name: "Sapphire Butter Chicken", price: 480, desc: "Traditional tandoor-pulled chicken cooked in silky smooth buttery sauce", tags: "Non-Veg" },
+      { category: "MAIN COURSE - NON-VEG", name: "Mutton Rogan Josh", price: 580, desc: "Kashmiri lamb delicacy prepared with yogurt, Kashmiri red pepper, and ginger", tags: "Non-Veg, Spicy" },
+      { category: "RICE & BREADS", name: "Chicken Dum Biryani", price: 440, desc: "Fragrant basmati rice layered with raw marinated chicken, saffron, and mint", tags: "Non-Veg" },
+      { category: "RICE & BREADS", name: "Butter Garlic Naan", price: 80, desc: "Leavened flatbread baked in clay oven topped with minced garlic and butter", tags: "Veg" },
+      { category: "RICE & BREADS", name: "Jeera Rice", price: 190, desc: "Fluffy basmati rice tossed with fragrant cumin seeds and butter ghee", tags: "Veg" },
+      { category: "DESSERTS", name: "Gulab Jamun with Rabri", price: 160, desc: "Hot caramelized dough balls dipped in cardamom syrup, served with cold thick rabri", tags: "Veg" },
+      { category: "DESSERTS", name: "Saffron Kulfi", price: 140, desc: "Thickened milk frozen ice-cream enriched with Kashmiri saffron fibers and nuts", tags: "Veg" },
+      { category: "BEVERAGES", name: "Mint Mojito", price: 160, desc: "Refreshing mocktail with fresh crushed lime, mint leaves, and carbonated water", tags: "Veg" },
+      { category: "BEVERAGES", name: "Masala Chai", price: 60, desc: "Traditional Indian tea brewed with cardamom, ginger, and loose tea leaves", tags: "Veg" }
+    ];
+
+    // DB Request Builder
+    async function dbRequest(endpoint, method = 'GET', body = null) {
+      const url = `${SUPABASE_URL}${endpoint}`;
+      const headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=representation"
+      };
+      
+      const config = { method, headers };
+      if (body) {
+        config.body = JSON.stringify(body);
+      }
+
+      try {
+        const response = await fetch(url, config);
+        if (!response.ok) throw new Error("DB Request failed: " + response.statusText);
+        return await response.json();
+      } catch (err) {
+        console.warn("Database sync offline. Simulating locally.", err);
+        return null;
+      }
+    }
+
+    // SHOW TOAST SYSTEM (NO ALERTS)
+    function showToast(message, type = 'success') {
+      const banner = document.getElementById('toast-banner');
+      const text = document.getElementById('toast-message');
+      const iconWrap = document.getElementById('toast-icon-wrapper');
+
+      text.innerText = message;
+      if (type === 'error') {
+        iconWrap.className = "bg-red-500/20 p-2 rounded-lg text-red-500";
+        iconWrap.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
+      } else {
+        iconWrap.className = "bg-accentGold/20 p-2 rounded-lg text-accentGold";
+        iconWrap.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+      }
+
+      banner.classList.remove('hidden');
+      banner.classList.add('flex', 'animate-slideIn');
+
+      setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 4000);
+    }
+
+    // SHOW CONFIRMATION MODAL SYSTEM (NO CONFIRMS)
+    function showConfirm(title, desc, callback) {
+      const modal = document.getElementById('confirm-modal');
+      const t = document.getElementById('confirm-title');
+      const d = document.getElementById('confirm-desc');
+      const cancelBtn = document.getElementById('confirm-cancel-btn');
+      const approveBtn = document.getElementById('confirm-approve-btn');
+
+      t.innerText = title;
+      d.innerText = desc;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      cancelBtn.onclick = () => {
+        modal.classList.add('hidden');
+      };
+
+      approveBtn.onclick = () => {
+        modal.classList.add('hidden');
+        callback();
+      };
+    }
+
+    // TOGGLE SELECTION TABS
+    function toggleSelectorTab(type) {
+      currentTabType = type;
+      
+      const tabTable = document.getElementById('tab-select-table');
+      const tabRoom = document.getElementById('tab-select-room');
+
+      if (type === 'table') {
+        tabTable.className = "py-2.5 rounded-lg bg-royalGreen text-white transition shadow-3xs";
+        tabRoom.className = "py-2.5 rounded-lg text-gray-600 hover:bg-gray-200 transition";
+      } else {
+        tabRoom.className = "py-2.5 rounded-lg bg-royalGreen text-white transition shadow-3xs";
+        tabTable.className = "py-2.5 rounded-lg text-gray-600 hover:bg-gray-200 transition";
+      }
+
+      renderSelectorGrid();
+    }
+
+    // RENDER LOCATION GRID (T1-T10 for Tables, R1-R10 for Rooms)
+    function renderSelectorGrid() {
+      const grid = document.getElementById('selector-grid');
+      grid.innerHTML = '';
+
+      const prefix = currentTabType === 'table' ? 'T' : 'R';
+
+      for (let i = 1; i <= 10; i++) {
+        const id = `${prefix}${i}`;
+        const activeClass = selectedLocation === id 
+          ? "bg-royalGreen text-white border-royalGreen font-extrabold" 
+          : "bg-gray-50 text-gray-800 border-gray-200 hover:bg-gray-100";
+
+        grid.innerHTML += `
+          <button onclick="selectLocationOption('${id}')" class="border py-3 rounded-xl transition text-center text-sm font-bold shadow-3xs active:scale-95 ${activeClass}">
+            ${id}
+          </button>
+        `;
+      }
+    }
+
+    function selectLocationOption(id) {
+      selectedLocation = id;
+      document.getElementById('confirm-location-btn').disabled = false;
+      renderSelectorGrid();
+    }
+
+    function openLocationSelector() {
+      document.getElementById('location-selector-modal').classList.remove('hidden');
+      renderSelectorGrid();
+    }
+
+    // CONFIRM LOCATION SELECTION
+    async function confirmLocationSelection() {
+      if (!selectedLocation) return;
+      
+      document.getElementById('location-selector-modal').classList.add('hidden');
+      
+      const readableLabel = selectedLocation.startsWith('R') 
+        ? `Room Service ${selectedLocation}` 
+        : `Dining Table ${selectedLocation}`;
+        
+      document.getElementById('current-location-text').innerText = readableLabel;
+
+      // Sync/Restore active session from Supabase
+      await syncLocationSession();
+      showToast(`Logged into ${readableLabel} successfully!`);
+    }
+
+    // SYNC ACTIVE SUPABASE SESSION FOR LOCATION
+    async function syncLocationSession() {
+      if (!selectedLocation) return;
+
+      // Check if there is an active session for this table_id
+      let sessions = await dbRequest(`orders?table_id=eq.${selectedLocation}&status=neq.completed`, 'GET');
+      
+      if (sessions && sessions.length > 0) {
+        databaseSession = sessions[0];
+        // Restore items from the existing order
+        try {
+          activeCart = JSON.parse(databaseSession.items || "[]");
+        } catch (e) {
+          activeCart = [];
+        }
+        updateCartIndicators();
+      } else {
+        // Create a clean active placeholder locally until items are placed
+        databaseSession = {
+          table_id: selectedLocation,
+          status: 'active',
+          items: JSON.stringify([]),
+          total_amount: 0
+        };
+        activeCart = [];
+        updateCartIndicators();
+      }
+    }
+
+    // FETCH MENU FROM LIVE SPREADSHEET (OR FALLBACK TO MOCK)
+    async function loadMenuItems() {
+      try {
+        const response = await fetch(GOOGLE_SHEET_API_URL);
+        if (!response.ok) throw new Error("Network error");
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+          rawMenuItems = data;
+        } else {
+          rawMenuItems = richFallbackMenu;
+        }
+      } catch (err) {
+        console.warn("Using built-in tandoor menu database backup.", err);
+        rawMenuItems = richFallbackMenu;
+      }
+
+      organizeMenuPages();
+    }
+
+    // ORGANIZE ITEMS INTO CONVENIENT 10-PAGE LAYOUT
+    function organizeMenuPages() {
+      // Group items by category
+      const categoriesMap = {};
+      rawMenuItems.forEach(item => {
+        const cat = item.category || "GENERAL SPECIALS";
+        if (!categoriesMap[cat]) categoriesMap[cat] = [];
+        categoriesMap[cat].push(item);
+      });
+
+      organizedPages = [];
+      const cats = Object.keys(categoriesMap);
+
+      cats.forEach(cat => {
+        const items = categoriesMap[cat];
+        // Max 8 items per page for convenient mobile readability
+        const itemsPerPage = 8;
+        const pageCount = Math.ceil(items.length / itemsPerPage);
+
+        for (let i = 0; i < pageCount; i++) {
+          organizedPages.push({
+            category: cat,
+            pageNumOfCat: i + 1,
+            totalCatPages: pageCount,
+            items: items.slice(i * itemsPerPage, (i + 1) * itemsPerPage)
+          });
+        }
+      });
+
+      renderCategoryIndex();
+      currentPageIndex = 0;
+      renderBookPage();
+    }
+
+    // RENDER TOP HORIZONTAL CATEGORY SCROLLER
+    function renderCategoryIndex() {
+      const bar = document.getElementById('category-index-scroller');
+      bar.innerHTML = '';
+
+      const processedCategories = [];
+
+      organizedPages.forEach((page, index) => {
+        if (!processedCategories.includes(page.category)) {
+          processedCategories.push(page.category);
+          
+          bar.innerHTML += `
+            <button onclick="jumpToPageIndex(${index})" class="whitespace-nowrap px-4 py-2 rounded-xl text-xs font-extrabold tracking-wide border border-gray-200 shadow-3xs transition hover:bg-royalGreen/10 hover:text-royalGreen ${page.category === organizedPages[currentPageIndex].category ? 'bg-royalGreen text-white border-royalGreen' : 'bg-gray-50 text-gray-600'}">
+              ${page.category}
+            </button>
+          `;
+        }
+      });
+    }
+
+    function jumpToPageIndex(index) {
+      currentPageIndex = index;
+      renderBookPage();
+    }
+
+    // RENDER SELECTED BOOK PAGE
+    function renderBookPage() {
+      const pageWrapper = document.getElementById('menu-page-wrapper');
+      
+      if (organizedPages.length === 0) return;
+      const page = organizedPages[currentPageIndex];
+
+      // Draw active index styling
+      renderCategoryIndex();
+
+      let itemsHTML = '';
+      
+      page.items.forEach(item => {
+        const cartItem = activeCart.find(i => i.name === item.name);
+        const qty = cartItem ? cartItem.qty : 0;
+        
+        const badgeColor = item.tags && item.tags.includes('Non-Veg') ? 'border-red-500 text-red-500' : 'border-green-500 text-green-500';
+        const badgeLabel = item.tags && item.tags.includes('Non-Veg') ? 'Non-Veg' : 'Veg';
+
+        const qtyControls = qty > 0 ? `
+          <div class="flex items-center gap-2 bg-royalGreen text-white rounded-xl overflow-hidden p-1 shadow-3xs">
+            <button onclick="adjustItemQty('${encodeURIComponent(item.name)}', -1)" class="w-7 h-7 flex items-center justify-center font-bold text-base hover:bg-royalGreen-dark transition rounded-lg">-</button>
+            <span class="font-bold text-xs px-1.5 w-4 text-center">${qty}</span>
+            <button onclick="adjustItemQty('${encodeURIComponent(item.name)}', 1)" class="w-7 h-7 flex items-center justify-center font-bold text-base hover:bg-royalGreen-dark transition rounded-lg">+</button>
+          </div>
+        ` : `
+          <button onclick="adjustItemQty('${encodeURIComponent(item.name)}', 1)" class="bg-royalGreen hover:bg-royalGreen-dark text-white text-xs font-extrabold py-2 px-4 rounded-xl shadow-3xs transition">
+            ADD +
+          </button>
+        `;
+
+        itemsHTML += `
+          <div class="bg-white/70 backdrop-blur-3xs border border-gray-100 rounded-2xl p-4 flex items-center justify-between gap-4 shadow-3xs relative overflow-hidden group hover:border-royalGreen/20 transition duration-300">
+            <div class="flex-grow space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded border ${badgeColor}">${badgeLabel}</span>
+                ${item.tags && item.tags.includes('Spicy') ? '<span class="text-[9px] bg-red-100 text-red-600 font-bold px-1.5 py-0.5 rounded">Spicy</span>' : ''}
+              </div>
+              <h3 class="font-bold text-royalBlue text-sm sm:text-base">${item.name}</h3>
+              <p class="text-xs text-gray-400 font-sans line-clamp-1">${item.desc || 'No recipe details uploaded yet for this specialty item.'}</p>
+              <span class="inline-block text-royalGreen font-extrabold text-sm mt-1">₹${parseFloat(item.price).toFixed(2)}</span>
+            </div>
+            
+            <div class="flex-shrink-0">
+              ${qtyControls}
+            </div>
+          </div>
+        `;
+      });
+
+      pageWrapper.innerHTML = `
+        <div class="flex flex-col flex-grow justify-between space-y-6">
+          
+          <!-- Category Header -->
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+            <div>
+              <span class="text-[10px] text-accentGold font-bold tracking-widest uppercase">SECTION CATEGORY</span>
+              <h2 class="text-xl font-serif font-extrabold text-royalBlue">${page.category}</h2>
+            </div>
+            <span class="text-xs text-gray-400 font-sans font-bold bg-gray-100 px-3 py-1 rounded-full">
+              Page ${page.pageNumOfCat} of ${page.totalCatPages}
+            </span>
+          </div>
+
+          <!-- Items Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${itemsHTML}
+          </div>
+
+          <!-- Bottom Footer Area inside book -->
+          <div class="flex justify-between items-center text-[10px] text-gray-400 pt-4 border-t border-gray-100/60 font-sans">
+            <span>Tap navigation buttons below or swipe screen</span>
+            <span>HOTEL SAPPHIRE DIGITAL MON</span>
+          </div>
+
+        </div>
+      `;
+
+      // Update control triggers
+      document.getElementById('prev-page-btn').disabled = currentPageIndex === 0;
+      document.getElementById('next-page-btn').disabled = currentPageIndex === organizedPages.length - 1;
+      
+      document.getElementById('page-indicator').textContent = `PAGE ${currentPageIndex + 1} / ${organizedPages.length}`;
+    }
+
+    function prevPage() {
+      if (currentPageIndex > 0) {
+        currentPageIndex--;
+        renderBookPage();
+      }
+    }
+
+    function nextPage() {
+      if (currentPageIndex < organizedPages.length - 1) {
+        currentPageIndex++;
+        renderBookPage();
+      }
+    }
+
+    // SWIPING COMPLIANCE MECHANICS
+    let touchstartX = 0;
+    let touchendX = 0;
+
+    function checkDirection() {
+      if (touchendX < touchstartX - 70) nextPage(); // Swipe left
+      if (touchendX > touchstartX + 70) prevPage(); // Swipe right
+    }
+
+    document.addEventListener('touchstart', e => {
+      touchstartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', e => {
+      touchendX = e.changedTouches[0].screenX;
+      checkDirection();
+    });
+
+    // ARROW KEYS COMPLIANCE
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') prevPage();
+      if (e.key === 'ArrowRight') nextPage();
+    });
+
+    // CART MUTATOR & TAX CALCULATOR
+    function adjustItemQty(encodedItemName, delta) {
+      const itemName = decodeURIComponent(encodedItemName);
+      const itemSource = rawMenuItems.find(i => i.name === itemName);
+      if (!itemSource) return;
+
+      const existing = activeCart.find(i => i.name === itemName);
+
+      if (existing) {
+        existing.qty += delta;
+        if (existing.qty <= 0) {
+          activeCart = activeCart.filter(i => i.name !== itemName);
+        }
+      } else if (delta > 0) {
+        activeCart.push({
+          name: itemSource.name,
+          price: parseFloat(itemSource.price),
+          qty: 1
+        });
+      }
+
+      updateCartIndicators();
+      renderBookPage();
+    }
+
+    function updateCartIndicators() {
+      const floatBar = document.getElementById('floating-cart-bar');
+      const floatQty = document.getElementById('cart-float-qty');
+      const floatTotal = document.getElementById('cart-float-total');
+
+      if (activeCart.length === 0) {
+        floatBar.classList.add('hidden');
+        return;
+      }
+
+      let totalQty = 0;
+      let totalAmount = 0;
+
+      activeCart.forEach(item => {
+        totalQty += item.qty;
+        totalAmount += item.price * item.qty;
+      });
+
+      // Calculate taxes (5% CGST + 5% SGST)
+      const cgst = totalAmount * 0.05;
+      const sgst = totalAmount * 0.05;
+      const finalAmount = totalAmount + cgst + sgst;
+
+      floatQty.textContent = `${totalQty} Culinary Item${totalQty > 1 ? 's' : ''} Selected`;
+      floatTotal.textContent = `Grand Total (Inc. CGST/SGST): ₹${finalAmount.toFixed(2)}`;
+
+      floatBar.classList.remove('hidden');
+    }
+
+    // OPEN KITCHEN ORDER TICKET REVIEW MODAL
+    function openCartModal() {
+      const container = document.getElementById('cart-items-container');
+      container.innerHTML = '';
+
+      if (activeCart.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-gray-400">Cart empty. Navigate through menu pages to select dishes.</div>`;
+        return;
+      }
+
+      let subtotal = 0;
+
+      activeCart.forEach(item => {
+        const itemTot = item.price * item.qty;
+        subtotal += itemTot;
+
+        container.innerHTML += `
+          <div class="flex items-center justify-between border-b border-gray-100 py-3">
+            <div>
+              <span class="font-bold text-gray-800 text-sm block">${item.name}</span>
+              <span class="text-xs text-gray-400">₹${item.price.toFixed(2)} x ${item.qty}</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-semibold text-royalGreen text-sm">₹${itemTot.toFixed(2)}</span>
+              <button onclick="adjustItemQty('${encodeURIComponent(item.name)}', -1)" class="text-red-500 hover:bg-red-50 p-1.5 rounded-lg border border-transparent transition text-xs font-bold">Remove</button>
+            </div>
+          </div>
+        `;
+      });
+
+      const cgst = subtotal * 0.05;
+      const sgst = subtotal * 0.05;
+      const total = subtotal + cgst + sgst;
+
+      document.getElementById('cart-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('cart-cgst').textContent = `₹${cgst.toFixed(2)}`;
+      document.getElementById('cart-sgst').textContent = `₹${sgst.toFixed(2)}`;
+      document.getElementById('cart-total').textContent = `₹${total.toFixed(2)}`;
+
+      document.getElementById('cart-modal').classList.remove('hidden');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cart-modal').classList.add('hidden');
+    }
+
+    // DISPATCH KITCHEN ORDER TICKET (PLACE ORDER)
+    async function placeOrder() {
+      if (activeCart.length === 0 || !selectedLocation) return;
+
+      const subtotal = activeCart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+      const cgst = subtotal * 0.05;
+      const sgst = subtotal * 0.05;
+      const finalTotal = subtotal + cgst + sgst;
+
+      const payload = {
+        table_id: selectedLocation,
+        items: JSON.stringify(activeCart),
+        total_amount: finalTotal,
+        status: 'ordered',
+        created_at: new Date().toISOString()
+      };
+
+      let result = null;
+
+      if (databaseSession && databaseSession.id) {
+        // PATCH existing order row with fresh compiled cart
+        result = await dbRequest(`orders?id=eq.${databaseSession.id}`, 'PATCH', payload);
+      } else {
+        // POST insert new order row
+        result = await dbRequest('orders', 'POST', [payload]);
+      }
+
+      showToast("Chef Notified! Kitchen Order Ticket (KOT) placed successfully.", 'success');
+      closeCartModal();
+      
+      // Keep state alive locally in case network loses sync
+      localStorage.setItem(`table_status_${selectedLocation}`, 'ordered');
+      
+      await syncLocationSession();
+    }
+
+    // PORTAL SESSION BILL MONITOR
+    async function openBillStatusModal() {
+      const container = document.getElementById('bill-status-content');
+      container.innerHTML = `
+        <div class="flex items-center justify-center py-12">
+          <svg class="animate-spin h-8 w-8 text-royalBlue" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+        </div>
+      `;
+
+      document.getElementById('bill-status-modal').classList.remove('hidden');
+
+      // Live fetch state from Database
+      await syncLocationSession();
+
+      if (!databaseSession || !databaseSession.id) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-gray-400">
+            <p class="font-bold">No running transaction session active.</p>
+            <p class="text-[10px] mt-1">Please select menu items and place a KOT to initiate billing.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let items = [];
+      try {
+        items = JSON.parse(databaseSession.items || "[]");
+      } catch (e) {}
+
+      let itemsHTML = '';
+      let runningSubtotal = 0;
+
+      items.forEach(item => {
+        const cost = item.price * item.qty;
+        runningSubtotal += cost;
+
+        itemsHTML += `
+          <div class="flex items-center justify-between text-xs py-2 border-b border-gray-100">
+            <span>${item.name} x${item.qty}</span>
+            <span class="font-bold">₹${cost.toFixed(2)}</span>
+          </div>
+        `;
+      });
+
+      const cgst = runningSubtotal * 0.05;
+      const sgst = runningSubtotal * 0.05;
+      const final = runningSubtotal + cgst + sgst;
+
+      let statusBadge = "bg-green-100 text-green-700 animate-pulse";
+      let message = "Your order is being assembled in the Kitchen preparation queue.";
+
+      if (databaseSession.status === 'bill_requested') {
+        statusBadge = "bg-amber-100 text-amber-700 animate-pulse";
+        message = "Bill requested. Counter officer is preparing your receipt printout.";
+      }
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between bg-gray-50 p-3 rounded-xl border border-gray-200">
+          <div>
+            <span class="text-[10px] uppercase block tracking-wider text-gray-400">Session ID</span>
+            <span class="font-extrabold text-sm text-royalBlue">#SAP-${databaseSession.id}</span>
+          </div>
+          <span class="text-[10px] font-bold uppercase px-3 py-1 rounded-full ${statusBadge}">${databaseSession.status}</span>
+        </div>
+
+        <p class="text-xs text-gray-500 italic mt-1">${message}</p>
+
+        <div class="space-y-1">
+          <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Dishes Sent</h4>
+          <div class="max-h-[140px] overflow-y-auto bg-gray-50 p-3 rounded-xl border border-gray-150">
+            ${itemsHTML}
+          </div>
+        </div>
+
+        <div class="space-y-1.5 border-t border-gray-150 pt-3 text-xs">
+          <div class="flex justify-between"><span>Subtotal:</span><span>₹${runningSubtotal.toFixed(2)}</span></div>
+          <div class="flex justify-between"><span>CGST (5.0%):</span><span>₹${cgst.toFixed(2)}</span></div>
+          <div class="flex justify-between"><span>SGST (5.0%):</span><span>₹${sgst.toFixed(2)}</span></div>
+          <div class="flex justify-between text-base font-extrabold text-royalBlue border-t border-dashed border-gray-200 pt-2">
+            <span>GRAND RUNNING BALANCE:</span>
+            <span>₹${final.toFixed(2)}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function closeBillStatusModal() {
+      document.getElementById('bill-status-modal').classList.add('hidden');
+    }
+
+    // REQUEST FINAL CHECKOUT BILL
+    function requestBill() {
+      if (!databaseSession || !databaseSession.id) return;
+
+      showConfirm(
+        "Request Running Bill?",
+        "This notifies the checkout desk to print your tax invoice. You can still order items afterward.",
+        async () => {
+          const payload = {
+            status: 'bill_requested',
+            updated_at: new Date().toISOString()
+          };
+          
+          await dbRequest(`orders?id=eq.${databaseSession.id}`, 'PATCH', payload);
+          localStorage.setItem(`table_status_${selectedLocation}`, 'bill_requested');
+          
+          showToast("Bill request submitted! Counter staff has been notified.", 'success');
+          closeBillStatusModal();
+          await syncLocationSession();
+        }
+      );
+    }
+
+    // INIT INITIAL PORTAL LOADER ON WINDOW LOAD
+    window.onload = async () => {
+      openLocationSelector();
+      await loadMenuItems();
+    }
+  </script>
+</body>
+</html>
