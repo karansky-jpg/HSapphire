@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Hotel Sapphire - Premium Digital Menu</title>
+  <title>Hotel Sapphire - Premium Book Menu</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -32,16 +32,8 @@
     }
   </script>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Premium Page Flip Book Transition Styling */
-    .menu-book-container {
-      perspective: 1500px;
-    }
-    .page-sheet {
-      transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.4s ease;
-      transform-style: preserve-3d;
-    }
     .hide-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -49,284 +41,249 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+    .page-turn-active {
+      animation: pageTurnEffect 0.4s ease-out;
+    }
+    @keyframes pageTurnEffect {
+      0% { transform: rotateY(-10deg) scale(0.98); opacity: 0.8; }
+      100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+    }
   </style>
 </head>
-<body class="bg-[#071F13] text-gray-900 min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
+<body class="bg-[#05170E] text-gray-900 min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
 
-  <!-- TOP AGENCY BRANDING BAR -->
-  <div class="bg-royalBlue text-white text-xs py-2 px-4 flex justify-between items-center z-50 border-b border-white/10 shadow-md">
-    <span class="font-medium tracking-wide">HOTEL SAPPHIRE DIGITAL CONCIERGE</span>
-    <a href="https://karan-digital-menu-agency.vercel.app/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 text-accentGold font-bold hover:underline transition">
+  <!-- TOP BRANDING AGENCY LINK -->
+  <div class="bg-royalBlue text-white text-[11px] py-2 px-4 flex justify-between items-center z-50 border-b border-white/10 shadow-md">
+    <span class="font-medium tracking-wider text-white/90">HOTEL SAPPHIRE EXCLUSIVE DIGITAL PORTAL</span>
+    <a href="https://karan-digital-menu-agency.vercel.app/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-accentGold font-bold hover:underline transition">
       <span>Created by Karan Digital Menu Agency</span>
       <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
     </a>
   </div>
 
-  <!-- HOTEL HERO LOGO & TITLE -->
-  <header class="bg-gradient-to-b from-[#0A5C36] to-[#052e1b] py-6 px-4 text-center border-b border-accentGold/20">
+  <!-- HOTEL TITLE HEADER -->
+  <header class="bg-gradient-to-b from-[#0A5C36] to-[#042414] py-5 px-4 text-center border-b border-accentGold/20">
     <div class="max-w-4xl mx-auto flex flex-col items-center">
-      <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-20 w-20 object-contain drop-shadow-lg mb-3 animate-pulse" onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=100'">
-      <h1 class="text-3xl font-serif font-bold text-white tracking-wide">Hotel Sapphire</h1>
-      <p class="text-xs text-accentGold font-serif tracking-widest uppercase mt-1">Culinary Mastery &amp; Premium Hospitality</p>
+      <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-16 w-16 object-contain drop-shadow-md mb-2 animate-pulse" onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=100'">
+      <h1 class="text-2xl font-serif font-bold text-white tracking-wide">Hotel Sapphire</h1>
+      <p class="text-[10px] text-accentGold font-serif tracking-widest uppercase">Premium Dining &amp; Room Service</p>
       
       <!-- Session Room/Table Indicator -->
-      <div id="session-badge" class="mt-4 inline-flex items-center gap-2 bg-black/40 border border-accentGold/30 text-accentGold text-xs font-bold px-4 py-2 rounded-full cursor-pointer hover:bg-black/60 transition" onclick="openLocationSelector()">
-        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-        <span id="current-location-text">Setting Table / Room...</span>
+      <div id="session-badge" class="mt-3 inline-flex items-center gap-2 bg-black/40 border border-accentGold/30 text-accentGold text-xs font-bold px-4 py-1.5 rounded-full cursor-pointer hover:bg-black/60 transition" onclick="openLocationSelector()">
+        <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
+        <span id="current-location-text">Setting Dining Space...</span>
         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
       </div>
     </div>
   </header>
 
-  <!-- QUICK CATEGORY INDEX NAVIGATION -->
-  <nav class="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40 shadow-sm">
-    <div id="category-index-scroller" class="max-w-7xl mx-auto px-4 py-3 flex gap-3 overflow-x-auto hide-scrollbar scroll-smooth">
+  <!-- QUICK CATEGORY JUMPER -->
+  <nav class="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40 shadow-xs">
+    <div id="category-index-scroller" class="max-w-7xl mx-auto px-4 py-2.5 flex gap-2.5 overflow-x-auto hide-scrollbar scroll-smooth">
       <!-- Generated dynamically based on category pages -->
     </div>
   </nav>
 
-  <!-- MAIN PAGINATED MENU BOOK CONTAINER -->
-  <main class="flex-grow py-6 px-4 max-w-6xl mx-auto w-full flex flex-col justify-center">
-    <div class="menu-book-container relative w-full bg-white rounded-3xl shadow-2xl min-h-[580px] overflow-hidden flex flex-col justify-between border-4 border-royalGreen/30">
+  <!-- INTERACTIVE BOOK AREA -->
+  <main class="flex-grow py-5 px-4 max-w-5xl mx-auto w-full flex flex-col justify-center">
+    <div class="relative w-full bg-white rounded-3xl shadow-2xl min-h-[500px] flex flex-col justify-between border-4 border-royalGreen/30 overflow-hidden">
+      <!-- Background Decor -->
+      <div class="absolute inset-0 bg-gradient-to-br from-royalGreen-light/30 via-white to-royalBlue-light/20 pointer-events-none"></div>
       
-      <!-- Background Elegant Decors -->
-      <div class="absolute inset-0 bg-gradient-to-br from-royalGreen-light/40 via-white to-royalBlue-light/30 pointer-events-none"></div>
-      
-      <!-- Live Page Render Wrapper -->
-      <div id="menu-page-wrapper" class="relative flex-grow p-6 sm:p-8 flex flex-col justify-between z-10">
-        <!-- Content will be injected dynamically -->
+      <!-- Dynamic Page Wrapper -->
+      <div id="menu-page-wrapper" class="relative flex-grow p-5 sm:p-7 flex flex-col justify-between z-10 page-turn-active">
         <div class="flex flex-col items-center justify-center text-center py-24 text-gray-500">
-          <svg class="animate-spin h-12 w-12 text-royalGreen mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <svg class="animate-spin h-10 w-10 text-royalGreen mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <p class="font-serif text-lg font-bold text-royalGreen">Assembling Sapphire Book Menu...</p>
-          <p class="text-xs text-gray-400 mt-1">Configuring 170+ items directly from Google Sheets API</p>
+          <p class="font-serif text-base font-bold text-royalGreen">Loading Sapphire digital menu sheets...</p>
         </div>
       </div>
 
-      <!-- Navigation & Page Counters Controller -->
-      <div class="bg-gray-50 border-t border-gray-100 px-6 py-4 flex items-center justify-between z-20">
-        <button id="prev-page-btn" onclick="prevPage()" class="bg-royalBlue hover:bg-royalBlue-dark text-white p-3 rounded-2xl font-bold text-sm transition flex items-center gap-2 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
+      <!-- Book Controller Footer -->
+      <div class="bg-gray-50 border-t border-gray-100 px-5 py-3.5 flex items-center justify-between z-20">
+        <button id="prev-page-btn" onclick="prevPage()" class="bg-royalBlue hover:bg-royalBlue-dark text-white py-2.5 px-4 rounded-xl font-bold text-xs transition flex items-center gap-1.5 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-          <span>Prev Page</span>
+          <span>Previous</span>
         </button>
 
-        <span id="page-indicator" class="text-xs font-bold text-royalBlue bg-royalBlue-light border border-royalBlue/20 px-4 py-2 rounded-xl tracking-widest font-mono">
+        <span id="page-indicator" class="text-[10px] font-extrabold text-royalBlue bg-royalBlue-light border border-royalBlue/20 px-3.5 py-1.5 rounded-lg tracking-widest font-mono">
           PAGE 1 / 1
         </span>
 
-        <button id="next-page-btn" onclick="nextPage()" class="bg-royalBlue hover:bg-royalBlue-dark text-white p-3 rounded-2xl font-bold text-sm transition flex items-center gap-2 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
-          <span>Next Page</span>
+        <button id="next-page-btn" onclick="nextPage()" class="bg-royalBlue hover:bg-royalBlue-dark text-white py-2.5 px-4 rounded-xl font-bold text-xs transition flex items-center gap-1.5 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
+          <span>Next</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
         </button>
       </div>
-
     </div>
   </main>
 
-  <!-- FLOATING INTERACTIVE CART BAR -->
-  <section id="floating-cart-bar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-lg bg-royalGreen/95 backdrop-blur-lg text-white p-4 rounded-2xl shadow-xl z-50 flex items-center justify-between border border-accentGold/30">
-    <div class="flex items-center gap-3">
-      <div class="bg-accentGold p-2.5 rounded-xl text-royalGreen animate-bounce shadow-inner">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+  <!-- DOCKABLE USER ORDER MONITOR BAR -->
+  <section id="floating-cart-bar" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 w-[94%] max-w-lg bg-royalGreen/95 backdrop-blur-md text-white p-3.5 rounded-2xl shadow-2xl z-50 flex items-center justify-between border border-accentGold/30">
+    <div class="flex items-center gap-2.5">
+      <div class="bg-accentGold text-royalGreen p-2 rounded-lg animate-bounce">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
       </div>
       <div>
-        <h4 id="cart-float-qty" class="font-extrabold text-sm text-accentGold">0 Items Selected</h4>
-        <p id="cart-float-total" class="text-xs text-white/90">Running Subtotal: ₹0.00</p>
+        <h4 id="cart-float-qty" class="font-extrabold text-xs text-accentGold">0 Items Drafted</h4>
+        <p id="cart-float-total" class="text-[10px] text-white/90">Click "Place KOT" to notify chef</p>
       </div>
     </div>
     <div class="flex gap-2">
-      <button onclick="openBillStatusModal()" class="bg-white/10 hover:bg-white/20 text-white font-bold text-xs py-2 px-3 rounded-xl border border-white/20 transition">
-        Status / Bill
+      <button onclick="openBillStatusModal()" class="bg-white/10 hover:bg-white/20 text-white font-bold text-[11px] py-2 px-3 rounded-xl border border-white/20 transition">
+        Live Tracker
       </button>
-      <button onclick="openCartModal()" class="bg-accentGold hover:bg-yellow-500 text-royalGreen font-extrabold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
+      <button onclick="openCartModal()" class="bg-accentGold hover:bg-yellow-500 text-royalGreen font-black text-[11px] py-2 px-4 rounded-xl shadow-md transition">
         Place KOT
       </button>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="bg-[#051F12] text-gray-500 text-center py-6 border-t border-white/5 z-10 text-xs">
-    <p class="mb-1">&copy; 2026 Hotel Sapphire. All Rights Reserved.</p>
-    <a href="https://karan-digital-menu-agency.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-accentGold font-semibold hover:underline">
-      Powered by Karan Digital Menu Agency
-    </a>
+  <!-- COZY FOOTER -->
+  <footer class="bg-[#03110A] text-gray-500 text-center py-5 border-t border-white/5 text-[10px] z-10">
+    <p class="mb-1">&copy; 2026 Hotel Sapphire, Yamuna Nagar. All Rights Reserved.</p>
+    <p>Branded and Maintained by <a href="https://karan-digital-menu-agency.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-accentGold font-bold hover:underline">Karan Digital Menu Agency</a></p>
   </footer>
 
-  <!-- MODAL: ROOM / TABLE LOCATION SELECTOR (MANDATORY ON LOAD) -->
-  <div id="location-selector-modal" class="fixed inset-0 z-55 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl p-6 border border-accentGold/20 relative animate-scaleUp">
-      <div class="text-center mb-6">
-        <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-14 w-14 object-contain mx-auto mb-2">
-        <h3 class="text-xl font-bold text-royalBlue font-serif">Welcome to Sapphire</h3>
-        <p class="text-xs text-gray-400 mt-1 font-sans">Please define your location to coordinate orders with the desk</p>
-      </div>
+  <!-- MODAL: LOCATION SELECTOR (FORCES ON ENTRY) -->
+  <div id="location-selector-modal" class="fixed inset-0 z-55 bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl p-5 border border-accentGold/20 text-center">
+      <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-12 w-12 object-contain mx-auto mb-2">
+      <h3 class="text-lg font-bold text-royalBlue font-serif">Welcome to Hotel Sapphire</h3>
+      <p class="text-xs text-gray-400 mt-0.5 mb-4">Please input your current accommodation space</p>
 
       <div class="space-y-4">
-        <!-- Mapping Tabs -->
-        <div class="grid grid-cols-2 gap-2 p-1 bg-gray-100 rounded-xl text-center font-bold text-xs">
-          <button id="tab-select-table" onclick="toggleSelectorTab('table')" class="py-2.5 rounded-lg bg-royalGreen text-white transition shadow-3xs">Dining Table (T)</button>
-          <button id="tab-select-room" onclick="toggleSelectorTab('room')" class="py-2.5 rounded-lg text-gray-600 hover:bg-gray-200 transition">Room Service (R)</button>
+        <div class="grid grid-cols-2 gap-2 p-1 bg-gray-100 rounded-xl text-xs font-bold">
+          <button id="tab-select-table" onclick="toggleSelectorTab('table')" class="py-2 rounded-lg bg-royalGreen text-white transition">Dining Table (T)</button>
+          <button id="tab-select-room" onclick="toggleSelectorTab('room')" class="py-2 rounded-lg text-gray-500 hover:bg-gray-200 transition">Room Service (R)</button>
         </div>
 
-        <!-- Grid Options -->
-        <div id="selector-grid-wrapper" class="max-h-[220px] overflow-y-auto p-1">
-          <div id="selector-grid" class="grid grid-cols-5 gap-2.5">
-            <!-- Render T1-T10 or R1-R10 dynamically -->
+        <div class="max-h-[180px] overflow-y-auto p-1">
+          <div id="selector-grid" class="grid grid-cols-5 gap-2">
+            <!-- T1-T10 or R1-R10 populated by JavaScript -->
           </div>
         </div>
 
-        <button onclick="confirmLocationSelection()" id="confirm-location-btn" disabled class="w-full bg-royalBlue text-white py-3 rounded-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-sm">
-          Access Digital Book Menu
+        <button onclick="confirmLocationSelection()" id="confirm-location-btn" disabled class="w-full bg-royalBlue hover:bg-royalBlue-dark text-white py-2.5 rounded-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-xs">
+          Open Digital Book Menu
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: CART REVIEW & SEND ORDER (KOT) -->
-  <div id="cart-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-accentGold/20 my-8">
-      <!-- Modal Header -->
-      <div class="bg-royalGreen text-white px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-accentGold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <h3 class="font-bold text-lg font-serif text-white">Review Kitchen Order Ticket</h3>
-        </div>
+  <!-- MODAL: CART & SEND ORDER KOT -->
+  <div id="cart-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-accentGold/20">
+      <div class="bg-royalGreen text-white px-5 py-3 flex items-center justify-between">
+        <h3 class="font-bold text-base font-serif">Review Order Ticket</h3>
         <button onclick="closeCartModal()" class="text-white/80 hover:text-white transition">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
       </div>
 
-      <!-- Item review container -->
-      <div class="p-6 max-h-[50vh] overflow-y-auto space-y-4" id="cart-items-container">
-        <!-- Render items here dynamically -->
+      <div class="p-5 max-h-[40vh] overflow-y-auto space-y-3" id="cart-items-container">
+        <!-- Injected dynamically -->
       </div>
 
-      <!-- Tax Calculations (Mandated 5% SGST & 5% CGST) -->
-      <div class="border-t border-gray-100 bg-gray-50 p-6 space-y-2">
-        <div class="flex justify-between text-sm text-gray-500">
-          <span>Subtotal</span>
-          <span id="cart-subtotal">₹0.00</span>
-        </div>
-        <div class="flex justify-between text-xs text-gray-400">
-          <span>CGST (5.0%)</span>
-          <span id="cart-cgst">₹0.00</span>
-        </div>
-        <div class="flex justify-between text-xs text-gray-400">
-          <span>SGST (5.0%)</span>
-          <span id="cart-sgst">₹0.00</span>
-        </div>
-        <div class="flex justify-between text-base font-bold text-royalBlue border-t border-gray-200/60 pt-3">
-          <span>Grand Total</span>
-          <span id="cart-total" class="text-royalGreen font-extrabold text-lg">₹0.00</span>
+      <div class="border-t border-gray-100 bg-gray-50 p-5 space-y-2 text-xs">
+        <div class="flex justify-between text-gray-500"><span>Drafted Subtotal</span><span id="cart-subtotal">₹0.00</span></div>
+        <div class="flex justify-between text-gray-400"><span>CGST (5.0%)</span><span id="cart-cgst">₹0.00</span></div>
+        <div class="flex justify-between text-gray-400"><span>SGST (5.0%)</span><span id="cart-sgst">₹0.00</span></div>
+        <div class="flex justify-between text-sm font-bold text-royalBlue border-t border-gray-200/60 pt-2">
+          <span>Est. Grand Total</span>
+          <span id="cart-total" class="text-royalGreen font-extrabold text-base">₹0.00</span>
         </div>
       </div>
 
-      <!-- Action Footer Buttons -->
-      <div class="p-4 bg-gray-100 border-t border-gray-200/50 flex gap-3">
-        <button onclick="closeCartModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-xl font-bold transition text-xs text-center">
-          Add More Items
+      <div class="p-4 bg-gray-100 border-t border-gray-200/50 flex gap-2">
+        <button onclick="closeCartModal()" class="flex-1 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 py-2.5 rounded-xl font-bold text-xs transition">
+          Browse More
         </button>
-        <button onclick="placeOrder()" class="flex-1 bg-royalGreen hover:bg-royalGreen-dark text-white py-3 rounded-xl font-bold transition text-xs shadow-md">
+        <button onclick="placeOrder()" class="flex-1 bg-royalGreen hover:bg-royalGreen-dark text-white py-2.5 rounded-xl font-bold text-xs transition">
           Send KOT to Kitchen
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: PORTAL SESSION BILL & STATUS MONITOR -->
+  <!-- MODAL: LIVE TRACKER & ACTIVE DISH STATUSES -->
   <div id="bill-status-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-royalBlue/20">
-      
-      <!-- Modal Header -->
-      <div class="bg-royalBlue text-white px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-accentGold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-          <h3 class="font-bold text-lg font-serif">KOT Status &amp; Billing</h3>
-        </div>
+      <div class="bg-royalBlue text-white px-5 py-3 flex items-center justify-between">
+        <h3 class="font-bold text-base font-serif">Your Live Running Orders</h3>
         <button onclick="closeBillStatusModal()" class="text-white/80 hover:text-white transition">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
       </div>
 
-      <div class="p-6 space-y-4 max-h-[55vh] overflow-y-auto" id="bill-status-content">
-        <!-- Loaded by JS based on live Supabase feedback -->
+      <div class="p-5 space-y-4 max-h-[50vh] overflow-y-auto" id="bill-status-content">
+        <!-- Loaded by real-time tracking scripts -->
       </div>
 
-      <!-- Action Footer -->
-      <div class="p-4 bg-gray-50 border-t border-gray-100 flex gap-3">
-        <button onclick="requestBill()" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold text-xs transition shadow-md">
-          Ask for Bill
+      <div class="p-4 bg-gray-50 border-t border-gray-100 flex gap-2">
+        <button onclick="requestBill()" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-bold text-xs transition">
+          Request Bill Receipt
         </button>
-        <button onclick="closeBillStatusModal()" class="flex-1 bg-royalBlue hover:bg-royalBlue-dark text-white py-3 rounded-xl font-bold text-xs transition">
-          Continue Menu Book
+        <button onclick="closeBillStatusModal()" class="flex-1 bg-royalBlue text-white py-2.5 rounded-xl font-bold text-xs transition">
+          Continue Browsing
         </button>
       </div>
     </div>
   </div>
 
-  <!-- CUSTOM FLOATING TOAST BANNER (NO ALERTS DIRECTIVE) -->
-  <div id="toast-banner" class="hidden fixed top-6 right-6 z-100 bg-royalBlue text-white px-5 py-3 rounded-2xl shadow-2xl border border-accentGold/30 flex items-center gap-3 transition duration-300 max-w-sm">
-    <div id="toast-icon-wrapper" class="bg-accentGold/20 p-2 rounded-lg text-accentGold">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-    </div>
-    <p id="toast-message" class="text-xs font-bold leading-tight"></p>
+  <!-- TOAST ALERTS BANNER -->
+  <div id="toast-banner" class="hidden fixed top-5 right-5 z-100 bg-royalBlue text-white px-4 py-3 rounded-xl shadow-2xl border border-accentGold/30 items-center gap-3 transition duration-300 max-w-xs text-xs font-bold">
+    <span id="toast-message"></span>
   </div>
 
-  <!-- CUSTOM CONFIRM DIALOG (NO CONFIRMS DIRECTIVE) -->
+  <!-- CONFIRM POPUP (NO WINDOW.CONFIRM) -->
   <div id="confirm-modal" class="hidden fixed inset-0 z-100 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center border border-royalBlue/20 shadow-2xl">
-      <h4 id="confirm-title" class="font-serif font-bold text-lg text-royalBlue mb-1">Are you sure?</h4>
-      <p id="confirm-desc" class="text-xs text-gray-400 mb-5"></p>
+    <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center border border-royalBlue/20 shadow-2xl">
+      <h4 id="confirm-title" class="font-serif font-bold text-base text-royalBlue mb-1">Confirm Action</h4>
+      <p id="confirm-desc" class="text-xs text-gray-400 mb-4"></p>
       <div class="flex gap-2">
-        <button id="confirm-cancel-btn" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 py-2.5 rounded-lg font-bold text-xs transition">Cancel</button>
-        <button id="confirm-approve-btn" class="flex-1 bg-royalGreen text-white py-2.5 rounded-lg font-bold text-xs transition">Confirm</button>
+        <button id="confirm-cancel-btn" class="flex-1 bg-gray-100 text-gray-600 py-2 rounded-lg font-bold text-xs transition">Cancel</button>
+        <button id="confirm-approve-btn" class="flex-1 bg-royalGreen text-white py-2 rounded-lg font-bold text-xs transition">Confirm</button>
       </div>
     </div>
   </div>
 
-  <!-- APPLICATION LOGIC -->
   <script>
-    // SUPABASE INTEGRATION DETAILS
     const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
     const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
+    const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzR5bQ20p89e7W9f23O70S0M7L92v73S08_102v7/exec";
 
-    // LIVE APPS SCRIPT SHEET API CONFIGURATION (Using your Apps Script Deployment URL)
-    // Replace with exact URL if required. Features rich simulation fallback containing full categories
-    const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzR5bQ20p89e7W9f23O70S0M7L92v73S08_102v7/exec";
-
-    // App state
     let rawMenuItems = [];
     let organizedPages = [];
     let currentPageIndex = 0;
     
     let activeCart = [];
-    let selectedLocation = null; // e.g. T1 - T10 (Table), R1 - R10 (Room)
-    let currentTabType = 'table'; // table / room
-    let databaseSession = null;
+    let selectedLocation = null;
+    let currentTabType = 'table';
+    let activeSessionOrder = null;
 
-    // Rich fallback data to populate beautiful, categorized sheets if Google Script is temporarily unavailable
-    const richFallbackMenu = [
-      { category: "STARTERS & SOUP", name: "Paneer Tikka Angara", price: 320, desc: "Smoky cottage cheese cubes marinated in high-heat spices, grilled in clay tandoor", tags: "Veg, Spicy" },
-      { category: "STARTERS & SOUP", name: "Veg Tandoori Platter", price: 540, desc: "Assortment of kebabs, mushrooms, tandoori aloo, and paneer shashlik", tags: "Veg" },
-      { category: "STARTERS & SOUP", name: "Chicken Malai Kebab", price: 420, desc: "Mouth-melting chicken breast skewers marinated in cashew cream and cardamom", tags: "Non-Veg" },
-      { category: "STARTERS & SOUP", name: "Lemon Coriander Soup", price: 180, desc: "A tangy broth infused with coriander roots and squeezed lime juice", tags: "Veg" },
-      { category: "MAIN COURSE - VEG", name: "Paneer Butter Masala", price: 340, desc: "Rich butter-laden tomato curry cooked with fresh hand-churned paneer cubes", tags: "Veg" },
-      { category: "MAIN COURSE - VEG", name: "Dal Makhani Dum Sunk", price: 290, desc: "Slow cooked black lentils simmered overnight on coal ashes, finished with cream", tags: "Veg" },
-      { category: "MAIN COURSE - VEG", name: "Kadai Vegetable", price: 310, desc: "Assorted vegetables wok-tossed with freshly crushed coriander seeds and chillies", tags: "Veg, Spicy" },
-      { category: "MAIN COURSE - NON-VEG", name: "Sapphire Butter Chicken", price: 480, desc: "Traditional tandoor-pulled chicken cooked in silky smooth buttery sauce", tags: "Non-Veg" },
-      { category: "MAIN COURSE - NON-VEG", name: "Mutton Rogan Josh", price: 580, desc: "Kashmiri lamb delicacy prepared with yogurt, Kashmiri red pepper, and ginger", tags: "Non-Veg, Spicy" },
-      { category: "RICE & BREADS", name: "Chicken Dum Biryani", price: 440, desc: "Fragrant basmati rice layered with raw marinated chicken, saffron, and mint", tags: "Non-Veg" },
-      { category: "RICE & BREADS", name: "Butter Garlic Naan", price: 80, desc: "Leavened flatbread baked in clay oven topped with minced garlic and butter", tags: "Veg" },
-      { category: "RICE & BREADS", name: "Jeera Rice", price: 190, desc: "Fluffy basmati rice tossed with fragrant cumin seeds and butter ghee", tags: "Veg" },
-      { category: "DESSERTS", name: "Gulab Jamun with Rabri", price: 160, desc: "Hot caramelized dough balls dipped in cardamom syrup, served with cold thick rabri", tags: "Veg" },
-      { category: "DESSERTS", name: "Saffron Kulfi", price: 140, desc: "Thickened milk frozen ice-cream enriched with Kashmiri saffron fibers and nuts", tags: "Veg" },
-      { category: "BEVERAGES", name: "Mint Mojito", price: 160, desc: "Refreshing mocktail with fresh crushed lime, mint leaves, and carbonated water", tags: "Veg" },
-      { category: "BEVERAGES", name: "Masala Chai", price: 60, desc: "Traditional Indian tea brewed with cardamom, ginger, and loose tea leaves", tags: "Veg" }
+    // Elegant backup data in case Google script hits quota/limits
+    const defaultFallbackMenu = [
+      { category: "STARTERS & SOUP", name: "Paneer Tikka Angara", price: 320, desc: "Smoky cottage cheese cubes marinated in spices, grilled on charcoal", tags: "Veg, Spicy" },
+      { category: "STARTERS & SOUP", name: "Chicken Malai Kebab", price: 420, desc: "Cottage cheese and poultry baked with rich cream marinade", tags: "Non-Veg" },
+      { category: "STARTERS & SOUP", name: "Veg Spring Roll", price: 240, desc: "Golden fried rolled pastry wrapping stir-fry garden vegetables", tags: "Veg" },
+      { category: "STARTERS & SOUP", name: "Hot & Sour Soup", price: 160, desc: "Traditional dark brown broth spiked with white pepper and chilli vinegar", tags: "Veg" },
+      { category: "MAIN COURSE - VEG", name: "Dal Makhani Dum Sunk", price: 290, desc: "Black lentils slow-simmered overnight, tempered with clarified butter and fresh cream", tags: "Veg" },
+      { category: "MAIN COURSE - VEG", name: "Paneer Butter Masala", price: 340, desc: "Cubes of house-made cheese simmered in cream, butter, tomato and cashew gravy", tags: "Veg" },
+      { category: "MAIN COURSE - VEG", name: "Kadai Vegetable", price: 310, desc: "Tender mixed greens wok-fried with crushed whole spices and sweet bell peppers", tags: "Veg" },
+      { category: "MAIN COURSE - NON-VEG", name: "Kadhai Chicken", price: 460, desc: "Bone-in chicken slow cooked with sweet tomatoes and ground spices in iron wok", tags: "Non-Veg, Spicy" },
+      { category: "MAIN COURSE - NON-VEG", name: "Sapphire Butter Chicken", price: 480, desc: "Smoked tandoori chicken cooked in luscious tomato gravy loaded with butter", tags: "Non-Veg" },
+      { category: "RICE & BREADS", name: "Tandoori Butter Roti", price: 40, desc: "Whole wheat round tandoor-baked flatbread glazed with melted butter", tags: "Veg" },
+      { category: "RICE & BREADS", name: "Garlic Naan", price: 80, desc: "Clay oven leavened flatbread baked with minced premium garlic cloves", tags: "Veg" },
+      { category: "RICE & BREADS", name: "Jeera Rice", price: 190, desc: "Premium Basmati rice tossed with roasted cumin seeds", tags: "Veg" },
+      { category: "RICE & BREADS", name: "Chicken Biryani", price: 440, desc: "Traditional slow-layered rice infused with royal spices and saffron", tags: "Non-Veg" },
+      { category: "DESSERTS & DRINKS", name: "Saffron Rabdi", price: 150, desc: "Reduced-milk dessert enriched with green cardamom and Kashmiri saffron strings", tags: "Veg" },
+      { category: "DESSERTS & DRINKS", name: "Masala Chai", price: 60, desc: "Premium tea brewed with ginger and hand-crushed aromatic spices", tags: "Veg" },
+      { category: "DESSERTS & DRINKS", name: "Fresh Mint Lemonade", price: 120, desc: "Cold citrus quencher built with hand-squeezed lime and organic mint leaves", tags: "Veg" }
     ];
 
-    // DB Request Builder
     async function dbRequest(endpoint, method = 'GET', body = null) {
       const url = `${SUPABASE_URL}${endpoint}`;
       const headers = {
@@ -335,102 +292,77 @@
         "Content-Type": "application/json",
         "Prefer": "return=representation"
       };
-      
       const config = { method, headers };
-      if (body) {
-        config.body = JSON.stringify(body);
-      }
+      if (body) config.body = JSON.stringify(body);
 
       try {
         const response = await fetch(url, config);
-        if (!response.ok) throw new Error("DB Request failed: " + response.statusText);
+        if (!response.ok) throw new Error("Supabase Query Error");
         return await response.json();
-      } catch (err) {
-        console.warn("Database sync offline. Simulating locally.", err);
+      } catch (e) {
+        console.warn("Db sync delay. Operating locally temporarily.", e);
         return null;
       }
     }
 
-    // SHOW TOAST SYSTEM (NO ALERTS)
-    function showToast(message, type = 'success') {
+    function showToast(message, isError = false) {
       const banner = document.getElementById('toast-banner');
       const text = document.getElementById('toast-message');
-      const iconWrap = document.getElementById('toast-icon-wrapper');
-
+      
       text.innerText = message;
-      if (type === 'error') {
-        iconWrap.className = "bg-red-500/20 p-2 rounded-lg text-red-500";
-        iconWrap.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
-      } else {
-        iconWrap.className = "bg-accentGold/20 p-2 rounded-lg text-accentGold";
-        iconWrap.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
-      }
-
+      banner.className = `fixed top-5 right-5 z-100 px-4 py-3 rounded-xl shadow-2xl border items-center gap-3 flex text-xs font-bold ${isError ? 'bg-red-600 border-red-400 text-white' : 'bg-royalBlue border-accentGold/30 text-white'}`;
+      
       banner.classList.remove('hidden');
-      banner.classList.add('flex', 'animate-slideIn');
-
-      setTimeout(() => {
-        banner.classList.add('hidden');
-      }, 4000);
+      setTimeout(() => banner.classList.add('hidden'), 3500);
     }
 
-    // SHOW CONFIRMATION MODAL SYSTEM (NO CONFIRMS)
-    function showConfirm(title, desc, callback) {
+    function showCustomConfirm(title, desc, callback) {
       const modal = document.getElementById('confirm-modal');
       const t = document.getElementById('confirm-title');
       const d = document.getElementById('confirm-desc');
-      const cancelBtn = document.getElementById('confirm-cancel-btn');
-      const approveBtn = document.getElementById('confirm-approve-btn');
+      const cBtn = document.getElementById('confirm-cancel-btn');
+      const aBtn = document.getElementById('confirm-approve-btn');
 
       t.innerText = title;
       d.innerText = desc;
-
       modal.classList.remove('hidden');
       modal.classList.add('flex');
 
-      cancelBtn.onclick = () => {
-        modal.classList.add('hidden');
-      };
-
-      approveBtn.onclick = () => {
+      cBtn.onclick = () => modal.classList.add('hidden');
+      aBtn.onclick = () => {
         modal.classList.add('hidden');
         callback();
       };
     }
 
-    // TOGGLE SELECTION TABS
     function toggleSelectorTab(type) {
       currentTabType = type;
-      
       const tabTable = document.getElementById('tab-select-table');
       const tabRoom = document.getElementById('tab-select-room');
 
       if (type === 'table') {
-        tabTable.className = "py-2.5 rounded-lg bg-royalGreen text-white transition shadow-3xs";
-        tabRoom.className = "py-2.5 rounded-lg text-gray-600 hover:bg-gray-200 transition";
+        tabTable.className = "py-2 rounded-lg bg-royalGreen text-white transition";
+        tabRoom.className = "py-2 rounded-lg text-gray-500 hover:bg-gray-200 transition";
       } else {
-        tabRoom.className = "py-2.5 rounded-lg bg-royalGreen text-white transition shadow-3xs";
-        tabTable.className = "py-2.5 rounded-lg text-gray-600 hover:bg-gray-200 transition";
+        tabRoom.className = "py-2 rounded-lg bg-royalGreen text-white transition";
+        tabTable.className = "py-2 rounded-lg text-gray-500 hover:bg-gray-200 transition";
       }
-
       renderSelectorGrid();
     }
 
-    // RENDER LOCATION GRID (T1-T10 for Tables, R1-R10 for Rooms)
     function renderSelectorGrid() {
       const grid = document.getElementById('selector-grid');
       grid.innerHTML = '';
-
       const prefix = currentTabType === 'table' ? 'T' : 'R';
 
       for (let i = 1; i <= 10; i++) {
         const id = `${prefix}${i}`;
         const activeClass = selectedLocation === id 
-          ? "bg-royalGreen text-white border-royalGreen font-extrabold" 
-          : "bg-gray-50 text-gray-800 border-gray-200 hover:bg-gray-100";
+          ? "bg-royalGreen text-white border-royalGreen font-black" 
+          : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100";
 
         grid.innerHTML += `
-          <button onclick="selectLocationOption('${id}')" class="border py-3 rounded-xl transition text-center text-sm font-bold shadow-3xs active:scale-95 ${activeClass}">
+          <button onclick="selectLocationOption('${id}')" class="border py-2.5 rounded-xl transition text-center text-xs font-bold ${activeClass}">
             ${id}
           </button>
         `;
@@ -448,119 +380,183 @@
       renderSelectorGrid();
     }
 
-    // CONFIRM LOCATION SELECTION
     async function confirmLocationSelection() {
       if (!selectedLocation) return;
-      
+      localStorage.setItem('sapphire_saved_location', selectedLocation);
       document.getElementById('location-selector-modal').classList.add('hidden');
-      
-      const readableLabel = selectedLocation.startsWith('R') 
-        ? `Room Service ${selectedLocation}` 
-        : `Dining Table ${selectedLocation}`;
-        
-      document.getElementById('current-location-text').innerText = readableLabel;
 
-      // Sync/Restore active session from Supabase
-      await syncLocationSession();
-      showToast(`Logged into ${readableLabel} successfully!`);
+      const prefixLabel = selectedLocation.startsWith('R') ? `Room Service ${selectedLocation}` : `Table ${selectedLocation}`;
+      document.getElementById('current-location-text').innerText = prefixLabel;
+
+      await syncActiveSession();
+      showToast(`Welcome! Dining space set to ${prefixLabel}`);
     }
 
-    // SYNC ACTIVE SUPABASE SESSION FOR LOCATION
-    async function syncLocationSession() {
+    // PERSISTENT RETRIEVAL OF EXISTING ONGOING TABLE ACTIVE ORDER (DISH PROGRESS STATE)
+    async function syncActiveSession() {
       if (!selectedLocation) return;
 
-      // Check if there is an active session for this table_id
-      let sessions = await dbRequest(`orders?table_id=eq.${selectedLocation}&status=neq.completed`, 'GET');
-      
-      if (sessions && sessions.length > 0) {
-        databaseSession = sessions[0];
-        // Restore items from the existing order
+      // Check if there is an open (not completed) order session for this space
+      const activeData = await dbRequest(`orders?table_id=eq.${selectedLocation}&status=neq.completed`, 'GET');
+
+      if (activeData && activeData.length > 0) {
+        activeSessionOrder = activeData[0];
+        // Load items that have been previously sent to KOT to reconstruct visual statuses
         try {
-          activeCart = JSON.parse(databaseSession.items || "[]");
+          const sentItems = JSON.parse(activeSessionOrder.items || "[]");
+          // Items already placed can't be modified in current cart draft; user begins a new draft
+          activeCart = []; 
         } catch (e) {
           activeCart = [];
         }
-        updateCartIndicators();
       } else {
-        // Create a clean active placeholder locally until items are placed
-        databaseSession = {
-          table_id: selectedLocation,
-          status: 'active',
-          items: JSON.stringify([]),
-          total_amount: 0
-        };
+        activeSessionOrder = null;
         activeCart = [];
-        updateCartIndicators();
       }
+      updateCartStatus();
     }
 
-    // FETCH MENU FROM LIVE SPREADSHEET (OR FALLBACK TO MOCK)
-    async function loadMenuItems() {
+    // FETCH GOOGLE SPREADSHEET (Auto Normalizing Columns)
+    async function fetchGoogleSheetMenu() {
       try {
-        const response = await fetch(GOOGLE_SHEET_API_URL);
-        if (!response.ok) throw new Error("Network error");
-        const data = await response.json();
-        
-        if (data && data.length > 0) {
-          rawMenuItems = data;
-        } else {
-          rawMenuItems = richFallbackMenu;
-        }
-      } catch (err) {
-        console.warn("Using built-in tandoor menu database backup.", err);
-        rawMenuItems = richFallbackMenu;
-      }
+        const response = await fetch(SPREADSHEET_URL);
+        if (!response.ok) throw new Error("CORS or offline error");
+        const rawRows = await response.json();
 
-      organizeMenuPages();
+        if (rawRows && rawRows.length > 0) {
+          // Robust column normalizer
+          rawMenuItems = rawRows.map(row => {
+            const keys = Object.keys(row);
+            const findValue = (possibleNames) => {
+              const matchedKey = keys.find(k => possibleNames.includes(k.toLowerCase().trim()));
+              return matchedKey ? row[matchedKey] : '';
+            };
+
+            return {
+              category: findValue(['category', 'group', 'menu category', 'cat']),
+              name: findValue(['name', 'item name', 'dish', 'item']),
+              price: parseFloat(findValue(['price', 'rate', 'cost', 'amount'])) || 0,
+              desc: findValue(['description', 'desc', 'recipe', 'details']),
+              tags: findValue(['tags', 'type', 'tag', 'veg/nonveg'])
+            };
+          }).filter(item => item.name && item.category);
+        } else {
+          rawMenuItems = defaultFallbackMenu;
+        }
+      } catch (e) {
+        console.warn("Using premium fallback offline tandoor menu dictionary", e);
+        rawMenuItems = defaultFallbackMenu;
+      }
+      paginateMenu();
     }
 
-    // ORGANIZE ITEMS INTO CONVENIENT 10-PAGE LAYOUT
-    function organizeMenuPages() {
-      // Group items by category
-      const categoriesMap = {};
+    // PACIFY 170+ ITEMS INTO HIGHLY CONVENIENT COMPACT MULTI-PAGE FORMAT (8 items per page)
+    function paginateMenu() {
+      const grouped = {};
       rawMenuItems.forEach(item => {
-        const cat = item.category || "GENERAL SPECIALS";
-        if (!categoriesMap[cat]) categoriesMap[cat] = [];
-        categoriesMap[cat].push(item);
+        const cat = item.category.toUpperCase().trim() || "SPECIALS";
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(item);
       });
 
       organizedPages = [];
-      const cats = Object.keys(categoriesMap);
+      const categories = Object.keys(grouped);
 
-      cats.forEach(cat => {
-        const items = categoriesMap[cat];
-        // Max 8 items per page for convenient mobile readability
-        const itemsPerPage = 8;
-        const pageCount = Math.ceil(items.length / itemsPerPage);
+      categories.forEach(cat => {
+        const items = grouped[cat];
+        const pageCap = 8; // Optimal readability size
+        const totalCatPages = Math.ceil(items.length / pageCap);
 
-        for (let i = 0; i < pageCount; i++) {
+        for (let i = 0; i < totalCatPages; i++) {
           organizedPages.push({
             category: cat,
-            pageNumOfCat: i + 1,
-            totalCatPages: pageCount,
-            items: items.slice(i * itemsPerPage, (i + 1) * itemsPerPage)
+            pageNum: i + 1,
+            totalPages: totalCatPages,
+            items: items.slice(i * pageCap, (i + 1) * pageCap)
           });
         }
       });
 
-      renderCategoryIndex();
       currentPageIndex = 0;
       renderBookPage();
     }
 
-    // RENDER TOP HORIZONTAL CATEGORY SCROLLER
-    function renderCategoryIndex() {
-      const bar = document.getElementById('category-index-scroller');
-      bar.innerHTML = '';
+    // RENDER MENU SHEETS
+    function renderBookPage() {
+      const container = document.getElementById('menu-page-wrapper');
+      if (organizedPages.length === 0) return;
 
-      const processedCategories = [];
+      const page = organizedPages[currentPageIndex];
+      renderCategoryIndex(page.category);
 
-      organizedPages.forEach((page, index) => {
-        if (!processedCategories.includes(page.category)) {
-          processedCategories.push(page.category);
-          
-          bar.innerHTML += `
-            <button onclick="jumpToPageIndex(${index})" class="whitespace-nowrap px-4 py-2 rounded-xl text-xs font-extrabold tracking-wide border border-gray-200 shadow-3xs transition hover:bg-royalGreen/10 hover:text-royalGreen ${page.category === organizedPages[currentPageIndex].category ? 'bg-royalGreen text-white border-royalGreen' : 'bg-gray-50 text-gray-600'}">
+      let itemsHTML = '';
+      page.items.forEach(item => {
+        const cartItem = activeCart.find(i => i.name === item.name);
+        const qty = cartItem ? cartItem.qty : 0;
+        
+        const isNonVeg = item.tags && item.tags.toLowerCase().includes('non');
+        const badgeColor = isNonVeg ? 'border-red-500 text-red-500' : 'border-green-500 text-green-500';
+        const badgeText = isNonVeg ? 'Non-Veg' : 'Veg';
+
+        const actionControls = qty > 0 ? `
+          <div class="flex items-center gap-1.5 bg-royalGreen text-white rounded-xl p-1 shadow-md">
+            <button onclick="changeQty('${encodeURIComponent(item.name)}', -1)" class="w-6 h-6 flex items-center justify-center font-bold hover:bg-royalGreen-dark rounded-md">-</button>
+            <span class="text-xs font-bold w-4 text-center">${qty}</span>
+            <button onclick="changeQty('${encodeURIComponent(item.name)}', 1)" class="w-6 h-6 flex items-center justify-center font-bold hover:bg-royalGreen-dark rounded-md">+</button>
+          </div>
+        ` : `
+          <button onclick="changeQty('${encodeURIComponent(item.name)}', 1)" class="bg-royalGreen hover:bg-royalGreen-dark text-white text-[11px] font-extrabold py-2 px-3 rounded-xl shadow-xs transition">
+            ADD +
+          </button>
+        `;
+
+        itemsHTML += `
+          <div class="bg-white/80 border border-gray-100 rounded-2xl p-3.5 flex items-center justify-between gap-3 shadow-xs">
+            <div class="space-y-0.5">
+              <span class="text-[9px] font-black px-1 py-0.2 rounded border ${badgeColor}">${badgeText}</span>
+              <h4 class="font-extrabold text-royalBlue text-sm">${item.name}</h4>
+              <p class="text-[11px] text-gray-400 font-sans line-clamp-1">${item.desc || 'Prepared freshly with organic Indian spices.'}</p>
+              <span class="inline-block text-royalGreen font-black text-xs">₹${parseFloat(item.price).toFixed(2)}</span>
+            </div>
+            <div class="flex-shrink-0">${actionControls}</div>
+          </div>
+        `;
+      });
+
+      container.className = "relative flex-grow p-5 sm:p-7 flex flex-col justify-between z-10 page-turn-active";
+      container.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-2">
+            <div>
+              <span class="text-[9px] text-accentGold font-black tracking-widest block uppercase">CATEGORY SPECIALIST</span>
+              <h3 class="text-lg font-serif font-black text-royalBlue">${page.category}</h3>
+            </div>
+            <span class="text-[10px] text-gray-400 font-bold bg-gray-100 px-2.5 py-1 rounded-full">Page ${page.pageNum} of ${page.totalPages}</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            ${itemsHTML}
+          </div>
+        </div>
+      `;
+
+      // Controls
+      document.getElementById('prev-page-btn').disabled = currentPageIndex === 0;
+      document.getElementById('next-page-btn').disabled = currentPageIndex === organizedPages.length - 1;
+      document.getElementById('page-indicator').innerText = `PAGE ${currentPageIndex + 1} / ${organizedPages.length}`;
+    }
+
+    function renderCategoryIndex(activeCat) {
+      const indexBar = document.getElementById('category-index-scroller');
+      indexBar.innerHTML = '';
+      const addedCats = [];
+
+      organizedPages.forEach((page, idx) => {
+        if (!addedCats.includes(page.category)) {
+          addedCats.push(page.category);
+          const isActive = page.category === activeCat;
+          indexBar.innerHTML += `
+            <button onclick="jumpToPageIndex(${idx})" class="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-black tracking-wide border transition ${isActive ? 'bg-royalGreen text-white border-royalGreen' : 'bg-gray-50 text-gray-500 border-gray-200' }">
               ${page.category}
             </button>
           `;
@@ -568,94 +564,9 @@
       });
     }
 
-    function jumpToPageIndex(index) {
-      currentPageIndex = index;
+    function jumpToPageIndex(idx) {
+      currentPageIndex = idx;
       renderBookPage();
-    }
-
-    // RENDER SELECTED BOOK PAGE
-    function renderBookPage() {
-      const pageWrapper = document.getElementById('menu-page-wrapper');
-      
-      if (organizedPages.length === 0) return;
-      const page = organizedPages[currentPageIndex];
-
-      // Draw active index styling
-      renderCategoryIndex();
-
-      let itemsHTML = '';
-      
-      page.items.forEach(item => {
-        const cartItem = activeCart.find(i => i.name === item.name);
-        const qty = cartItem ? cartItem.qty : 0;
-        
-        const badgeColor = item.tags && item.tags.includes('Non-Veg') ? 'border-red-500 text-red-500' : 'border-green-500 text-green-500';
-        const badgeLabel = item.tags && item.tags.includes('Non-Veg') ? 'Non-Veg' : 'Veg';
-
-        const qtyControls = qty > 0 ? `
-          <div class="flex items-center gap-2 bg-royalGreen text-white rounded-xl overflow-hidden p-1 shadow-3xs">
-            <button onclick="adjustItemQty('${encodeURIComponent(item.name)}', -1)" class="w-7 h-7 flex items-center justify-center font-bold text-base hover:bg-royalGreen-dark transition rounded-lg">-</button>
-            <span class="font-bold text-xs px-1.5 w-4 text-center">${qty}</span>
-            <button onclick="adjustItemQty('${encodeURIComponent(item.name)}', 1)" class="w-7 h-7 flex items-center justify-center font-bold text-base hover:bg-royalGreen-dark transition rounded-lg">+</button>
-          </div>
-        ` : `
-          <button onclick="adjustItemQty('${encodeURIComponent(item.name)}', 1)" class="bg-royalGreen hover:bg-royalGreen-dark text-white text-xs font-extrabold py-2 px-4 rounded-xl shadow-3xs transition">
-            ADD +
-          </button>
-        `;
-
-        itemsHTML += `
-          <div class="bg-white/70 backdrop-blur-3xs border border-gray-100 rounded-2xl p-4 flex items-center justify-between gap-4 shadow-3xs relative overflow-hidden group hover:border-royalGreen/20 transition duration-300">
-            <div class="flex-grow space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded border ${badgeColor}">${badgeLabel}</span>
-                ${item.tags && item.tags.includes('Spicy') ? '<span class="text-[9px] bg-red-100 text-red-600 font-bold px-1.5 py-0.5 rounded">Spicy</span>' : ''}
-              </div>
-              <h3 class="font-bold text-royalBlue text-sm sm:text-base">${item.name}</h3>
-              <p class="text-xs text-gray-400 font-sans line-clamp-1">${item.desc || 'No recipe details uploaded yet for this specialty item.'}</p>
-              <span class="inline-block text-royalGreen font-extrabold text-sm mt-1">₹${parseFloat(item.price).toFixed(2)}</span>
-            </div>
-            
-            <div class="flex-shrink-0">
-              ${qtyControls}
-            </div>
-          </div>
-        `;
-      });
-
-      pageWrapper.innerHTML = `
-        <div class="flex flex-col flex-grow justify-between space-y-6">
-          
-          <!-- Category Header -->
-          <div class="flex items-center justify-between border-b border-gray-100 pb-3">
-            <div>
-              <span class="text-[10px] text-accentGold font-bold tracking-widest uppercase">SECTION CATEGORY</span>
-              <h2 class="text-xl font-serif font-extrabold text-royalBlue">${page.category}</h2>
-            </div>
-            <span class="text-xs text-gray-400 font-sans font-bold bg-gray-100 px-3 py-1 rounded-full">
-              Page ${page.pageNumOfCat} of ${page.totalCatPages}
-            </span>
-          </div>
-
-          <!-- Items Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            ${itemsHTML}
-          </div>
-
-          <!-- Bottom Footer Area inside book -->
-          <div class="flex justify-between items-center text-[10px] text-gray-400 pt-4 border-t border-gray-100/60 font-sans">
-            <span>Tap navigation buttons below or swipe screen</span>
-            <span>HOTEL SAPPHIRE DIGITAL MON</span>
-          </div>
-
-        </div>
-      `;
-
-      // Update control triggers
-      document.getElementById('prev-page-btn').disabled = currentPageIndex === 0;
-      document.getElementById('next-page-btn').disabled = currentPageIndex === organizedPages.length - 1;
-      
-      document.getElementById('page-indicator').textContent = `PAGE ${currentPageIndex + 1} / ${organizedPages.length}`;
     }
 
     function prevPage() {
@@ -672,110 +583,94 @@
       }
     }
 
-    // SWIPING COMPLIANCE MECHANICS
-    let touchstartX = 0;
-    let touchendX = 0;
-
-    function checkDirection() {
-      if (touchendX < touchstartX - 70) nextPage(); // Swipe left
-      if (touchendX > touchstartX + 70) prevPage(); // Swipe right
-    }
-
-    document.addEventListener('touchstart', e => {
-      touchstartX = e.changedTouches[0].screenX;
-    });
-
+    // Touch Swipe Navigation for Convenience
+    let xDown = null;
+    document.addEventListener('touchstart', e => xDown = e.touches[0].clientX);
     document.addEventListener('touchend', e => {
-      touchendX = e.changedTouches[0].screenX;
-      checkDirection();
+      if (!xDown) return;
+      let xDiff = xDown - e.changedTouches[0].clientX;
+      if (xDiff > 80) nextPage();
+      if (xDiff < -80) prevPage();
+      xDown = null;
     });
 
-    // ARROW KEYS COMPLIANCE
+    // Keyboard Access
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') prevPage();
       if (e.key === 'ArrowRight') nextPage();
     });
 
-    // CART MUTATOR & TAX CALCULATOR
-    function adjustItemQty(encodedItemName, delta) {
-      const itemName = decodeURIComponent(encodedItemName);
-      const itemSource = rawMenuItems.find(i => i.name === itemName);
-      if (!itemSource) return;
+    function changeQty(encodedName, delta) {
+      const name = decodeURIComponent(encodedName);
+      const menuItem = rawMenuItems.find(i => i.name === name);
+      if (!menuItem) return;
 
-      const existing = activeCart.find(i => i.name === itemName);
-
+      const existing = activeCart.find(i => i.name === name);
       if (existing) {
         existing.qty += delta;
         if (existing.qty <= 0) {
-          activeCart = activeCart.filter(i => i.name !== itemName);
+          activeCart = activeCart.filter(i => i.name !== name);
         }
       } else if (delta > 0) {
         activeCart.push({
-          name: itemSource.name,
-          price: parseFloat(itemSource.price),
+          name: menuItem.name,
+          price: menuItem.price,
           qty: 1
         });
       }
 
-      updateCartIndicators();
+      updateCartStatus();
       renderBookPage();
     }
 
-    function updateCartIndicators() {
-      const floatBar = document.getElementById('floating-cart-bar');
+    function updateCartStatus() {
+      const bar = document.getElementById('floating-cart-bar');
       const floatQty = document.getElementById('cart-float-qty');
       const floatTotal = document.getElementById('cart-float-total');
 
       if (activeCart.length === 0) {
-        floatBar.classList.add('hidden');
+        // If there is an active running session, keep bar visible to open live tracker
+        if (activeSessionOrder) {
+          floatQty.textContent = `Order #SAP-${activeSessionOrder.id} active`;
+          floatTotal.textContent = `Track your food preparation status`;
+          bar.classList.remove('hidden');
+        } else {
+          bar.classList.add('hidden');
+        }
         return;
       }
 
-      let totalQty = 0;
-      let totalAmount = 0;
+      const totalQty = activeCart.reduce((acc, i) => acc + i.qty, 0);
+      const subtotal = activeCart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+      const cgst = subtotal * 0.05;
+      const sgst = subtotal * 0.05;
+      const grandTotal = subtotal + cgst + sgst;
 
-      activeCart.forEach(item => {
-        totalQty += item.qty;
-        totalAmount += item.price * item.qty;
-      });
-
-      // Calculate taxes (5% CGST + 5% SGST)
-      const cgst = totalAmount * 0.05;
-      const sgst = totalAmount * 0.05;
-      const finalAmount = totalAmount + cgst + sgst;
-
-      floatQty.textContent = `${totalQty} Culinary Item${totalQty > 1 ? 's' : ''} Selected`;
-      floatTotal.textContent = `Grand Total (Inc. CGST/SGST): ₹${finalAmount.toFixed(2)}`;
-
-      floatBar.classList.remove('hidden');
+      floatQty.textContent = `${totalQty} Culinary Item${totalQty > 1 ? 's' : ''} Drafted`;
+      floatTotal.textContent = `Running Balance: ₹${grandTotal.toFixed(2)} (Inc. GST)`;
+      bar.classList.remove('hidden');
     }
 
-    // OPEN KITCHEN ORDER TICKET REVIEW MODAL
     function openCartModal() {
       const container = document.getElementById('cart-items-container');
       container.innerHTML = '';
 
       if (activeCart.length === 0) {
-        container.innerHTML = `<div class="text-center py-8 text-gray-400">Cart empty. Navigate through menu pages to select dishes.</div>`;
+        container.innerHTML = `<div class="text-center py-6 text-gray-400">Your draft cart is empty. Please select dishes first.</div>`;
         return;
       }
 
       let subtotal = 0;
-
       activeCart.forEach(item => {
-        const itemTot = item.price * item.qty;
-        subtotal += itemTot;
-
+        const cost = item.price * item.qty;
+        subtotal += cost;
         container.innerHTML += `
-          <div class="flex items-center justify-between border-b border-gray-100 py-3">
+          <div class="flex items-center justify-between border-b border-gray-100 py-2.5 text-xs">
             <div>
-              <span class="font-bold text-gray-800 text-sm block">${item.name}</span>
-              <span class="text-xs text-gray-400">₹${item.price.toFixed(2)} x ${item.qty}</span>
+              <span class="font-extrabold text-gray-800">${item.name}</span>
+              <span class="text-gray-400 block">₹${item.price.toFixed(2)} x ${item.qty}</span>
             </div>
-            <div class="flex items-center gap-3">
-              <span class="font-semibold text-royalGreen text-sm">₹${itemTot.toFixed(2)}</span>
-              <button onclick="adjustItemQty('${encodeURIComponent(item.name)}', -1)" class="text-red-500 hover:bg-red-50 p-1.5 rounded-lg border border-transparent transition text-xs font-bold">Remove</button>
-            </div>
+            <span class="font-black text-royalGreen">₹${cost.toFixed(2)}</span>
           </div>
         `;
       });
@@ -784,10 +679,10 @@
       const sgst = subtotal * 0.05;
       const total = subtotal + cgst + sgst;
 
-      document.getElementById('cart-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
-      document.getElementById('cart-cgst').textContent = `₹${cgst.toFixed(2)}`;
-      document.getElementById('cart-sgst').textContent = `₹${sgst.toFixed(2)}`;
-      document.getElementById('cart-total').textContent = `₹${total.toFixed(2)}`;
+      document.getElementById('cart-subtotal').innerText = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('cart-cgst').innerText = `₹${cgst.toFixed(2)}`;
+      document.getElementById('cart-sgst').innerText = `₹${sgst.toFixed(2)}`;
+      document.getElementById('cart-total').innerText = `₹${total.toFixed(2)}`;
 
       document.getElementById('cart-modal').classList.remove('hidden');
     }
@@ -796,61 +691,69 @@
       document.getElementById('cart-modal').classList.add('hidden');
     }
 
-    // DISPATCH KITCHEN ORDER TICKET (PLACE ORDER)
+    // PLACE ORDER AND PUSH TO SUPABASE
     async function placeOrder() {
       if (activeCart.length === 0 || !selectedLocation) return;
 
-      const subtotal = activeCart.reduce((acc, i) => acc + (i.price * i.qty), 0);
-      const cgst = subtotal * 0.05;
-      const sgst = subtotal * 0.05;
-      const finalTotal = subtotal + cgst + sgst;
+      // Wrap item objects with initial tracking state
+      const itemsWithStates = activeCart.map(item => ({
+        ...item,
+        status: 'Pending' // Initial status before kitchen starts preparation
+      }));
 
-      const payload = {
+      let subtotal = activeCart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+      let grandTotal = subtotal * 1.1; // Subtotal + 10% combined GST
+
+      let payload = {
         table_id: selectedLocation,
-        items: JSON.stringify(activeCart),
-        total_amount: finalTotal,
+        total_amount: grandTotal,
         status: 'ordered',
-        created_at: new Date().toISOString()
+        updated_at: new Date().toISOString()
       };
 
-      let result = null;
+      if (activeSessionOrder) {
+        // APPEND to existing session
+        let existingItems = [];
+        try {
+          existingItems = JSON.parse(activeSessionOrder.items || "[]");
+        } catch(e) {}
 
-      if (databaseSession && databaseSession.id) {
-        // PATCH existing order row with fresh compiled cart
-        result = await dbRequest(`orders?id=eq.${databaseSession.id}`, 'PATCH', payload);
+        // Combine arrays correctly
+        const consolidatedItems = [...existingItems, ...itemsWithStates];
+        payload.items = JSON.stringify(consolidatedItems);
+        payload.total_amount = consolidatedItems.reduce((acc, i) => acc + (i.price * i.qty), 0) * 1.1;
+
+        await dbRequest(`orders?id=eq.${activeSessionOrder.id}`, 'PATCH', payload);
       } else {
-        // POST insert new order row
-        result = await dbRequest('orders', 'POST', [payload]);
+        // CREATE clean session
+        payload.items = JSON.stringify(itemsWithStates);
+        payload.created_at = new Date().toISOString();
+        await dbRequest('orders', 'POST', [payload]);
       }
 
-      showToast("Chef Notified! Kitchen Order Ticket (KOT) placed successfully.", 'success');
+      showToast("KOT Dispatched! Chef has been notified.", false);
       closeCartModal();
-      
-      // Keep state alive locally in case network loses sync
-      localStorage.setItem(`table_status_${selectedLocation}`, 'ordered');
-      
-      await syncLocationSession();
+      activeCart = [];
+      await syncActiveSession();
     }
 
-    // PORTAL SESSION BILL MONITOR
+    // LIVE RUNNING TRACKER MONITOR WITH INDIVIDUAL DISH PHASES
     async function openBillStatusModal() {
       const container = document.getElementById('bill-status-content');
       container.innerHTML = `
         <div class="flex items-center justify-center py-12">
-          <svg class="animate-spin h-8 w-8 text-royalBlue" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          <svg class="animate-spin h-7 w-7 text-royalBlue" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
         </div>
       `;
 
       document.getElementById('bill-status-modal').classList.remove('hidden');
+      await syncActiveSession();
 
-      // Live fetch state from Database
-      await syncLocationSession();
-
-      if (!databaseSession || !databaseSession.id) {
+      if (!activeSessionOrder) {
         container.innerHTML = `
-          <div class="text-center py-12 text-gray-400">
-            <p class="font-bold">No running transaction session active.</p>
-            <p class="text-[10px] mt-1">Please select menu items and place a KOT to initiate billing.</p>
+          <div class="text-center py-10 text-gray-400 text-xs">
+            <p class="font-extrabold text-sm mb-1">No active cooking session.</p>
+            <p>Please add dishes to your cart and send them to the kitchen.</p>
           </div>
         `;
         return;
@@ -858,61 +761,65 @@
 
       let items = [];
       try {
-        items = JSON.parse(databaseSession.items || "[]");
+        items = JSON.parse(activeSessionOrder.items || "[]");
       } catch (e) {}
 
       let itemsHTML = '';
-      let runningSubtotal = 0;
+      let orderSubtotal = 0;
 
       items.forEach(item => {
-        const cost = item.price * item.qty;
-        runningSubtotal += cost;
+        const total = item.price * item.qty;
+        orderSubtotal += total;
+
+        // Custom live status styling
+        let statusBadge = "bg-gray-100 text-gray-500 border-gray-200";
+        if (item.status === 'Preparing') statusBadge = "bg-amber-50 text-amber-600 border-amber-200 animate-pulse";
+        if (item.status === 'Served') statusBadge = "bg-green-50 text-green-600 border-green-200 font-extrabold";
 
         itemsHTML += `
-          <div class="flex items-center justify-between text-xs py-2 border-b border-gray-100">
-            <span>${item.name} x${item.qty}</span>
-            <span class="font-bold">₹${cost.toFixed(2)}</span>
+          <div class="flex items-center justify-between border-b border-gray-100 py-3 text-xs">
+            <div>
+              <span class="font-black text-gray-800">${item.name}</span>
+              <span class="text-[10px] text-gray-400 block">₹${item.price.toFixed(2)} x ${item.qty}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[9px] uppercase px-2 py-0.5 rounded-full border ${statusBadge}">${item.status || 'Pending'}</span>
+              <span class="font-bold text-royalGreen">₹${total.toFixed(2)}</span>
+            </div>
           </div>
         `;
       });
 
-      const cgst = runningSubtotal * 0.05;
-      const sgst = runningSubtotal * 0.05;
-      const final = runningSubtotal + cgst + sgst;
+      const cgst = orderSubtotal * 0.05;
+      const sgst = orderSubtotal * 0.05;
+      const grandTotal = orderSubtotal + cgst + sgst;
 
-      let statusBadge = "bg-green-100 text-green-700 animate-pulse";
-      let message = "Your order is being assembled in the Kitchen preparation queue.";
-
-      if (databaseSession.status === 'bill_requested') {
-        statusBadge = "bg-amber-100 text-amber-700 animate-pulse";
-        message = "Bill requested. Counter officer is preparing your receipt printout.";
-      }
+      let sessionPhase = "Assembling order";
+      if (activeSessionOrder.status === 'bill_requested') sessionPhase = "Billing invoice generating...";
 
       container.innerHTML = `
-        <div class="flex items-center justify-between bg-gray-50 p-3 rounded-xl border border-gray-200">
+        <div class="bg-royalGreen/10 border border-royalGreen/20 p-3 rounded-2xl flex items-center justify-between text-xs">
           <div>
-            <span class="text-[10px] uppercase block tracking-wider text-gray-400">Session ID</span>
-            <span class="font-extrabold text-sm text-royalBlue">#SAP-${databaseSession.id}</span>
+            <span class="text-gray-400 block uppercase text-[8px]">Active Ticket ID</span>
+            <span class="font-black text-royalGreen">#SAP-${activeSessionOrder.id}</span>
           </div>
-          <span class="text-[10px] font-bold uppercase px-3 py-1 rounded-full ${statusBadge}">${databaseSession.status}</span>
+          <span class="bg-royalBlue text-white text-[9px] font-bold uppercase px-2.5 py-1 rounded-full animate-pulse">${sessionPhase}</span>
         </div>
 
-        <p class="text-xs text-gray-500 italic mt-1">${message}</p>
-
-        <div class="space-y-1">
-          <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Dishes Sent</h4>
-          <div class="max-h-[140px] overflow-y-auto bg-gray-50 p-3 rounded-xl border border-gray-150">
+        <div class="space-y-1.5">
+          <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-wider">Dish Live Statuses</h4>
+          <div class="bg-gray-50 border border-gray-150 p-3.5 rounded-2xl max-h-[180px] overflow-y-auto">
             ${itemsHTML}
           </div>
         </div>
 
-        <div class="space-y-1.5 border-t border-gray-150 pt-3 text-xs">
-          <div class="flex justify-between"><span>Subtotal:</span><span>₹${runningSubtotal.toFixed(2)}</span></div>
-          <div class="flex justify-between"><span>CGST (5.0%):</span><span>₹${cgst.toFixed(2)}</span></div>
-          <div class="flex justify-between"><span>SGST (5.0%):</span><span>₹${sgst.toFixed(2)}</span></div>
-          <div class="flex justify-between text-base font-extrabold text-royalBlue border-t border-dashed border-gray-200 pt-2">
-            <span>GRAND RUNNING BALANCE:</span>
-            <span>₹${final.toFixed(2)}</span>
+        <div class="space-y-1 text-[11px] border-t border-gray-150 pt-3">
+          <div class="flex justify-between text-gray-500"><span>Food Subtotal:</span><span>₹${orderSubtotal.toFixed(2)}</span></div>
+          <div class="flex justify-between text-gray-400"><span>CGST (5.0%):</span><span>₹${cgst.toFixed(2)}</span></div>
+          <div class="flex justify-between text-gray-400"><span>SGST (5.0%):</span><span>₹${sgst.toFixed(2)}</span></div>
+          <div class="flex justify-between text-sm font-black text-royalBlue border-t border-dashed border-gray-200 pt-2">
+            <span>GRAND BALANCE RECEIPT:</span>
+            <span>₹${grandTotal.toFixed(2)}</span>
           </div>
         </div>
       `;
@@ -922,33 +829,44 @@
       document.getElementById('bill-status-modal').classList.add('hidden');
     }
 
-    // REQUEST FINAL CHECKOUT BILL
     function requestBill() {
-      if (!databaseSession || !databaseSession.id) return;
-
-      showConfirm(
-        "Request Running Bill?",
-        "This notifies the checkout desk to print your tax invoice. You can still order items afterward.",
+      if (!activeSessionOrder) return;
+      showCustomConfirm(
+        "Request Bill?",
+        "This notifies the front desk to prepare your receipt printout. You can still order items afterward.",
         async () => {
-          const payload = {
+          await dbRequest(`orders?id=eq.${activeSessionOrder.id}`, 'PATCH', {
             status: 'bill_requested',
             updated_at: new Date().toISOString()
-          };
-          
-          await dbRequest(`orders?id=eq.${databaseSession.id}`, 'PATCH', payload);
-          localStorage.setItem(`table_status_${selectedLocation}`, 'bill_requested');
-          
-          showToast("Bill request submitted! Counter staff has been notified.", 'success');
+          });
+          showToast("Bill request placed! Wait for the table steward.");
           closeBillStatusModal();
-          await syncLocationSession();
+          await syncActiveSession();
         }
       );
     }
 
-    // INIT INITIAL PORTAL LOADER ON WINDOW LOAD
     window.onload = async () => {
-      openLocationSelector();
-      await loadMenuItems();
+      const saved = localStorage.getItem('sapphire_saved_location');
+      if (saved) {
+        selectedLocation = saved;
+        const prefixLabel = selectedLocation.startsWith('R') ? `Room Service ${selectedLocation}` : `Table ${selectedLocation}`;
+        document.getElementById('current-location-text').innerText = prefixLabel;
+        await syncActiveSession();
+      } else {
+        openLocationSelector();
+      }
+      await fetchGoogleSheetMenu();
+      
+      // Auto Sync/Refresher every 5 seconds to track preparation states live
+      setInterval(async () => {
+        if (selectedLocation) {
+          await syncActiveSession();
+          if (!document.getElementById('bill-status-modal').classList.contains('hidden')) {
+            await openBillStatusModal();
+          }
+        }
+      }, 5000);
     }
   </script>
 </body>
