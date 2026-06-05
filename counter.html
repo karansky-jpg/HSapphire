@@ -28,27 +28,14 @@
     }
   </script>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    h1, h2, h3, .font-serif {
-      font-family: 'Playfair Display', serif;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
     @media print {
-      body * {
-        visibility: hidden;
-      }
-      #print-invoice-area, #print-invoice-area * {
-        visibility: visible;
-      }
-      #print-invoice-area {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-      }
+      body * { visibility: hidden; }
+      #print-invoice-area, #print-invoice-area * { visibility: visible; }
+      #print-invoice-area { position: absolute; left: 0; top: 0; width: 100%; }
     }
   </style>
 </head>
@@ -63,7 +50,7 @@
           <h1 class="text-xl font-bold text-royalGreen leading-none flex items-center gap-1.5">
             Sapphire Console <span class="text-xs text-accentGold font-serif font-semibold tracking-wider">KITCHEN &amp; COUNTER</span>
           </h1>
-          <p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Automated Hotel Management Desk</p>
+          <p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Real-Time Kitchen Order (KOT) Dashboard</p>
         </div>
       </div>
 
@@ -71,7 +58,7 @@
       <div class="flex items-center gap-3">
         <div class="bg-royalGreen-light border border-royalGreen/20 px-3.5 py-1.5 rounded-xl text-royalGreen text-xs font-bold flex items-center gap-1.5 shadow-3xs">
           <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-          <span>Supabase Sync Connected</span>
+          <span>Supabase Real-Time Synced</span>
         </div>
         <button onclick="openHistory()" class="bg-royalBlue hover:bg-royalBlue-dark text-white px-4 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-3xs">
           Archive Log
@@ -80,10 +67,10 @@
     </div>
   </header>
 
-  <!-- MAIN DASHBOARD LAYOUT -->
+  <!-- MAIN LAYOUT -->
   <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
     
-    <!-- LEFT PANEL: TABLE STATUS GRID (5 Cols) -->
+    <!-- LEFT PANEL: TABLE MONITOR GRID (5 Cols) -->
     <section class="lg:col-span-5 bg-white p-6 rounded-3xl border border-gray-100 shadow-xs flex flex-col h-fit">
       <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
         <div>
@@ -130,13 +117,13 @@
       </div>
     </section>
 
-    <!-- RIGHT PANEL: ACTIVE ORDERS COMMAND POST (7 Cols) -->
+    <!-- RIGHT PANEL: ACTIVE ORDERS PREP QUEUE (7 Cols) -->
     <section class="lg:col-span-7 flex flex-col gap-6">
       <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-xs flex-grow">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-4 mb-4 gap-2">
           <div>
-            <h2 class="text-xl font-bold text-royalBlue font-serif">Kitchen Preparation Queue</h2>
-            <p class="text-xs text-gray-400">Incoming dishes & hospitality service requests</p>
+            <h2 class="text-xl font-bold text-royalBlue font-serif">Kitchen Prep Queue</h2>
+            <p class="text-xs text-gray-400">Control dish-level preparation updates globally</p>
           </div>
           <div class="flex items-center gap-1.5">
             <button onclick="setQueueFilter('all')" id="q-filter-all" class="px-3 py-1 bg-royalBlue text-white rounded-lg text-xs font-semibold transition shadow-3xs">All</button>
@@ -145,51 +132,37 @@
           </div>
         </div>
 
-        <!-- Dynamic Order Queue -->
+        <!-- Order List -->
         <div class="space-y-4" id="order-queue-container">
           <!-- Populated dynamically -->
-          <div class="text-center py-20 text-gray-400">
-            <svg class="animate-spin h-10 w-10 mx-auto mb-4 text-royalGreen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="font-serif text-base text-gray-500">Listening to live guest portals...</p>
-          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- MODAL: DETAILED BILLING & PRINT VIEW -->
+  <!-- BILLING RECEIPT DRAWER MODAL -->
   <div id="billing-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-accentGold/20 my-8">
-      <!-- Modal Header -->
       <div class="bg-royalBlue text-white px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" class="h-8 w-8 object-contain brightness-0 invert">
           <h3 class="font-bold text-lg font-serif">Checkout &amp; Bill Generator</h3>
         </div>
         <button onclick="closeBillingModal()" class="text-gray-300 hover:text-white transition">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
       </div>
 
-      <!-- Scrollable billing data details -->
       <div class="p-6 max-h-[60vh] overflow-y-auto space-y-6" id="billing-modal-content">
         <!-- Rendered by JS -->
       </div>
 
-      <!-- Action Buttons at bottom -->
       <div class="border-t border-gray-100 bg-gray-50 p-4 flex gap-3">
         <button onclick="printInvoice()" class="flex-1 bg-royalGreen text-white py-3 rounded-2xl font-bold hover:bg-royalGreen-dark transition flex items-center justify-center gap-2 shadow-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-          </svg> Print Receipt
+          Print Receipt
         </button>
         <button onclick="completeCheckout()" class="flex-1 bg-royalBlue text-white py-3 rounded-2xl font-bold hover:bg-royalBlue-dark transition shadow-sm">
-          Complete &amp; Clear Table/Room
+          Complete &amp; Clear Space
         </button>
       </div>
     </div>
@@ -206,9 +179,7 @@
       <div class="bg-royalBlue text-white px-6 py-4 flex items-center justify-between">
         <h3 class="font-bold text-lg font-serif">Completed Transactions History</h3>
         <button onclick="closeHistory()" class="text-gray-300 hover:text-white transition">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
       </div>
       <div class="p-6 max-h-[50vh] overflow-y-auto space-y-4" id="history-log-container">
@@ -241,13 +212,11 @@
     const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
     const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
 
-    // App state
     let activeOrders = [];
     let historyLogs = [];
     let currentQueueFilter = 'all';
     let selectedBillingSession = null;
 
-    // Supabase standard request builder
     async function dbRequest(endpoint, method = 'GET', body = null) {
       const url = `${SUPABASE_URL}${endpoint}`;
       const headers = {
@@ -258,55 +227,28 @@
       };
       
       const config = { method, headers };
-      if (body) {
-        config.body = JSON.stringify(body);
-      }
+      if (body) config.body = JSON.stringify(body);
 
       try {
         const response = await fetch(url, config);
         if (!response.ok) throw new Error("DB Request failed: " + response.statusText);
         return await response.json();
       } catch (err) {
-        console.warn("Database sync dropped. Fetching locally simulated updates.", err);
+        console.warn("Database sync disconnected.", err);
         return null;
       }
     }
 
-    // SYNC ACTIVE SESSIONS
     async function fetchActiveSessions() {
-      // Fetch all incomplete active sessions from Supabase
       let orders = await dbRequest('orders?status=neq.completed', 'GET');
-      
       if (orders) {
         activeOrders = orders;
-      } else {
-        // Local simulation fallback: compile active rooms/tables from LocalStorage
-        activeOrders = [];
-        for (let i = 1; i <= 10; i++) {
-          const keys = [`R${i}`, `T${i}`];
-          keys.forEach(k => {
-            const status = localStorage.getItem(`table_status_${k}`);
-            const data = localStorage.getItem(`table_session_${k}`);
-            if (status && status !== 'completed' && data) {
-              try {
-                activeOrders.push(JSON.parse(data));
-              } catch (e) {}
-            }
-          });
-        }
       }
-
-      // Propagate status into localStorage globally so both frames stay synced perfectly
-      activeOrders.forEach(o => {
-        localStorage.setItem(`table_status_${o.table_id}`, o.status);
-        localStorage.setItem(`table_session_${o.table_id}`, JSON.stringify(o));
-      });
-
       renderTableGrid();
       renderOrderQueue();
     }
 
-    // Grid Renderer (Rooms R1-R10 and Tables T1-T10 mapped perfectly as specified!)
+    // Correctly mappings: Rooms (R1-R10) & Dining Tables (T1-T10)
     function renderTableGrid() {
       const restGrid = document.getElementById('rest-tables-monitor');
       const roomGrid = document.getElementById('rooms-monitor');
@@ -316,7 +258,7 @@
 
       let activeGuestCounter = 0;
 
-      // Render Room Service Grid (R1 - R10)
+      // Render Room Service (R1 - R10)
       for (let i = 1; i <= 10; i++) {
         const tid = `R${i}`;
         const activeOrder = activeOrders.find(o => o.table_id === tid);
@@ -325,13 +267,9 @@
         let colorClasses = "bg-gray-50 border-gray-200 text-gray-400";
         let statusLight = "bg-gray-300";
 
-        if (status === 'active') {
+        if (status === 'active' || status === 'ordered') {
           colorClasses = "bg-green-50 border-green-300 text-green-800 font-bold";
           statusLight = "bg-green-500 animate-pulse";
-          activeGuestCounter++;
-        } else if (status === 'ordered') {
-          colorClasses = "bg-amber-50 border-amber-300 text-amber-800 font-bold";
-          statusLight = "bg-amber-500 animate-pulse";
           activeGuestCounter++;
         } else if (status === 'bill_requested') {
           colorClasses = "bg-red-50 border-red-300 text-red-800 font-bold";
@@ -348,7 +286,7 @@
         `;
       }
 
-      // Render Dining Tables Grid (T1 - T10)
+      // Render Restaurant (T1 - T10)
       for (let i = 1; i <= 10; i++) {
         const tid = `T${i}`;
         const activeOrder = activeOrders.find(o => o.table_id === tid);
@@ -357,13 +295,9 @@
         let colorClasses = "bg-gray-50 border-gray-200 text-gray-400";
         let statusLight = "bg-gray-300";
 
-        if (status === 'active') {
+        if (status === 'active' || status === 'ordered') {
           colorClasses = "bg-green-50 border-green-300 text-green-800 font-bold";
           statusLight = "bg-green-500 animate-pulse";
-          activeGuestCounter++;
-        } else if (status === 'ordered') {
-          colorClasses = "bg-amber-50 border-amber-300 text-amber-800 font-bold";
-          statusLight = "bg-amber-500 animate-pulse";
           activeGuestCounter++;
         } else if (status === 'bill_requested') {
           colorClasses = "bg-red-50 border-red-300 text-red-800 font-bold";
@@ -383,17 +317,14 @@
       document.getElementById('active-guest-counter').textContent = `${activeGuestCounter} Active Sessions`;
     }
 
-    // QUEUE FILTER TOGGLES
     function setQueueFilter(filter) {
       currentQueueFilter = filter;
-      
       const buttons = {
         all: document.getElementById('q-filter-all'),
         ordered: document.getElementById('q-filter-ordered'),
         bill_requested: document.getElementById('q-filter-bill')
       };
 
-      // Reset style classes
       Object.keys(buttons).forEach(key => {
         if (key === filter) {
           buttons[key].className = "px-3 py-1 bg-royalBlue text-white rounded-lg text-xs font-semibold transition shadow-3xs";
@@ -405,22 +336,18 @@
       renderOrderQueue();
     }
 
-    // ACTIVE ORDERS QUEUE RENDERER
+    // QUEUE RENDERER WITH LIVE ITEM-LEVEL UPDATING (Synchronizes to customer live view)
     function renderOrderQueue() {
       const container = document.getElementById('order-queue-container');
       container.innerHTML = '';
 
-      // Filter active sessions having items
       let ordersWithItems = activeOrders.filter(o => {
         try {
-          const itemsArr = JSON.parse(o.items || "[]");
-          return itemsArr.length > 0;
-        } catch (e) {
-          return false;
-        }
+          const arr = JSON.parse(o.items || "[]");
+          return arr.length > 0;
+        } catch(e) { return false; }
       });
 
-      // Filter by current menu filter tabs
       if (currentQueueFilter === 'ordered') {
         ordersWithItems = ordersWithItems.filter(o => o.status === 'ordered');
       } else if (currentQueueFilter === 'bill_requested') {
@@ -430,11 +357,7 @@
       if (ordersWithItems.length === 0) {
         container.innerHTML = `
           <div class="text-center py-16 text-gray-400">
-            <svg class="h-12 w-12 mx-auto mb-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-            </svg>
-            <p class="font-bold text-gray-500 text-sm">No active orders queued</p>
-            <p class="text-xs text-gray-400 mt-1">Perfect! Kitchen is clean and all guests are catered.</p>
+            <p class="font-bold text-sm">Kitchen cue is empty.</p>
           </div>
         `;
         return;
@@ -443,28 +366,23 @@
       ordersWithItems.forEach(order => {
         const items = JSON.parse(order.items);
         let itemsHTML = '';
-        
-        items.forEach(item => {
-          // Check item prep stage from local log state
-          const stateKey = `prep_state_${order.id}_${item.name}`;
-          const currentStage = localStorage.getItem(stateKey) || "Pending"; // Pending, Preparing, Served
-          
-          let stateColor = "text-red-600 bg-red-50 border-red-100";
-          if (currentStage === 'Preparing') stateColor = "text-amber-600 bg-amber-50 border-amber-100";
-          if (currentStage === 'Served') stateColor = "text-green-600 bg-green-50 border-green-100";
+
+        items.forEach((item, index) => {
+          let stage = item.status || "Pending";
+          let stageColor = "text-red-600 bg-red-50 border-red-100";
+          if (stage === 'Preparing') stageColor = "text-amber-600 bg-amber-50 border-amber-100 animate-pulse";
+          if (stage === 'Served') stageColor = "text-green-600 bg-green-50 border-green-100";
 
           itemsHTML += `
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-3 bg-white border border-gray-100 rounded-xl">
               <div>
                 <span class="font-bold text-gray-800 text-sm">${item.name}</span>
-                <span class="text-xs font-semibold text-royalGreen bg-royalGreen-light px-2 py-0.5 rounded-full ml-1.5">Qty: ${item.qty}</span>
+                <span class="text-xs font-bold text-royalGreen bg-royalGreen-light px-2 py-0.5 rounded-full ml-1.5">Qty: ${item.qty}</span>
               </div>
               <div class="flex items-center gap-1.5 self-end sm:self-auto">
-                <span class="text-[10px] px-2.5 py-1 rounded-full border ${stateColor} font-bold">${currentStage}</span>
-                
-                <!-- Status Action Toggles -->
-                <button onclick="updateDishStage('${order.id}', '${encodeURIComponent(item.name)}', 'Preparing')" class="p-1 text-xs font-semibold text-amber-600 hover:bg-amber-100 rounded border border-transparent" title="Set to Preparing">Prep</button>
-                <button onclick="updateDishStage('${order.id}', '${encodeURIComponent(item.name)}', 'Served')" class="p-1 text-xs font-semibold text-green-600 hover:bg-green-100 rounded border border-transparent" title="Set to Served">Serve</button>
+                <span class="text-[10px] px-2.5 py-1 rounded-full border ${stageColor} font-bold">${stage}</span>
+                <button onclick="updateDishStage('${order.id}', ${index}, 'Preparing')" class="px-2 py-1 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded text-[10px] font-bold">Prep</button>
+                <button onclick="updateDishStage('${order.id}', ${index}, 'Served')" class="px-2 py-1 bg-green-100 hover:bg-green-200 text-green-800 rounded text-[10px] font-bold">Serve</button>
               </div>
             </div>
           `;
@@ -473,80 +391,50 @@
         const cardBorder = order.status === 'bill_requested' ? 'border-red-400 bg-red-50/20' : 'border-gray-100';
 
         container.innerHTML += `
-          <div class="rounded-2xl border ${cardBorder} p-5 shadow-xs space-y-4">
+          <div class="rounded-2xl border ${cardBorder} p-5 shadow-xs space-y-4 bg-white">
             <div class="flex items-center justify-between border-b border-gray-100 pb-3">
-              <div class="flex items-center gap-2">
-                <span class="font-serif font-extrabold text-lg text-royalBlue">${getFriendlyTableName(order.table_id)}</span>
-                ${order.status === 'bill_requested' ? '<span class="bg-red-100 text-red-700 text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md animate-pulse">Bill Needed!</span>' : ''}
-              </div>
-              <button onclick="triggerBilling('${order.table_id}')" class="bg-royalGreen text-white px-4 py-1.5 rounded-xl text-xs font-bold hover:bg-royalGreen-dark transition shadow-3xs flex items-center gap-1">
-                Generate Invoice
+              <span class="font-serif font-extrabold text-base text-royalBlue">${getFriendlyTableName(order.table_id)}</span>
+              <button onclick="triggerBilling('${order.table_id}')" class="bg-royalGreen text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-royalGreen-dark transition flex items-center gap-1 shadow-3xs">
+                Invoicing
               </button>
             </div>
-
-            <!-- List Dishes -->
-            <div class="space-y-2">
-              ${itemsHTML}
-            </div>
-
-            <div class="flex items-center justify-between pt-1 text-xs text-gray-400">
-              <span>Timestamp: ${new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-              <span class="font-bold text-royalGreen">Current Running Balance: ₹${parseFloat(order.total_amount).toFixed(2)}</span>
-            </div>
+            <div class="space-y-2">${itemsHTML}</div>
           </div>
         `;
       });
     }
 
-    // Helper to properly display friendly name based on fixed system identifiers
     function getFriendlyTableName(table) {
-      if (table.startsWith('R')) {
-        return `Room Service ${table}`;
-      } else if (table.startsWith('T')) {
-        return `Dining Table ${table}`;
-      }
+      if (table.startsWith('R')) return `Room Service ${table}`;
+      if (table.startsWith('T')) return `Dining Table ${table}`;
       return table;
     }
 
-    // UPDATE PREPARATION STAGE FOR DISHES INDIVIDUALLY
-    function updateDishStage(orderId, encodedItemName, stage) {
-      const itemName = decodeURIComponent(encodedItemName);
-      localStorage.setItem(`prep_state_${orderId}_${itemName}`, stage);
-      renderOrderQueue();
-    }
+    // UPDATE DISH PREPARATION STAGE DIRECTLY IN THE SUPABASE DB OBJECT
+    async function updateDishStage(orderId, itemIndex, newStage) {
+      const order = activeOrders.find(o => o.id == orderId);
+      if (!order) return;
 
-    // FOCUS DIRECT SELECT / CLICK TABLE TRIGGER
-    async function viewTableDetails(tableId) {
-      const activeOrder = activeOrders.find(o => o.table_id === tableId);
-      
-      if (!activeOrder) {
-        // Option to manually initiate session
-        const readableLabel = tableId.startsWith('R') ? `Room ${tableId}` : `Table ${tableId}`;
-        const forceOpen = confirm(`${readableLabel} is currently vacant. Would you like to force initialize a guest session here?`);
-        if (forceOpen) {
-          const payload = {
-            table_id: tableId,
-            items: JSON.stringify([]),
-            total_amount: 0,
-            status: 'active',
-            created_at: new Date().toISOString()
-          };
-          let created = await dbRequest('orders', 'POST', [payload]);
-          if (!created || created.length === 0) {
-            // Local fallback backup
-            payload.id = Date.now();
-            localStorage.setItem(`table_status_${tableId}`, 'active');
-            localStorage.setItem(`table_session_${tableId}`, JSON.stringify(payload));
-          }
-          fetchActiveSessions();
-        }
-        return;
+      let items = JSON.parse(order.items);
+      if (items[itemIndex]) {
+        items[itemIndex].status = newStage;
       }
 
+      const updatePayload = {
+        items: JSON.stringify(items),
+        updated_at: new Date().toISOString()
+      };
+
+      await dbRequest(`orders?id=eq.${orderId}`, 'PATCH', updatePayload);
+      await fetchActiveSessions();
+    }
+
+    function viewTableDetails(tableId) {
+      const activeOrder = activeOrders.find(o => o.table_id === tableId);
+      if (!activeOrder) return;
       triggerBilling(tableId);
     }
 
-    // TRIGGER BILLING DRAWER MODAL
     function triggerBilling(tableId) {
       const order = activeOrders.find(o => o.table_id === tableId);
       if (!order) return;
@@ -555,80 +443,50 @@
       const modal = document.getElementById('billing-modal');
       const content = document.getElementById('billing-modal-content');
       
-      let items = [];
-      try {
-        items = JSON.parse(order.items);
-      } catch (e) {
-        items = [];
-      }
-
+      let items = JSON.parse(order.items || "[]");
       let subtotal = 0;
       let itemsHTML = '';
 
-      if (items.length === 0) {
-        itemsHTML = `
-          <div class="text-center py-6 text-gray-400">
-            <p>No culinary dishes ordered yet for this session.</p>
+      items.forEach(item => {
+        const itemTot = item.price * item.qty;
+        subtotal += itemTot;
+        itemsHTML += `
+          <div class="flex items-center justify-between border-b border-gray-100 py-3 text-xs">
+            <div>
+              <span class="font-bold text-gray-800">${item.name}</span>
+              <span class="text-[10px] text-gray-400 block">₹${item.price.toFixed(2)} x ${item.qty}</span>
+            </div>
+            <span class="font-bold text-royalGreen">₹${itemTot.toFixed(2)}</span>
           </div>
         `;
-      } else {
-        items.forEach(item => {
-          const itemTot = item.price * item.qty;
-          subtotal += itemTot;
-          itemsHTML += `
-            <div class="flex items-center justify-between border-b border-gray-100 py-3 text-sm">
-              <div>
-                <span class="font-bold text-gray-800">${item.name}</span>
-                <span class="text-xs text-gray-400 block">₹${parseFloat(item.price).toFixed(2)} x ${item.qty}</span>
-              </div>
-              <span class="font-semibold text-royalGreen">₹${itemTot.toFixed(2)}</span>
-            </div>
-          `;
-        });
-      }
+      });
 
       const cgst = subtotal * 0.05;
       const sgst = subtotal * 0.05;
       const finalTotal = subtotal + cgst + sgst;
 
       content.innerHTML = `
-        <!-- Table Information -->
         <div class="bg-royalGreen-light border border-royalGreen/10 p-4 rounded-2xl flex items-center justify-between">
           <div>
-            <span class="text-xs text-gray-400 uppercase tracking-wider block">Session Target</span>
-            <span class="font-serif font-extrabold text-xl text-royalGreen">${getFriendlyTableName(order.table_id)}</span>
-          </div>
-          <div class="text-right">
-            <span class="text-xs text-gray-400 uppercase tracking-wider block">Session Duration</span>
-            <span class="text-xs font-bold text-royalBlue bg-royalBlue-light px-2.5 py-1 rounded-full">${new Date(order.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+            <span class="text-xs text-gray-400 block">Session Location</span>
+            <span class="font-serif font-extrabold text-lg text-royalGreen">${getFriendlyTableName(order.table_id)}</span>
           </div>
         </div>
 
-        <!-- Ordered Items summary -->
         <div>
-          <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Itemized Summary</h4>
-          <div class="bg-gray-50 border border-gray-150 rounded-2xl p-4 max-h-[25vh] overflow-y-auto">
+          <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-2">Invoice Summary</h4>
+          <div class="bg-gray-50 border border-gray-150 rounded-2xl p-4 max-h-[20vh] overflow-y-auto">
             ${itemsHTML}
           </div>
         </div>
 
-        <!-- Calculations panel with mandated 5% SGST + 5% CGST rules -->
-        <div class="space-y-2 border-t border-gray-100 pt-4">
-          <div class="flex justify-between text-sm text-gray-500">
-            <span>Subtotal</span>
-            <span>₹${subtotal.toFixed(2)}</span>
-          </div>
-          <div class="flex justify-between text-xs text-gray-400">
-            <span>CGST (5.0%)</span>
-            <span>₹${cgst.toFixed(2)}</span>
-          </div>
-          <div class="flex justify-between text-xs text-gray-400">
-            <span>SGST (5.0%)</span>
-            <span>₹${sgst.toFixed(2)}</span>
-          </div>
-          <div class="flex justify-between text-lg font-bold text-royalBlue border-t border-gray-200/60 pt-3">
-            <span>Grand Total (Rounding)</span>
-            <span class="text-royalGreen font-extrabold">₹${finalTotal.toFixed(2)}</span>
+        <div class="space-y-2 border-t border-gray-100 pt-4 text-xs">
+          <div class="flex justify-between text-gray-500"><span>Subtotal</span><span>₹${subtotal.toFixed(2)}</span></div>
+          <div class="flex justify-between text-gray-400"><span>CGST (5.0%)</span><span>₹${cgst.toFixed(2)}</span></div>
+          <div class="flex justify-between text-gray-400"><span>SGST (5.0%)</span><span>₹${sgst.toFixed(2)}</span></div>
+          <div class="flex justify-between text-base font-bold text-royalBlue border-t border-gray-200/60 pt-3">
+            <span>Grand Total (Inc. GST)</span>
+            <span class="text-royalGreen font-extrabold text-lg">₹${finalTotal.toFixed(2)}</span>
           </div>
         </div>
       `;
@@ -641,18 +499,11 @@
       selectedBillingSession = null;
     }
 
-    // PRINTABLE INVOICE COMPLIANT SCHEME
     function printInvoice() {
       if (!selectedBillingSession) return;
 
       const order = selectedBillingSession;
-      let items = [];
-      try {
-        items = JSON.parse(order.items);
-      } catch (e) {
-        items = [];
-      }
-
+      let items = JSON.parse(order.items || "[]");
       let subtotal = 0;
       let itemsLinesHTML = '';
 
@@ -674,15 +525,12 @@
       const invoiceArea = document.getElementById('print-invoice-area');
       invoiceArea.innerHTML = `
         <div style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 12px; margin-bottom: 12px;">
-          <h2 style="font-size: 16px; font-weight: bold; margin: 0;">HOTEL SAPPHIRE</h2>
-          <p style="margin: 4px 0; font-size: 10px;">Premium Dining &amp; Hospitality</p>
-          <p style="margin: 2px 0; font-size: 9px;">Yamuna Nagar, Haryana, India</p>
-          <p style="margin: 2px 0; font-size: 9px;">Tel: +91 99999-XXXXX</p>
+          <h2 style="font-size: 15px; font-weight: bold; margin: 0;">HOTEL SAPPHIRE</h2>
+          <p style="margin: 4px 0; font-size: 10px;">Yamuna Nagar, Haryana, India</p>
         </div>
-
         <div style="border-bottom: 1px dashed #000; padding-bottom: 8px; margin-bottom: 8px; font-size: 10px;">
           <div style="display: flex; justify-content: space-between;">
-            <span>Bill No: #SAP-${order.id || Date.now()}</span>
+            <span>Bill No: #SAP-${order.id}</span>
             <span>Date: ${new Date().toLocaleDateString()}</span>
           </div>
           <div style="display: flex; justify-content: space-between; margin-top: 4px;">
@@ -690,63 +538,36 @@
             <span>Time: ${new Date().toLocaleTimeString()}</span>
           </div>
         </div>
-
-        <div style="border-bottom: 1px dashed #000; padding-bottom: 8px; margin-bottom: 8px;">
-          <div style="font-weight: bold; margin-bottom: 6px; display: flex; justify-content: space-between;">
-            <span>Item Description</span>
-            <span>Amount</span>
-          </div>
+        <div style="border-bottom: 1px dashed #000; padding-bottom: 8px; margin-bottom: 8px; font-size: 10px;">
           ${itemsLinesHTML}
         </div>
-
         <div style="font-size: 10px; line-height: 1.6; border-bottom: 1px dashed #000; padding-bottom: 8px; margin-bottom: 8px;">
-          <div style="display: flex; justify-content: space-between;">
-            <span>Subtotal:</span>
-            <span>₹${subtotal.toFixed(2)}</span>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span>CGST (5.0%):</span>
-            <span>₹${cgst.toFixed(2)}</span>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span>SGST (5.0%):</span>
-            <span>₹${sgst.toFixed(2)}</span>
-          </div>
+          <div style="display: flex; justify-content: space-between;"><span>Subtotal:</span><span>₹${subtotal.toFixed(2)}</span></div>
+          <div style="display: flex; justify-content: space-between;"><span>CGST (5.0%):</span><span>₹${cgst.toFixed(2)}</span></div>
+          <div style="display: flex; justify-content: space-between;"><span>SGST (5.0%):</span><span>₹${sgst.toFixed(2)}</span></div>
           <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 12px; margin-top: 4px;">
             <span>GRAND TOTAL:</span>
             <span>₹${finalTotal.toFixed(2)}</span>
           </div>
         </div>
-
         <div style="text-align: center; font-size: 9px; margin-top: 12px;">
-          <p style="margin: 4px 0;">Thank you for visiting Hotel Sapphire!</p>
-          <p style="margin: 2px 0;">Please visit us again soon.</p>
+          <p>Thank you for visiting Hotel Sapphire!</p>
         </div>
       `;
 
       window.print();
     }
 
-    // COMPLETE AND ARCHIVE CHECKOUT LOG
     async function completeCheckout() {
       if (!selectedBillingSession) return;
-
       const order = selectedBillingSession;
-      
+
       const updatePayload = {
         status: 'completed',
         updated_at: new Date().toISOString()
       };
 
-      // Call DB to set status completed
-      let res = await dbRequest(`orders?id=eq.${order.id}`, 'PATCH', updatePayload);
-      
-      // Save order record to Local History log for reports/admin purges
-      const archivedRecord = {
-        ...order,
-        ...updatePayload,
-        subtotal: parseFloat(order.total_amount) / 1.1 // approx subtotal
-      };
+      await dbRequest(`orders?id=eq.${order.id}`, 'PATCH', updatePayload);
 
       let history = [];
       try {
@@ -754,20 +575,13 @@
         if (savedHistory) history = JSON.parse(savedHistory);
       } catch (e) {}
 
-      history.push(archivedRecord);
+      history.push({ ...order, ...updatePayload });
       localStorage.setItem('sapphire_history_log', JSON.stringify(history));
 
-      // Reset Table/Room state indicators
-      localStorage.removeItem(`table_status_${order.table_id}`);
-      localStorage.removeItem(`table_session_${order.table_id}`);
-      localStorage.removeItem(`sapphire_session_backup_${order.table_id}`);
-      localStorage.setItem(`table_status_${order.table_id}`, 'completed'); // triggers polling redirect in guests
-
       closeBillingModal();
-      fetchActiveSessions();
+      await fetchActiveSessions();
     }
 
-    // ARCHIVE LOG VIEWERS
     function openHistory() {
       const modal = document.getElementById('history-modal');
       const container = document.getElementById('history-log-container');
@@ -782,40 +596,26 @@
       container.innerHTML = '';
 
       if (logs.length === 0) {
-        container.innerHTML = `
-          <div class="text-center py-12 text-gray-400">
-            <p>No completed transaction entries recorded today.</p>
-          </div>
-        `;
-        document.getElementById('history-total-sales').textContent = "Total Income Today: ₹0.00";
+        container.innerHTML = `<p class="text-center py-8 text-gray-400 text-xs">No completed sales recorded today.</p>`;
         modal.classList.remove('hidden');
         return;
       }
 
       let grandTotalSales = 0;
-
-      logs.forEach((log, index) => {
+      logs.forEach(log => {
         grandTotalSales += parseFloat(log.total_amount || 0);
-        let itemsCount = 0;
-        try {
-          itemsCount = JSON.parse(log.items).length;
-        } catch (e) {}
-
         container.innerHTML += `
-          <div class="bg-gray-50 border border-gray-150 p-4 rounded-2xl flex items-center justify-between text-sm">
+          <div class="bg-gray-50 border border-gray-150 p-3.5 rounded-xl flex items-center justify-between text-xs">
             <div>
               <span class="font-bold text-royalBlue block">${getFriendlyTableName(log.table_id)}</span>
-              <span class="text-xs text-gray-400">Checkout at: ${new Date(log.updated_at).toLocaleTimeString()} • ${itemsCount} Dishes</span>
+              <span class="text-[10px] text-gray-400">Checkout at: ${new Date(log.updated_at).toLocaleTimeString()}</span>
             </div>
-            <div class="text-right">
-              <span class="font-bold text-royalGreen block">₹${parseFloat(log.total_amount).toFixed(2)}</span>
-              <span class="text-[10px] text-gray-400 uppercase">Settled</span>
-            </div>
+            <span class="font-extrabold text-royalGreen">₹${parseFloat(log.total_amount).toFixed(2)}</span>
           </div>
         `;
       });
 
-      document.getElementById('history-total-sales').textContent = `Total Income Today: ₹${grandTotalSales.toFixed(2)}`;
+      document.getElementById('history-total-sales').textContent = `Total Today: ₹${grandTotalSales.toFixed(2)}`;
       modal.classList.remove('hidden');
     }
 
@@ -823,7 +623,6 @@
       document.getElementById('history-modal').classList.add('hidden');
     }
 
-    // ADMIN PURGE PROTOCOLS (Manager Authenticator)
     function triggerAdminPurge() {
       document.getElementById('admin-pass-modal').classList.remove('hidden');
     }
@@ -836,34 +635,20 @@
     async function executePurge() {
       const inputPass = document.getElementById('admin-pw').value;
       if (inputPass === 'sapphireadmin') {
-        // Purge History in Supabase
-        await dbRequest('orders', 'DELETE'); // Purge target logs
-        
-        // Wipe local database history elements
+        await dbRequest('orders', 'DELETE');
         localStorage.removeItem('sapphire_history_log');
-        
-        // Purge local states of Tables to ensure fresh start
-        for (let i = 1; i <= 10; i++) {
-          localStorage.removeItem(`table_status_R${i}`);
-          localStorage.removeItem(`table_session_R${i}`);
-          localStorage.removeItem(`table_status_T${i}`);
-          localStorage.removeItem(`table_session_T${i}`);
-        }
-
-        alert("Database system purged! History has been permanently archived/deleted successfully.");
+        alert("Transaction logs purged successfully.");
         cancelPurge();
         closeHistory();
-        fetchActiveSessions();
+        await fetchActiveSessions();
       } else {
-        alert("Incorrect administrator authentication credentials!");
-        document.getElementById('admin-pw').value = '';
+        alert("Incorrect password!");
       }
     }
 
-    // Polling triggers to keep Kitchen Desk active & live 
     window.addEventListener('DOMContentLoaded', () => {
       fetchActiveSessions();
-      setInterval(fetchActiveSessions, 3000);
+      setInterval(fetchActiveSessions, 4000);
     });
   </script>
 </body>
