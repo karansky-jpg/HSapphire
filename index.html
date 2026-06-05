@@ -1,873 +1,975 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Hotel Sapphire - Premium Book Menu</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            royalGreen: {
-              DEFAULT: '#0A5C36',
-              dark: '#063d23',
-              light: '#eefcf5',
-            },
-            royalBlue: {
-              DEFAULT: '#0B3C5D',
-              dark: '#07273d',
-              light: '#f0f5fa',
-            },
-            accentGold: '#D4AF37',
-          },
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            serif: ['Playfair Display', 'serif'],
-          }
-        }
-      }
-    }
-  </script>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    .hide-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .hide-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    .page-turn-active {
-      animation: pageTurnEffect 0.4s ease-out;
-    }
-    @keyframes pageTurnEffect {
-      0% { transform: rotateY(-10deg) scale(0.98); opacity: 0.8; }
-      100% { transform: rotateY(0deg) scale(1); opacity: 1; }
-    }
-  </style>
-</head>
-<body class="bg-[#05170E] text-gray-900 min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
-
-  <!-- TOP BRANDING AGENCY LINK -->
-  <div class="bg-royalBlue text-white text-[11px] py-2 px-4 flex justify-between items-center z-50 border-b border-white/10 shadow-md">
-    <span class="font-medium tracking-wider text-white/90">HOTEL SAPPHIRE EXCLUSIVE DIGITAL PORTAL</span>
-    <a href="https://karan-digital-menu-agency.vercel.app/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-accentGold font-bold hover:underline transition">
-      <span>Created by Karan Digital Menu Agency</span>
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-    </a>
-  </div>
-
-  <!-- HOTEL TITLE HEADER -->
-  <header class="bg-gradient-to-b from-[#0A5C36] to-[#042414] py-5 px-4 text-center border-b border-accentGold/20">
-    <div class="max-w-4xl mx-auto flex flex-col items-center">
-      <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-16 w-16 object-contain drop-shadow-md mb-2 animate-pulse" onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=100'">
-      <h1 class="text-2xl font-serif font-bold text-white tracking-wide">Hotel Sapphire</h1>
-      <p class="text-[10px] text-accentGold font-serif tracking-widest uppercase">Premium Dining &amp; Room Service</p>
-      
-      <!-- Session Room/Table Indicator -->
-      <div id="session-badge" class="mt-3 inline-flex items-center gap-2 bg-black/40 border border-accentGold/30 text-accentGold text-xs font-bold px-4 py-1.5 rounded-full cursor-pointer hover:bg-black/60 transition" onclick="openLocationSelector()">
-        <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
-        <span id="current-location-text">Setting Dining Space...</span>
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-      </div>
-    </div>
-  </header>
-
-  <!-- QUICK CATEGORY JUMPER -->
-  <nav class="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40 shadow-xs">
-    <div id="category-index-scroller" class="max-w-7xl mx-auto px-4 py-2.5 flex gap-2.5 overflow-x-auto hide-scrollbar scroll-smooth">
-      <!-- Generated dynamically based on category pages -->
-    </div>
-  </nav>
-
-  <!-- INTERACTIVE BOOK AREA -->
-  <main class="flex-grow py-5 px-4 max-w-5xl mx-auto w-full flex flex-col justify-center">
-    <div class="relative w-full bg-white rounded-3xl shadow-2xl min-h-[500px] flex flex-col justify-between border-4 border-royalGreen/30 overflow-hidden">
-      <!-- Background Decor -->
-      <div class="absolute inset-0 bg-gradient-to-br from-royalGreen-light/30 via-white to-royalBlue-light/20 pointer-events-none"></div>
-      
-      <!-- Dynamic Page Wrapper -->
-      <div id="menu-page-wrapper" class="relative flex-grow p-5 sm:p-7 flex flex-col justify-between z-10 page-turn-active">
-        <div class="flex flex-col items-center justify-center text-center py-24 text-gray-500">
-          <svg class="animate-spin h-10 w-10 text-royalGreen mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <p class="font-serif text-base font-bold text-royalGreen">Loading Sapphire digital menu sheets...</p>
-        </div>
-      </div>
-
-      <!-- Book Controller Footer -->
-      <div class="bg-gray-50 border-t border-gray-100 px-5 py-3.5 flex items-center justify-between z-20">
-        <button id="prev-page-btn" onclick="prevPage()" class="bg-royalBlue hover:bg-royalBlue-dark text-white py-2.5 px-4 rounded-xl font-bold text-xs transition flex items-center gap-1.5 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-          <span>Previous</span>
-        </button>
-
-        <span id="page-indicator" class="text-[10px] font-extrabold text-royalBlue bg-royalBlue-light border border-royalBlue/20 px-3.5 py-1.5 rounded-lg tracking-widest font-mono">
-          PAGE 1 / 1
-        </span>
-
-        <button id="next-page-btn" onclick="nextPage()" class="bg-royalBlue hover:bg-royalBlue-dark text-white py-2.5 px-4 rounded-xl font-bold text-xs transition flex items-center gap-1.5 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
-          <span>Next</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-        </button>
-      </div>
-    </div>
-  </main>
-
-  <!-- DOCKABLE USER ORDER MONITOR BAR -->
-  <section id="floating-cart-bar" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 w-[94%] max-w-lg bg-royalGreen/95 backdrop-blur-md text-white p-3.5 rounded-2xl shadow-2xl z-50 flex items-center justify-between border border-accentGold/30">
-    <div class="flex items-center gap-2.5">
-      <div class="bg-accentGold text-royalGreen p-2 rounded-lg animate-bounce">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-      </div>
-      <div>
-        <h4 id="cart-float-qty" class="font-extrabold text-xs text-accentGold">0 Items Drafted</h4>
-        <p id="cart-float-total" class="text-[10px] text-white/90">Click "Place KOT" to notify chef</p>
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <button onclick="openBillStatusModal()" class="bg-white/10 hover:bg-white/20 text-white font-bold text-[11px] py-2 px-3 rounded-xl border border-white/20 transition">
-        Live Tracker
-      </button>
-      <button onclick="openCartModal()" class="bg-accentGold hover:bg-yellow-500 text-royalGreen font-black text-[11px] py-2 px-4 rounded-xl shadow-md transition">
-        Place KOT
-      </button>
-    </div>
-  </section>
-
-  <!-- COZY FOOTER -->
-  <footer class="bg-[#03110A] text-gray-500 text-center py-5 border-t border-white/5 text-[10px] z-10">
-    <p class="mb-1">&copy; 2026 Hotel Sapphire, Yamuna Nagar. All Rights Reserved.</p>
-    <p>Branded and Maintained by <a href="https://karan-digital-menu-agency.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-accentGold font-bold hover:underline">Karan Digital Menu Agency</a></p>
-  </footer>
-
-  <!-- MODAL: LOCATION SELECTOR (FORCES ON ENTRY) -->
-  <div id="location-selector-modal" class="fixed inset-0 z-55 bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl p-5 border border-accentGold/20 text-center">
-      <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-12 w-12 object-contain mx-auto mb-2">
-      <h3 class="text-lg font-bold text-royalBlue font-serif">Welcome to Hotel Sapphire</h3>
-      <p class="text-xs text-gray-400 mt-0.5 mb-4">Please input your current accommodation space</p>
-
-      <div class="space-y-4">
-        <div class="grid grid-cols-2 gap-2 p-1 bg-gray-100 rounded-xl text-xs font-bold">
-          <button id="tab-select-table" onclick="toggleSelectorTab('table')" class="py-2 rounded-lg bg-royalGreen text-white transition">Dining Table (T)</button>
-          <button id="tab-select-room" onclick="toggleSelectorTab('room')" class="py-2 rounded-lg text-gray-500 hover:bg-gray-200 transition">Room Service (R)</button>
-        </div>
-
-        <div class="max-h-[180px] overflow-y-auto p-1">
-          <div id="selector-grid" class="grid grid-cols-5 gap-2">
-            <!-- T1-T10 or R1-R10 populated by JavaScript -->
-          </div>
-        </div>
-
-        <button onclick="confirmLocationSelection()" id="confirm-location-btn" disabled class="w-full bg-royalBlue hover:bg-royalBlue-dark text-white py-2.5 rounded-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-xs">
-          Open Digital Book Menu
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: CART & SEND ORDER KOT -->
-  <div id="cart-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-accentGold/20">
-      <div class="bg-royalGreen text-white px-5 py-3 flex items-center justify-between">
-        <h3 class="font-bold text-base font-serif">Review Order Ticket</h3>
-        <button onclick="closeCartModal()" class="text-white/80 hover:text-white transition">
-          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-      </div>
-
-      <div class="p-5 max-h-[40vh] overflow-y-auto space-y-3" id="cart-items-container">
-        <!-- Injected dynamically -->
-      </div>
-
-      <div class="border-t border-gray-100 bg-gray-50 p-5 space-y-2 text-xs">
-        <div class="flex justify-between text-gray-500"><span>Drafted Subtotal</span><span id="cart-subtotal">₹0.00</span></div>
-        <div class="flex justify-between text-gray-400"><span>CGST (5.0%)</span><span id="cart-cgst">₹0.00</span></div>
-        <div class="flex justify-between text-gray-400"><span>SGST (5.0%)</span><span id="cart-sgst">₹0.00</span></div>
-        <div class="flex justify-between text-sm font-bold text-royalBlue border-t border-gray-200/60 pt-2">
-          <span>Est. Grand Total</span>
-          <span id="cart-total" class="text-royalGreen font-extrabold text-base">₹0.00</span>
-        </div>
-      </div>
-
-      <div class="p-4 bg-gray-100 border-t border-gray-200/50 flex gap-2">
-        <button onclick="closeCartModal()" class="flex-1 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 py-2.5 rounded-xl font-bold text-xs transition">
-          Browse More
-        </button>
-        <button onclick="placeOrder()" class="flex-1 bg-royalGreen hover:bg-royalGreen-dark text-white py-2.5 rounded-xl font-bold text-xs transition">
-          Send KOT to Kitchen
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: LIVE TRACKER & ACTIVE DISH STATUSES -->
-  <div id="bill-status-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-royalBlue/20">
-      <div class="bg-royalBlue text-white px-5 py-3 flex items-center justify-between">
-        <h3 class="font-bold text-base font-serif">Your Live Running Orders</h3>
-        <button onclick="closeBillStatusModal()" class="text-white/80 hover:text-white transition">
-          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-      </div>
-
-      <div class="p-5 space-y-4 max-h-[50vh] overflow-y-auto" id="bill-status-content">
-        <!-- Loaded by real-time tracking scripts -->
-      </div>
-
-      <div class="p-4 bg-gray-50 border-t border-gray-100 flex gap-2">
-        <button onclick="requestBill()" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-bold text-xs transition">
-          Request Bill Receipt
-        </button>
-        <button onclick="closeBillStatusModal()" class="flex-1 bg-royalBlue text-white py-2.5 rounded-xl font-bold text-xs transition">
-          Continue Browsing
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST ALERTS BANNER -->
-  <div id="toast-banner" class="hidden fixed top-5 right-5 z-100 bg-royalBlue text-white px-4 py-3 rounded-xl shadow-2xl border border-accentGold/30 items-center gap-3 transition duration-300 max-w-xs text-xs font-bold">
-    <span id="toast-message"></span>
-  </div>
-
-  <!-- CONFIRM POPUP (NO WINDOW.CONFIRM) -->
-  <div id="confirm-modal" class="hidden fixed inset-0 z-100 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center border border-royalBlue/20 shadow-2xl">
-      <h4 id="confirm-title" class="font-serif font-bold text-base text-royalBlue mb-1">Confirm Action</h4>
-      <p id="confirm-desc" class="text-xs text-gray-400 mb-4"></p>
-      <div class="flex gap-2">
-        <button id="confirm-cancel-btn" class="flex-1 bg-gray-100 text-gray-600 py-2 rounded-lg font-bold text-xs transition">Cancel</button>
-        <button id="confirm-approve-btn" class="flex-1 bg-royalGreen text-white py-2 rounded-lg font-bold text-xs transition">Confirm</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
-    const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
-    const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzR5bQ20p89e7W9f23O70S0M7L92v73S08_102v7/exec";
-
-    let rawMenuItems = [];
-    let organizedPages = [];
-    let currentPageIndex = 0;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Sapphire - Premium Digital Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    let activeCart = [];
-    let selectedLocation = null;
-    let currentTabType = 'table';
-    let activeSessionOrder = null;
-
-    // Elegant backup data in case Google script hits quota/limits
-    const defaultFallbackMenu = [
-      { category: "STARTERS & SOUP", name: "Paneer Tikka Angara", price: 320, desc: "Smoky cottage cheese cubes marinated in spices, grilled on charcoal", tags: "Veg, Spicy" },
-      { category: "STARTERS & SOUP", name: "Chicken Malai Kebab", price: 420, desc: "Cottage cheese and poultry baked with rich cream marinade", tags: "Non-Veg" },
-      { category: "STARTERS & SOUP", name: "Veg Spring Roll", price: 240, desc: "Golden fried rolled pastry wrapping stir-fry garden vegetables", tags: "Veg" },
-      { category: "STARTERS & SOUP", name: "Hot & Sour Soup", price: 160, desc: "Traditional dark brown broth spiked with white pepper and chilli vinegar", tags: "Veg" },
-      { category: "MAIN COURSE - VEG", name: "Dal Makhani Dum Sunk", price: 290, desc: "Black lentils slow-simmered overnight, tempered with clarified butter and fresh cream", tags: "Veg" },
-      { category: "MAIN COURSE - VEG", name: "Paneer Butter Masala", price: 340, desc: "Cubes of house-made cheese simmered in cream, butter, tomato and cashew gravy", tags: "Veg" },
-      { category: "MAIN COURSE - VEG", name: "Kadai Vegetable", price: 310, desc: "Tender mixed greens wok-fried with crushed whole spices and sweet bell peppers", tags: "Veg" },
-      { category: "MAIN COURSE - NON-VEG", name: "Kadhai Chicken", price: 460, desc: "Bone-in chicken slow cooked with sweet tomatoes and ground spices in iron wok", tags: "Non-Veg, Spicy" },
-      { category: "MAIN COURSE - NON-VEG", name: "Sapphire Butter Chicken", price: 480, desc: "Smoked tandoori chicken cooked in luscious tomato gravy loaded with butter", tags: "Non-Veg" },
-      { category: "RICE & BREADS", name: "Tandoori Butter Roti", price: 40, desc: "Whole wheat round tandoor-baked flatbread glazed with melted butter", tags: "Veg" },
-      { category: "RICE & BREADS", name: "Garlic Naan", price: 80, desc: "Clay oven leavened flatbread baked with minced premium garlic cloves", tags: "Veg" },
-      { category: "RICE & BREADS", name: "Jeera Rice", price: 190, desc: "Premium Basmati rice tossed with roasted cumin seeds", tags: "Veg" },
-      { category: "RICE & BREADS", name: "Chicken Biryani", price: 440, desc: "Traditional slow-layered rice infused with royal spices and saffron", tags: "Non-Veg" },
-      { category: "DESSERTS & DRINKS", name: "Saffron Rabdi", price: 150, desc: "Reduced-milk dessert enriched with green cardamom and Kashmiri saffron strings", tags: "Veg" },
-      { category: "DESSERTS & DRINKS", name: "Masala Chai", price: 60, desc: "Premium tea brewed with ginger and hand-crushed aromatic spices", tags: "Veg" },
-      { category: "DESSERTS & DRINKS", name: "Fresh Mint Lemonade", price: 120, desc: "Cold citrus quencher built with hand-squeezed lime and organic mint leaves", tags: "Veg" }
-    ];
-
-    async function dbRequest(endpoint, method = 'GET', body = null) {
-      const url = `${SUPABASE_URL}${endpoint}`;
-      const headers = {
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`,
-        "Content-Type": "application/json",
-        "Prefer": "return=representation"
-      };
-      const config = { method, headers };
-      if (body) config.body = JSON.stringify(body);
-
-      try {
-        const response = await fetch(url, config);
-        if (!response.ok) throw new Error("Supabase Query Error");
-        return await response.json();
-      } catch (e) {
-        console.warn("Db sync delay. Operating locally temporarily.", e);
-        return null;
-      }
-    }
-
-    function showToast(message, isError = false) {
-      const banner = document.getElementById('toast-banner');
-      const text = document.getElementById('toast-message');
-      
-      text.innerText = message;
-      banner.className = `fixed top-5 right-5 z-100 px-4 py-3 rounded-xl shadow-2xl border items-center gap-3 flex text-xs font-bold ${isError ? 'bg-red-600 border-red-400 text-white' : 'bg-royalBlue border-accentGold/30 text-white'}`;
-      
-      banner.classList.remove('hidden');
-      setTimeout(() => banner.classList.add('hidden'), 3500);
-    }
-
-    function showCustomConfirm(title, desc, callback) {
-      const modal = document.getElementById('confirm-modal');
-      const t = document.getElementById('confirm-title');
-      const d = document.getElementById('confirm-desc');
-      const cBtn = document.getElementById('confirm-cancel-btn');
-      const aBtn = document.getElementById('confirm-approve-btn');
-
-      t.innerText = title;
-      d.innerText = desc;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-
-      cBtn.onclick = () => modal.classList.add('hidden');
-      aBtn.onclick = () => {
-        modal.classList.add('hidden');
-        callback();
-      };
-    }
-
-    function toggleSelectorTab(type) {
-      currentTabType = type;
-      const tabTable = document.getElementById('tab-select-table');
-      const tabRoom = document.getElementById('tab-select-room');
-
-      if (type === 'table') {
-        tabTable.className = "py-2 rounded-lg bg-royalGreen text-white transition";
-        tabRoom.className = "py-2 rounded-lg text-gray-500 hover:bg-gray-200 transition";
-      } else {
-        tabRoom.className = "py-2 rounded-lg bg-royalGreen text-white transition";
-        tabTable.className = "py-2 rounded-lg text-gray-500 hover:bg-gray-200 transition";
-      }
-      renderSelectorGrid();
-    }
-
-    function renderSelectorGrid() {
-      const grid = document.getElementById('selector-grid');
-      grid.innerHTML = '';
-      const prefix = currentTabType === 'table' ? 'T' : 'R';
-
-      for (let i = 1; i <= 10; i++) {
-        const id = `${prefix}${i}`;
-        const activeClass = selectedLocation === id 
-          ? "bg-royalGreen text-white border-royalGreen font-black" 
-          : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100";
-
-        grid.innerHTML += `
-          <button onclick="selectLocationOption('${id}')" class="border py-2.5 rounded-xl transition text-center text-xs font-bold ${activeClass}">
-            ${id}
-          </button>
-        `;
-      }
-    }
-
-    function selectLocationOption(id) {
-      selectedLocation = id;
-      document.getElementById('confirm-location-btn').disabled = false;
-      renderSelectorGrid();
-    }
-
-    function openLocationSelector() {
-      document.getElementById('location-selector-modal').classList.remove('hidden');
-      renderSelectorGrid();
-    }
-
-    async function confirmLocationSelection() {
-      if (!selectedLocation) return;
-      localStorage.setItem('sapphire_saved_location', selectedLocation);
-      document.getElementById('location-selector-modal').classList.add('hidden');
-
-      const prefixLabel = selectedLocation.startsWith('R') ? `Room Service ${selectedLocation}` : `Table ${selectedLocation}`;
-      document.getElementById('current-location-text').innerText = prefixLabel;
-
-      await syncActiveSession();
-      showToast(`Welcome! Dining space set to ${prefixLabel}`);
-    }
-
-    // PERSISTENT RETRIEVAL OF EXISTING ONGOING TABLE ACTIVE ORDER (DISH PROGRESS STATE)
-    async function syncActiveSession() {
-      if (!selectedLocation) return;
-
-      // Check if there is an open (not completed) order session for this space
-      const activeData = await dbRequest(`orders?table_id=eq.${selectedLocation}&status=neq.completed`, 'GET');
-
-      if (activeData && activeData.length > 0) {
-        activeSessionOrder = activeData[0];
-        // Load items that have been previously sent to KOT to reconstruct visual statuses
-        try {
-          const sentItems = JSON.parse(activeSessionOrder.items || "[]");
-          // Items already placed can't be modified in current cart draft; user begins a new draft
-          activeCart = []; 
-        } catch (e) {
-          activeCart = [];
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at center, #1a140f 0%, #060403 100%);
+            color: #f6efe2;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            user-select: none;
+            -webkit-user-select: none;
         }
-      } else {
-        activeSessionOrder = null;
-        activeCart = [];
-      }
-      updateCartStatus();
-    }
-
-    // FETCH GOOGLE SPREADSHEET (Auto Normalizing Columns)
-    async function fetchGoogleSheetMenu() {
-      try {
-        const response = await fetch(SPREADSHEET_URL);
-        if (!response.ok) throw new Error("CORS or offline error");
-        const rawRows = await response.json();
-
-        if (rawRows && rawRows.length > 0) {
-          // Robust column normalizer
-          rawMenuItems = rawRows.map(row => {
-            const keys = Object.keys(row);
-            const findValue = (possibleNames) => {
-              const matchedKey = keys.find(k => possibleNames.includes(k.toLowerCase().trim()));
-              return matchedKey ? row[matchedKey] : '';
-            };
-
-            return {
-              category: findValue(['category', 'group', 'menu category', 'cat']),
-              name: findValue(['name', 'item name', 'dish', 'item']),
-              price: parseFloat(findValue(['price', 'rate', 'cost', 'amount'])) || 0,
-              desc: findValue(['description', 'desc', 'recipe', 'details']),
-              tags: findValue(['tags', 'type', 'tag', 'veg/nonveg'])
-            };
-          }).filter(item => item.name && item.category);
-        } else {
-          rawMenuItems = defaultFallbackMenu;
+        .serif-font {
+            font-family: 'Cinzel', serif;
         }
-      } catch (e) {
-        console.warn("Using premium fallback offline tandoor menu dictionary", e);
-        rawMenuItems = defaultFallbackMenu;
-      }
-      paginateMenu();
-    }
-
-    // PACIFY 170+ ITEMS INTO HIGHLY CONVENIENT COMPACT MULTI-PAGE FORMAT (8 items per page)
-    function paginateMenu() {
-      const grouped = {};
-      rawMenuItems.forEach(item => {
-        const cat = item.category.toUpperCase().trim() || "SPECIALS";
-        if (!grouped[cat]) grouped[cat] = [];
-        grouped[cat].push(item);
-      });
-
-      organizedPages = [];
-      const categories = Object.keys(grouped);
-
-      categories.forEach(cat => {
-        const items = grouped[cat];
-        const pageCap = 8; // Optimal readability size
-        const totalCatPages = Math.ceil(items.length / pageCap);
-
-        for (let i = 0; i < totalCatPages; i++) {
-          organizedPages.push({
-            category: cat,
-            pageNum: i + 1,
-            totalPages: totalCatPages,
-            items: items.slice(i * pageCap, (i + 1) * pageCap)
-          });
+        /* 3D Page flip container */
+        .book-container {
+            perspective: 1500px;
+            position: relative;
         }
-      });
+        .book-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease-in-out;
+            transform-origin: left center;
+        }
+        .page-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.95);
+        }
+        .page-front {
+            z-index: 2;
+            background: linear-gradient(135deg, #17130f 0%, #1f1914 100%);
+            border: 2px solid rgba(212, 175, 55, 0.22);
+        }
+        /* Scrollbar customization */
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.02);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 4px;
+        }
+        /* Theme highlights */
+        .gold-border {
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        .text-gold {
+            color: #d4af37;
+        }
+        .bg-gold {
+            background-color: #d4af37;
+        }
+        /* Page animation states */
+        .page-hidden {
+            pointer-events: none;
+            opacity: 0;
+            z-index: 0 !important;
+            transform: scale(0.96) rotateY(-8deg);
+        }
+        .page-active {
+            pointer-events: auto;
+            opacity: 1;
+            z-index: 10;
+            transform: scale(1) rotateY(0deg);
+        }
+        .rate-button-pulse {
+            animation: pulseGlow 2.5s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 4px rgba(212, 175, 55, 0.15); }
+            50% { box-shadow: 0 0 12px rgba(212, 175, 55, 0.4); }
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between h-screen w-screen relative">
 
-      currentPageIndex = 0;
-      renderBookPage();
-    }
+    <header class="w-full bg-[#100c09] border-b border-[#d4af3720] py-2 px-4 z-50 text-center flex justify-between items-center h-[52px]">
+        <div class="flex items-center space-x-2">
+            <span class="text-gold text-base"><i class="fa-solid fa-gem animate-pulse"></i></span>
+            <span class="serif-font text-xs md:text-sm tracking-widest font-bold text-white">THE BACK DOOR • SAPPHIRE</span>
+        </div>
+        <a href="https://karan-digital-menu-agency.vercel.app/#contact" target="_blank" class="text-[9px] md:text-xs tracking-widest font-semibold text-gold hover:text-white transition duration-300 border border-[#d4af3735] px-3 py-1 rounded-full bg-[#19130e]">
+            Created By. KARAN DIGITAL MENU AGENCY <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[8px]"></i>
+        </a>
+    </header>
 
-    // RENDER MENU SHEETS
-    function renderBookPage() {
-      const container = document.getElementById('menu-page-wrapper');
-      if (organizedPages.length === 0) return;
-
-      const page = organizedPages[currentPageIndex];
-      renderCategoryIndex(page.category);
-
-      let itemsHTML = '';
-      page.items.forEach(item => {
-        const cartItem = activeCart.find(i => i.name === item.name);
-        const qty = cartItem ? cartItem.qty : 0;
+    <main class="flex-grow w-full max-w-md mx-auto relative px-3 py-3 flex items-center justify-center h-[calc(100vh-112px)] overflow-hidden">
         
-        const isNonVeg = item.tags && item.tags.toLowerCase().includes('non');
-        const badgeColor = isNonVeg ? 'border-red-500 text-red-500' : 'border-green-500 text-green-500';
-        const badgeText = isNonVeg ? 'Non-Veg' : 'Veg';
-
-        const actionControls = qty > 0 ? `
-          <div class="flex items-center gap-1.5 bg-royalGreen text-white rounded-xl p-1 shadow-md">
-            <button onclick="changeQty('${encodeURIComponent(item.name)}', -1)" class="w-6 h-6 flex items-center justify-center font-bold hover:bg-royalGreen-dark rounded-md">-</button>
-            <span class="text-xs font-bold w-4 text-center">${qty}</span>
-            <button onclick="changeQty('${encodeURIComponent(item.name)}', 1)" class="w-6 h-6 flex items-center justify-center font-bold hover:bg-royalGreen-dark rounded-md">+</button>
-          </div>
-        ` : `
-          <button onclick="changeQty('${encodeURIComponent(item.name)}', 1)" class="bg-royalGreen hover:bg-royalGreen-dark text-white text-[11px] font-extrabold py-2 px-3 rounded-xl shadow-xs transition">
-            ADD +
-          </button>
-        `;
-
-        itemsHTML += `
-          <div class="bg-white/80 border border-gray-100 rounded-2xl p-3.5 flex items-center justify-between gap-3 shadow-xs">
-            <div class="space-y-0.5">
-              <span class="text-[9px] font-black px-1 py-0.2 rounded border ${badgeColor}">${badgeText}</span>
-              <h4 class="font-extrabold text-royalBlue text-sm">${item.name}</h4>
-              <p class="text-[11px] text-gray-400 font-sans line-clamp-1">${item.desc || 'Prepared freshly with organic Indian spices.'}</p>
-              <span class="inline-block text-royalGreen font-black text-xs">₹${parseFloat(item.price).toFixed(2)}</span>
+        <div id="swipe-hint" class="absolute inset-0 bg-black/95 z-40 flex flex-col items-center justify-center text-center p-6 transition-opacity duration-500">
+            <div class="w-20 h-20 rounded-full border-2 border-gold flex items-center justify-center mb-4 rate-button-pulse">
+                <i class="fa-solid fa-hand-pointer text-gold text-3xl animate-bounce"></i>
             </div>
-            <div class="flex-shrink-0">${actionControls}</div>
-          </div>
-        `;
-      });
-
-      container.className = "relative flex-grow p-5 sm:p-7 flex flex-col justify-between z-10 page-turn-active";
-      container.innerHTML = `
-        <div class="space-y-4">
-          <div class="flex items-center justify-between border-b border-gray-100 pb-2">
-            <div>
-              <span class="text-[9px] text-accentGold font-black tracking-widest block uppercase">CATEGORY SPECIALIST</span>
-              <h3 class="text-lg font-serif font-black text-royalBlue">${page.category}</h3>
+            <h3 class="serif-font text-xl text-gold mb-2 tracking-wider">Swipe to Flip Pages</h3>
+            <p class="text-xs text-gray-400 max-w-xs leading-relaxed">Simply swipe left or right to browse pages like an authentic physical menu book. Add items to order instantly.</p>
+            <div id="sync-source-badge" class="mt-4 text-[10px] text-gray-500 bg-gray-950 border border-gray-800 px-3 py-1 rounded font-mono">
+                Acquiring Google Sheets configuration...
             </div>
-            <span class="text-[10px] text-gray-400 font-bold bg-gray-100 px-2.5 py-1 rounded-full">Page ${page.pageNum} of ${page.totalPages}</span>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-            ${itemsHTML}
-          </div>
-        </div>
-      `;
-
-      // Controls
-      document.getElementById('prev-page-btn').disabled = currentPageIndex === 0;
-      document.getElementById('next-page-btn').disabled = currentPageIndex === organizedPages.length - 1;
-      document.getElementById('page-indicator').innerText = `PAGE ${currentPageIndex + 1} / ${organizedPages.length}`;
-    }
-
-    function renderCategoryIndex(activeCat) {
-      const indexBar = document.getElementById('category-index-scroller');
-      indexBar.innerHTML = '';
-      const addedCats = [];
-
-      organizedPages.forEach((page, idx) => {
-        if (!addedCats.includes(page.category)) {
-          addedCats.push(page.category);
-          const isActive = page.category === activeCat;
-          indexBar.innerHTML += `
-            <button onclick="jumpToPageIndex(${idx})" class="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-black tracking-wide border transition ${isActive ? 'bg-royalGreen text-white border-royalGreen' : 'bg-gray-50 text-gray-500 border-gray-200' }">
-              ${page.category}
-            </button>
-          `;
-        }
-      });
-    }
-
-    function jumpToPageIndex(idx) {
-      currentPageIndex = idx;
-      renderBookPage();
-    }
-
-    function prevPage() {
-      if (currentPageIndex > 0) {
-        currentPageIndex--;
-        renderBookPage();
-      }
-    }
-
-    function nextPage() {
-      if (currentPageIndex < organizedPages.length - 1) {
-        currentPageIndex++;
-        renderBookPage();
-      }
-    }
-
-    // Touch Swipe Navigation for Convenience
-    let xDown = null;
-    document.addEventListener('touchstart', e => xDown = e.touches[0].clientX);
-    document.addEventListener('touchend', e => {
-      if (!xDown) return;
-      let xDiff = xDown - e.changedTouches[0].clientX;
-      if (xDiff > 80) nextPage();
-      if (xDiff < -80) prevPage();
-      xDown = null;
-    });
-
-    // Keyboard Access
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') prevPage();
-      if (e.key === 'ArrowRight') nextPage();
-    });
-
-    function changeQty(encodedName, delta) {
-      const name = decodeURIComponent(encodedName);
-      const menuItem = rawMenuItems.find(i => i.name === name);
-      if (!menuItem) return;
-
-      const existing = activeCart.find(i => i.name === name);
-      if (existing) {
-        existing.qty += delta;
-        if (existing.qty <= 0) {
-          activeCart = activeCart.filter(i => i.name !== name);
-        }
-      } else if (delta > 0) {
-        activeCart.push({
-          name: menuItem.name,
-          price: menuItem.price,
-          qty: 1
-        });
-      }
-
-      updateCartStatus();
-      renderBookPage();
-    }
-
-    function updateCartStatus() {
-      const bar = document.getElementById('floating-cart-bar');
-      const floatQty = document.getElementById('cart-float-qty');
-      const floatTotal = document.getElementById('cart-float-total');
-
-      if (activeCart.length === 0) {
-        // If there is an active running session, keep bar visible to open live tracker
-        if (activeSessionOrder) {
-          floatQty.textContent = `Order #SAP-${activeSessionOrder.id} active`;
-          floatTotal.textContent = `Track your food preparation status`;
-          bar.classList.remove('hidden');
-        } else {
-          bar.classList.add('hidden');
-        }
-        return;
-      }
-
-      const totalQty = activeCart.reduce((acc, i) => acc + i.qty, 0);
-      const subtotal = activeCart.reduce((acc, i) => acc + (i.price * i.qty), 0);
-      const cgst = subtotal * 0.05;
-      const sgst = subtotal * 0.05;
-      const grandTotal = subtotal + cgst + sgst;
-
-      floatQty.textContent = `${totalQty} Culinary Item${totalQty > 1 ? 's' : ''} Drafted`;
-      floatTotal.textContent = `Running Balance: ₹${grandTotal.toFixed(2)} (Inc. GST)`;
-      bar.classList.remove('hidden');
-    }
-
-    function openCartModal() {
-      const container = document.getElementById('cart-items-container');
-      container.innerHTML = '';
-
-      if (activeCart.length === 0) {
-        container.innerHTML = `<div class="text-center py-6 text-gray-400">Your draft cart is empty. Please select dishes first.</div>`;
-        return;
-      }
-
-      let subtotal = 0;
-      activeCart.forEach(item => {
-        const cost = item.price * item.qty;
-        subtotal += cost;
-        container.innerHTML += `
-          <div class="flex items-center justify-between border-b border-gray-100 py-2.5 text-xs">
-            <div>
-              <span class="font-extrabold text-gray-800">${item.name}</span>
-              <span class="text-gray-400 block">₹${item.price.toFixed(2)} x ${item.qty}</span>
-            </div>
-            <span class="font-black text-royalGreen">₹${cost.toFixed(2)}</span>
-          </div>
-        `;
-      });
-
-      const cgst = subtotal * 0.05;
-      const sgst = subtotal * 0.05;
-      const total = subtotal + cgst + sgst;
-
-      document.getElementById('cart-subtotal').innerText = `₹${subtotal.toFixed(2)}`;
-      document.getElementById('cart-cgst').innerText = `₹${cgst.toFixed(2)}`;
-      document.getElementById('cart-sgst').innerText = `₹${sgst.toFixed(2)}`;
-      document.getElementById('cart-total').innerText = `₹${total.toFixed(2)}`;
-
-      document.getElementById('cart-modal').classList.remove('hidden');
-    }
-
-    function closeCartModal() {
-      document.getElementById('cart-modal').classList.add('hidden');
-    }
-
-    // PLACE ORDER AND PUSH TO SUPABASE
-    async function placeOrder() {
-      if (activeCart.length === 0 || !selectedLocation) return;
-
-      // Wrap item objects with initial tracking state
-      const itemsWithStates = activeCart.map(item => ({
-        ...item,
-        status: 'Pending' // Initial status before kitchen starts preparation
-      }));
-
-      let subtotal = activeCart.reduce((acc, i) => acc + (i.price * i.qty), 0);
-      let grandTotal = subtotal * 1.1; // Subtotal + 10% combined GST
-
-      let payload = {
-        table_id: selectedLocation,
-        total_amount: grandTotal,
-        status: 'ordered',
-        updated_at: new Date().toISOString()
-      };
-
-      if (activeSessionOrder) {
-        // APPEND to existing session
-        let existingItems = [];
-        try {
-          existingItems = JSON.parse(activeSessionOrder.items || "[]");
-        } catch(e) {}
-
-        // Combine arrays correctly
-        const consolidatedItems = [...existingItems, ...itemsWithStates];
-        payload.items = JSON.stringify(consolidatedItems);
-        payload.total_amount = consolidatedItems.reduce((acc, i) => acc + (i.price * i.qty), 0) * 1.1;
-
-        await dbRequest(`orders?id=eq.${activeSessionOrder.id}`, 'PATCH', payload);
-      } else {
-        // CREATE clean session
-        payload.items = JSON.stringify(itemsWithStates);
-        payload.created_at = new Date().toISOString();
-        await dbRequest('orders', 'POST', [payload]);
-      }
-
-      showToast("KOT Dispatched! Chef has been notified.", false);
-      closeCartModal();
-      activeCart = [];
-      await syncActiveSession();
-    }
-
-    // LIVE RUNNING TRACKER MONITOR WITH INDIVIDUAL DISH PHASES
-    async function openBillStatusModal() {
-      const container = document.getElementById('bill-status-content');
-      container.innerHTML = `
-        <div class="flex items-center justify-center py-12">
-          <svg class="animate-spin h-7 w-7 text-royalBlue" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-        </div>
-      `;
-
-      document.getElementById('bill-status-modal').classList.remove('hidden');
-      await syncActiveSession();
-
-      if (!activeSessionOrder) {
-        container.innerHTML = `
-          <div class="text-center py-10 text-gray-400 text-xs">
-            <p class="font-extrabold text-sm mb-1">No active cooking session.</p>
-            <p>Please add dishes to your cart and send them to the kitchen.</p>
-          </div>
-        `;
-        return;
-      }
-
-      let items = [];
-      try {
-        items = JSON.parse(activeSessionOrder.items || "[]");
-      } catch (e) {}
-
-      let itemsHTML = '';
-      let orderSubtotal = 0;
-
-      items.forEach(item => {
-        const total = item.price * item.qty;
-        orderSubtotal += total;
-
-        // Custom live status styling
-        let statusBadge = "bg-gray-100 text-gray-500 border-gray-200";
-        if (item.status === 'Preparing') statusBadge = "bg-amber-50 text-amber-600 border-amber-200 animate-pulse";
-        if (item.status === 'Served') statusBadge = "bg-green-50 text-green-600 border-green-200 font-extrabold";
-
-        itemsHTML += `
-          <div class="flex items-center justify-between border-b border-gray-100 py-3 text-xs">
-            <div>
-              <span class="font-black text-gray-800">${item.name}</span>
-              <span class="text-[10px] text-gray-400 block">₹${item.price.toFixed(2)} x ${item.qty}</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-[9px] uppercase px-2 py-0.5 rounded-full border ${statusBadge}">${item.status || 'Pending'}</span>
-              <span class="font-bold text-royalGreen">₹${total.toFixed(2)}</span>
-            </div>
-          </div>
-        `;
-      });
-
-      const cgst = orderSubtotal * 0.05;
-      const sgst = orderSubtotal * 0.05;
-      const grandTotal = orderSubtotal + cgst + sgst;
-
-      let sessionPhase = "Assembling order";
-      if (activeSessionOrder.status === 'bill_requested') sessionPhase = "Billing invoice generating...";
-
-      container.innerHTML = `
-        <div class="bg-royalGreen/10 border border-royalGreen/20 p-3 rounded-2xl flex items-center justify-between text-xs">
-          <div>
-            <span class="text-gray-400 block uppercase text-[8px]">Active Ticket ID</span>
-            <span class="font-black text-royalGreen">#SAP-${activeSessionOrder.id}</span>
-          </div>
-          <span class="bg-royalBlue text-white text-[9px] font-bold uppercase px-2.5 py-1 rounded-full animate-pulse">${sessionPhase}</span>
+            <button onclick="dismissHint()" class="mt-6 px-8 py-2.5 bg-gold text-black rounded font-bold text-xs tracking-widest hover:bg-yellow-500 transition">ENTER MENU</button>
         </div>
 
-        <div class="space-y-1.5">
-          <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-wider">Dish Live Statuses</h4>
-          <div class="bg-gray-50 border border-gray-150 p-3.5 rounded-2xl max-h-[180px] overflow-y-auto">
-            ${itemsHTML}
-          </div>
+        <div class="w-full h-full max-h-[570px] relative book-container flex items-center justify-center">
+            <div id="book" class="w-full h-full relative">
+                </div>
         </div>
+    </main>
 
-        <div class="space-y-1 text-[11px] border-t border-gray-150 pt-3">
-          <div class="flex justify-between text-gray-500"><span>Food Subtotal:</span><span>₹${orderSubtotal.toFixed(2)}</span></div>
-          <div class="flex justify-between text-gray-400"><span>CGST (5.0%):</span><span>₹${cgst.toFixed(2)}</span></div>
-          <div class="flex justify-between text-gray-400"><span>SGST (5.0%):</span><span>₹${sgst.toFixed(2)}</span></div>
-          <div class="flex justify-between text-sm font-black text-royalBlue border-t border-dashed border-gray-200 pt-2">
-            <span>GRAND BALANCE RECEIPT:</span>
-            <span>₹${grandTotal.toFixed(2)}</span>
-          </div>
+    <div id="cart-dock" class="fixed bottom-16 right-4 z-40 flex items-center space-x-2">
+        <button onclick="goToCartPage()" class="relative bg-gold hover:bg-yellow-500 text-black font-bold p-4 rounded-full shadow-lg transition duration-300 focus:outline-none flex items-center justify-center gold-glow">
+            <i class="fa-solid fa-cart-shopping text-xl"></i>
+            <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border border-black font-extrabold animate-pulse">0</span>
+        </button>
+    </div>
+
+    <div class="fixed bottom-16 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-2 bg-black/80 px-3 py-1 rounded-full border border-gold/10">
+        <button onclick="prevPage()" class="text-gold hover:text-white px-2.5 py-0.5"><i class="fa-solid fa-chevron-left"></i></button>
+        <span id="page-num-indicator" class="text-xs tracking-widest text-gold serif-font">PAGE 1</span>
+        <button onclick="nextPage()" class="text-gold hover:text-white px-2.5 py-0.5"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <footer class="w-full bg-[#060403] border-t border-[#d4af3710] py-2 px-4 z-50 text-center h-[50px] flex items-center justify-center">
+        <a href="https://www.google.com/search?q=Hotel+sapphire+yamunanagar+reviews#lrd=0x390ef9efb8133fef:0x513c3a68f03efa87,3,5" target="_blank" class="flex items-center space-x-2 text-xs text-[#d4af37] hover:text-white font-medium transition duration-300 border border-[#d4af3725] rounded-full px-5 py-1.5 bg-[#0e0a07] rate-button-pulse">
+            <i class="fa-solid fa-star text-yellow-500 animate-pulse"></i>
+            <span>Rate Us & Give Feedback on Google</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </a>
+    </footer>
+
+    <div id="table-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#16120e] border-2 border-gold rounded-xl p-6 w-full max-w-sm text-center shadow-2xl relative">
+            <h3 class="serif-font text-gold text-base mb-3 tracking-wider font-bold">CHOOSE YOUR TABLE</h3>
+            <p class="text-[11px] text-gray-400 mb-5 leading-relaxed">Confirm your Dining Cabin / Table number below to print bills at the counter.</p>
+            
+            <div class="grid grid-cols-4 gap-2 mb-5">
+                <button onclick="selectTable(1)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-1</button>
+                <button onclick="selectTable(2)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-2</button>
+                <button onclick="selectTable(3)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-3</button>
+                <button onclick="selectTable(4)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-4</button>
+                <button onclick="selectTable(5)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-5</button>
+                <button onclick="selectTable(6)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-6</button>
+                <button onclick="selectTable(7)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-7</button>
+                <button onclick="selectTable(8)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-8</button>
+                <button onclick="selectTable(9)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-9</button>
+                <button onclick="selectTable(10)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-10</button>
+            </div>
+            
+            <div class="flex flex-col space-y-2">
+                <input type="text" id="custom-table" placeholder="Or Enter Cabin / Suite Room" class="bg-black/40 text-white text-center border border-gold/25 rounded py-2 px-3 focus:outline-none focus:border-gold text-xs">
+                <button onclick="saveTableSelection()" class="w-full bg-gold text-black py-2.5 rounded font-bold text-xs tracking-widest hover:bg-yellow-500 transition">CONFIRM LOCATION</button>
+            </div>
         </div>
-      `;
-    }
+    </div>
 
-    function closeBillStatusModal() {
-      document.getElementById('bill-status-modal').classList.add('hidden');
-    }
+    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-[#16120e] border border-gold px-4 py-3 rounded-lg shadow-xl flex items-center space-x-2 text-xs md:text-sm text-gold transform translate-y-[-150%] transition-transform duration-300 max-w-[90%] pointer-events-none">
+        <i id="toast-icon" class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Item Added!</span>
+    </div>
 
-    function requestBill() {
-      if (!activeSessionOrder) return;
-      showCustomConfirm(
-        "Request Bill?",
-        "This notifies the front desk to prepare your receipt printout. You can still order items afterward.",
-        async () => {
-          await dbRequest(`orders?id=eq.${activeSessionOrder.id}`, 'PATCH', {
-            status: 'bill_requested',
-            updated_at: new Date().toISOString()
-          });
-          showToast("Bill request placed! Wait for the table steward.");
-          closeBillStatusModal();
-          await syncActiveSession();
+    <div class="fixed bottom-16 left-4 z-40">
+        <button onclick="toggleAudio()" id="audio-btn" class="bg-black/80 hover:bg-[#16120e] border border-gold/30 text-gold p-3 rounded-full shadow-lg transition duration-300 flex items-center justify-center">
+            <i id="audio-icon" class="fa-solid fa-volume-high"></i>
+        </button>
+    </div>
+
+    <script>
+        // --- API INTEGRATIONS ---
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1_YNC57MPCAUlxlNydQzcrgKPZwBI0CB12awVte6u4_A/export?format=csv";
+        const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
+        const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
+
+        let menuItems = [];
+        let cart = [];
+        let currentPageIndex = 0;
+        let selectedTable = null;
+        let audioEnabled = true;
+        let totalPagesArray = [];
+
+        // --- TRACKING INITIALIZATION ENGINE ---
+        function initializeSessionContext() {
+            // 1. Check URL parameters for explicit tracking query keys
+            const urlParams = new URLSearchParams(window.location.search);
+            const tableParam = urlParams.get('table');
+            const roomParam = urlParams.get('room');
+
+            if (tableParam) {
+                selectedTable = `Table ${tableParam}`;
+                localStorage.setItem('sapphire_active_table', selectedTable);
+            } else if (roomParam) {
+                selectedTable = `Room ${roomParam}`;
+                localStorage.setItem('sapphire_active_table', selectedTable);
+            } else {
+                // 2. Local storage recovery fallback loop
+                const savedTable = localStorage.getItem('sapphire_active_table');
+                if (savedTable) {
+                    selectedTable = savedTable;
+                }
+            }
+
+            // 3. Load previous cart state
+            const savedCart = localStorage.getItem('sapphire_active_cart');
+            if (savedCart) {
+                try {
+                    cart = JSON.parse(savedCart);
+                    updateCartCounter();
+                } catch(e) {
+                    cart = [];
+                }
+            }
         }
-      );
-    }
 
-    window.onload = async () => {
-      const saved = localStorage.getItem('sapphire_saved_location');
-      if (saved) {
-        selectedLocation = saved;
-        const prefixLabel = selectedLocation.startsWith('R') ? `Room Service ${selectedLocation}` : `Table ${selectedLocation}`;
-        document.getElementById('current-location-text').innerText = prefixLabel;
-        await syncActiveSession();
-      } else {
-        openLocationSelector();
-      }
-      await fetchGoogleSheetMenu();
-      
-      // Auto Sync/Refresher every 5 seconds to track preparation states live
-      setInterval(async () => {
-        if (selectedLocation) {
-          await syncActiveSession();
-          if (!document.getElementById('bill-status-modal').classList.contains('hidden')) {
-            await openBillStatusModal();
-          }
+        // --- FULL DIRECT PARSED BACKUP MENU CATALOG (FROM PDF) ---
+        const defaultMenu = [
+            // Page 1: Bar Bites
+            { id: 1, name: "Crispy Veg Nuggets", price: 345, category: "Bar Bites", description: "Medley of veggies and potato mix fried with spicy mayo." },
+            { id: 2, name: "Channa Chaat", price: 445, category: "Bar Bites", description: "Boiled chickpeas with onion, tomato, ground spices with lemon." },
+            { id: 3, name: "Chicken Pop Corn", price: 495, category: "Bar Bites", description: "Bite-sized tender and crisp chunks of chicken seasoned to perfection." },
+            { id: 4, name: "Spinach Leaf Chaat", price: 445, category: "Bar Bites", description: "Chaat snack made with crispy spinach fritters topped with tangy flavours." },
+            { id: 5, name: "Peanut Masala", price: 395, category: "Bar Bites", description: "Crunchy peanuts topped with spicy tangy onion and tomato mix." },
+            { id: 6, name: "Masala Papad Duo", price: 245, category: "Bar Bites", description: "Topped with a tangy spicy onion and tomato mix (Plain available for 145)." },
+            { id: 7, name: "Fresh Cut Fruit", price: 345, category: "Bar Bites", description: "Assorted seasonal fresh cut fruits." },
+            { id: 8, name: "French Fries", price: 375, category: "Bar Bites", description: "Crispy golden fried potato strips." },
+            { id: 9, name: "Cocktail Platter", price: 695, category: "Bar Bites", description: "Combo of assorted premium nuts and papads." },
+            { id: 10, name: "Chips & Dip Platter", price: 495, category: "Bar Bites", description: "Onion crisps, jalapeno & potato poppers, potato chips, nachos, salsa, jalapeno ketchup, hot BBQ, sour cream." },
+
+            // Page 2: Soups
+            { id: 11, name: "Khow Suey (Veg)", price: 495, category: "Soups", description: "Noodles with coconut milk, soup served with assorted condiments." },
+            { id: 12, name: "Khow Suey (Chicken)", price: 595, category: "Soups", description: "Noodles with coconut milk, chicken soup served with assorted condiments." },
+            { id: 13, name: "Tibetan Dumpling (Veg)", price: 395, category: "Soups", description: "Traditional Tibetan dish combining dumplings & vegetables in flavorful broth." },
+            { id: 14, name: "Tibetan Dumpling (Chicken)", price: 495, category: "Soups", description: "Traditional Tibetan dish combining chicken dumplings in flavorful broth." },
+            { id: 15, name: "Burnt Garlic Clear (Veg)", price: 325, category: "Soups", description: "Vegetable soup cooked with delightful flavour of burnt garlic." },
+            { id: 16, name: "Burnt Garlic Clear (Chicken)", price: 375, category: "Soups", description: "Chicken clear soup with delightful flavour & aroma of burnt garlic." },
+            { id: 17, name: "Manchow Soup (Veg)", price: 325, category: "Soups", description: "Hot and spicy Indo-Chinese soup with assorted vegetables." },
+            { id: 18, name: "Manchow Soup (Chicken)", price: 375, category: "Soups", description: "Hot and spicy Indo-Chinese soup with chicken & egg drops." },
+            { id: 19, name: "Mushroom Cappuccino", price: 325, category: "Soups", description: "A delicious mushroom soup served with savory milk foam." },
+            { id: 20, name: "Oven Roasted Tomato Soup", price: 325, category: "Soups", description: "Flavorful soup made of oven-roasted tomatoes with broth." },
+
+            // Page 3: Salads
+            { id: 21, name: "Back Door Caesar (Veg)", price: 495, category: "Salads", description: "Lettuce, croutons, caesar dressing, parmesan cheese." },
+            { id: 22, name: "Back Door Caesar (Chicken)", price: 595, category: "Salads", description: "Lettuce, croutons, caesar dressing, parmesan cheese with grilled chicken." },
+            { id: 23, name: "Kimchi Salad (Veg)", price: 445, category: "Salads", description: "Korean-inspired salad with a refreshing and flavourful twist." },
+            { id: 24, name: "Kimchi Salad (Chicken)", price: 545, category: "Salads", description: "Korean-inspired salad with tender chicken slices." },
+            { id: 25, name: "Beetroot Quinoa", price: 495, category: "Salads", description: "Roasted earthy beetroot on a bed of healthy quinoa." },
+            { id: 26, name: "Smoked Watermelon & Feta", price: 495, category: "Salads", description: "Cubes of watermelon tossed with fresh cream & crumbled feta." },
+            { id: 27, name: "Garden Green Salad", price: 245, category: "Salads", description: "A platter of fresh garden crisp vegetables." },
+
+            // Page 4: Small Plates
+            { id: 28, name: "Honey Chilli Potato", price: 545, category: "Small Plates", description: "Crisp potato fingers tossed in sweet honey chilli glaze." },
+            { id: 29, name: "Channa Chilli", price: 545, category: "Small Plates", description: "Crunchy chickpeas tossed with soya and chilli sauce." },
+            { id: 30, name: "Baked Tex Mex Nachos (Veg)", price: 545, category: "Small Plates", description: "Baked tortilla chips with cheese, salsa and fresh veggies." },
+            { id: 31, name: "Baked Tex Mex Nachos (Chicken)", price: 595, category: "Small Plates", description: "Baked tortilla chips with cheese, salsa, veggies and chicken." },
+            { id: 32, name: "Mexican Baked Bean Tacos (Veg)", price: 495, category: "Small Plates", description: "Hard shell tacos with lettuce, baked kidney beans and sour cream." },
+            { id: 33, name: "Mexican Baked Bean Tacos (Chicken)", price: 595, category: "Small Plates", description: "Hard shell tacos with chicken, baked kidney beans and sour cream." },
+            { id: 34, name: "Hummus with Falafel", price: 545, category: "Small Plates", description: "Creamy hummus with crispy falafel balls, herbs and spices." },
+            { id: 35, name: "Corn Pepper Cheese Roll", price: 545, category: "Small Plates", description: "Deep fried bell peppers & corn with cheese served with sweet chilli dip." },
+            { id: 36, name: "Chilli Garlic Cigars", price: 545, category: "Small Plates", description: "Cheese-filled deep-fried cigar rolls served with dip." },
+            { id: 37, name: "Cajun Chicken Sticks", price: 595, category: "Small Plates", description: "Crispy fried boneless chicken in cajun spice mix." },
+            { id: 38, name: "Grilled Chicken Specialty", price: 675, category: "Small Plates", description: "Juicy, tender, flavourful grilled boneless chicken." },
+            { id: 39, name: "Crisp Batter Fish Finger", price: 945, category: "Small Plates", description: "Crispy batter-fried fish fingers served with tartar sauce." },
+
+            // Page 5: Dim-Sum & Sizzlers
+            { id: 40, name: "Crystal Veg. Dimsum", price: 425, category: "Dim-Sum & Sizzler", description: "Translucent dumplings stuffed with exotic garden veggies." },
+            { id: 41, name: "Golden Garlic Mushroom Dimsum", price: 425, category: "Dim-Sum & Sizzler", description: "Steamed dimsum filled with garlicky wild mushrooms." },
+            { id: 42, name: "Waterchestnut Dimsum", price: 495, category: "Dim-Sum & Sizzler", description: "Dumplings with crunchy waterchestnuts & herbs." },
+            { id: 43, name: "Ginger Panda in Chilli Oil", price: 495, category: "Dim-Sum & Sizzler", description: "Delicious ginger veggie wontons drenched in aromatic chilli oil." },
+            { id: 44, name: "Chicken Bok-Choy Dimsum", price: 625, category: "Dim-Sum & Sizzler", description: "Steamed chicken and bok-choy filling." },
+            { id: 45, name: "Chicken Gyoza in Chilli Oil", price: 625, category: "Dim-Sum & Sizzler", description: "Pan-seared chicken dumplings served with hot chilli oil." },
+            { id: 46, name: "Veg Sizzler Platter", price: 795, category: "Dim-Sum & Sizzler", description: "Paneer shashlik, veg patty, herbed rice, veggies, wedges in BBQ sauce." },
+            { id: 47, name: "Non Veg Sizzler Platter", price: 995, category: "Dim-Sum & Sizzler", description: "Chicken shashlik, BBQ chicken, herbed rice, veggies, wedges in BBQ sauce." },
+
+            // Page 6: Sushi & Baos
+            { id: 48, name: "California Roll (8 Pcs)", price: 845, category: "Sushi & Baos", description: "Asparagus, cucumber, avocado, sesame, Japanese mayo." },
+            { id: 49, name: "Dragon Maki Roll (8 Pcs)", price: 845, category: "Sushi & Baos", description: "Avocado, shiitake mushroom, pickled cucumber." },
+            { id: 50, name: "Cream Cheese Roll (8 Pcs)", price: 845, category: "Sushi & Baos", description: "Cream cheese, spring onion, Japanese mayo, cucumber, lettuce." },
+            { id: 51, name: "Asparagus Tempura Roll", price: 925, category: "Sushi & Baos", description: "Asparagus, spicy mayo, cream cheese, sesame & flakes." },
+            { id: 52, name: "Spicy Avocado Roll (8 Pcs)", price: 925, category: "Sushi & Baos", description: "Avocado, spicy mayo, pickled cucumber, sesame." },
+            { id: 53, name: "Teriyaki Chicken Roll", price: 945, category: "Sushi & Baos", description: "Teriyaki glazed chicken, cucumber, avocado, spicy mayo." },
+            { id: 54, name: "Prawn Tempura Roll", price: 995, category: "Sushi & Baos", description: "Prawns hand rolled with sesame and tempura flakes." },
+            { id: 55, name: "Thai Basil Mushroom Bao (2)", price: 495, category: "Sushi & Baos", description: "Steamed fluffy buns stuffed with basil mushroom." },
+            { id: 56, name: "Five Spice Cottage Cheese Bao (2)", price: 495, category: "Sushi & Baos", description: "Fluffy baos with five-spice infused paneer." },
+            { id: 57, name: "Korean Chicken Bao (2)", price: 595, category: "Sushi & Baos", description: "Spicy Korean glazed chicken inside warm baos." },
+
+            // Page 7: Asian Appetizers
+            { id: 58, name: "Veg. Salt & Pepper", price: 545, category: "Asian Appetizers", description: "Exotic veggies seasoned with salt, pepper & spices." },
+            { id: 59, name: "Crackling Corn & Spinach", price: 545, category: "Asian Appetizers", description: "Crispy corn kernels, tender spinach with paprika." },
+            { id: 60, name: "Shanghai Style Lotus Stem", price: 645, category: "Asian Appetizers", description: "Deep-fried lotus stem in honey chilli sauce." },
+            { id: 61, name: "Cheese Chilli Dry", price: 595, category: "Asian Appetizers", description: "Indian cottage cheese tossed in flavorful spices." },
+            { id: 62, name: "Drums of Heaven", price: 695, category: "Asian Appetizers", description: "Crispy chicken wings tossed in five-spice sauce." },
+            { id: 63, name: "Chilli Chicken Dry", price: 695, category: "Asian Appetizers", description: "Marinated tender chicken tossed with peppers & green chillies." },
+            { id: 64, name: "Chilli Garlic Prawn", price: 995, category: "Asian Appetizers", description: "Deep fried scallion prawns in chilli garlic sauce." },
+
+            // Page 8 & 9: Indian Appetizers
+            { id: 65, name: "Beetroot Galouti Kebab", price: 645, category: "Indian Starters", description: "Melt-in-mouth kebab made of roasted beets & spices." },
+            { id: 66, name: "Malai Broccoli Royal", price: 595, category: "Indian Starters", description: "Broccoli florets marinated in cardamom cream & grilled." },
+            { id: 67, name: "Paneer Tikka (Kasundi / Malai)", price: 545, category: "Indian Starters", description: "Cottage cheese cubes marinated in mustard/cream and tandoored." },
+            { id: 68, name: "Dahi Kebab Spiced", price: 545, category: "Indian Starters", description: "Crispy fried hung curd patties flavored with cardamoms." },
+            { id: 69, name: "Mutton Shami Kebab", price: 795, category: "Indian Starters", description: "Fine mutton patties blended with lentils and spices." },
+            { id: 70, name: "Tandoori Chicken Classic", price: 695, category: "Indian Starters", description: "Clay-oven roasted spring chicken marinated with home spices." },
+            { id: 71, name: "Angara Murgh Tikka", price: 695, category: "Indian Starters", description: "Fiery red hot spicy tandoored chicken cubes." },
+            { id: 72, name: "Amritsari Fish Crisp", price: 945, category: "Indian Starters", description: "Carom-seeded crispy deep-fried river fish." },
+            { id: 73, name: "Tandoori Platter (Veg)", price: 945, category: "Indian Starters", description: "Paneer Tikka, masala chaap, malai broccoli, stuffed mushroom, pineapple." },
+            { id: 74, name: "Tandoori Platter (Non-Veg)", price: 1095, category: "Indian Starters", description: "Angara tikka, Afghani chicken tikka, chicken seekh, mutton seekh, fish tikka." },
+
+            // Page 10: Pizzeria
+            { id: 75, name: "Margherita Pizza", price: 595, category: "Pizzeria", description: "Topped with fresh mozzarella, basil, and cherry tomatoes." },
+            { id: 76, name: "Exotica Pizza (Veg)", price: 645, category: "Pizzeria", description: "Broccoli, zucchini, olive, jalapeno & herbs." },
+            { id: 77, name: "Exotica Pizza (Chicken)", price: 745, category: "Pizzeria", description: "Exotic pizza with loaded grilled chicken and fresh herbs." },
+            { id: 78, name: "Paneer Tikka Pizza", price: 645, category: "Pizzeria", description: "Indian cottage cheese tikka, onion, capsicum, red paprika." },
+            { id: 79, name: "Chicken Tikka Pizza", price: 745, category: "Pizzeria", description: "Tender chicken tikka chunks with onions, capsicums and jalapenos." },
+
+            // Page 11: Pasta
+            { id: 80, name: "Spaghetti Aglio E Olio", price: 595, category: "Pastas & Lasagna", description: "Tossed in premium olive oil, garlic, chilli flakes & parmesan." },
+            { id: 81, name: "Penne Alfredo (Veg)", price: 595, category: "Pastas & Lasagna", description: "Tossed in incredibly rich and creamy alfredo sauce." },
+            { id: 82, name: "Penne Alfredo (Chicken)", price: 695, category: "Pastas & Lasagna", description: "Penne tossed in creamy alfredo sauce with succulent chicken." },
+            { id: 83, name: "Penne Arrabbiata (Veg)", price: 595, category: "Pastas & Lasagna", description: "Spiced chunky Italian tomato sauce with fresh basil." },
+            { id: 84, name: "Pulled Butter Chicken Lasagna", price: 795, category: "Pastas & Lasagna", description: "Layers of pasta sheet filled with shredded tandoori chicken & makhani cheese sauce." },
+
+            // Page 12: Full Plates
+            { id: 85, name: "Stir Fried Greens & Rice", price: 545, category: "Full Plates", description: "Asian green veggies in chilli garlic sauce served with jasmine rice." },
+            { id: 86, name: "Classic Thai Curry (Veg)", price: 795, category: "Full Plates", description: "Creamy Green or Red Thai curry served with jasmine rice." },
+            { id: 87, name: "Classic Thai Curry (Chicken)", price: 845, category: "Full Plates", description: "Classic Green/Red curry with chicken served with jasmine rice." },
+            { id: 88, name: "Herb Crusted Grilled Fish", price: 945, category: "Full Plates", description: "Sol fish fillet marinated in herbs with mashed potatoes & veggies." },
+
+            // Page 13: Indian Main Course
+            { id: 89, name: "Dal Makhani Signature", price: 445, category: "Indian Mains", description: "Black lentils cooked overnight with cream & pure butter." },
+            { id: 90, name: "Kadai Paneer Deluxe", price: 575, category: "Indian Mains", description: "Paneer chunks with crushed whole spices, capsicum and tomatoes." },
+            { id: 91, name: "Paneer Butter Masala", price: 575, category: "Indian Mains", description: "Cottage cheese cubes simmered in a velvet butter-tomato gravy." },
+            { id: 92, name: "Butter Chicken Classic", price: 675, category: "Indian Mains", description: "Tandoori chicken shredded and cooked in creamy tomato makhani gravy." },
+            { id: 93, name: "Mutton Rogan Josh", price: 895, category: "Indian Mains", description: "Traditional Kashmiri style mutton slow-cooked with root spices." },
+            { id: 94, name: "Backdoor Special Mutton", price: 895, category: "Indian Mains", description: "Chef's secret spices slow-cooked robust mutton gravy." },
+
+            // Page 14: Rice, Noodles, Breads & Raitas
+            { id: 95, name: "Butter Naan Hot", price: 125, category: "Breads & Rice", description: "Flaky and soft refined flour bread glazed with premium butter." },
+            { id: 96, name: "Bread Basket (Assorted)", price: 395, category: "Breads & Rice", description: "Includes Tandoori Roti, Butter Naan, Missi Roti, Laccha Paratha." },
+            { id: 97, name: "Hakka Noodles (Veg)", price: 495, category: "Breads & Rice", description: "Stir-fried noodles with crisp veggies." },
+            { id: 98, name: "Hakka Noodles (Chicken)", price: 645, category: "Breads & Rice", description: "Stir-fried noodles tossed with chicken and egg." },
+            { id: 99, name: "Biryani (Chicken)", price: 845, category: "Breads & Rice", description: "Basmati rice slow-dum cooked with marinated chicken and saffron." },
+            { id: 100, name: "Fried Rice (Veg)", price: 495, category: "Breads & Rice", description: "Classic Chinese wok-tossed fried rice." },
+
+            // Page 15: Desserts
+            { id: 101, name: "Chocolate Cigar Roll", price: 345, category: "Desserts & Ice Cream", description: "Crispy fried rolls filled with choco brownie served with vanilla ice cream." },
+            { id: 102, name: "Sizzling Brownie", price: 345, category: "Desserts & Ice Cream", description: "Warm chocolate brownie served on a sizzling hot plate with vanilla scoop." },
+            { id: 103, name: "Gulab Jamun Nest Sweet", price: 245, category: "Desserts & Ice Cream", description: "Traditional hot sweet gulab jamuns served in an edible crisp nest." }
+        ];
+
+        // --- ASMR ACOUSTIC ENGINE (PRO ENVIRONMENT SENSORY FLIP) ---
+        function playFlipSound() {
+            if (!audioEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const bufferSize = ctx.sampleRate * 0.45;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+
+                const bandpass = ctx.createBiquadFilter();
+                bandpass.type = "bandpass";
+                bandpass.frequency.setValueAtTime(1400, ctx.currentTime);
+                bandpass.frequency.exponentialRampToValueAtTime(320, ctx.currentTime + 0.4);
+                bandpass.Q.setValueAtTime(3.5, ctx.currentTime);
+
+                const noiseGain = ctx.createGain();
+                noiseGain.gain.setValueAtTime(0, ctx.currentTime);
+                noiseGain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.05);
+                noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.42);
+
+                const osc = ctx.createOscillator();
+                const oscGain = ctx.createGain();
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(75, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(240, ctx.currentTime + 0.35);
+
+                oscGain.gain.setValueAtTime(0, ctx.currentTime);
+                oscGain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.1);
+                oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+
+                noise.connect(bandpass);
+                bandpass.connect(noiseGain);
+                noiseGain.connect(ctx.destination);
+
+                osc.connect(oscGain);
+                oscGain.connect(ctx.destination);
+
+                noise.start();
+                osc.start();
+                noise.stop(ctx.currentTime + 0.45);
+                osc.stop(ctx.currentTime + 0.45);
+            } catch (e) {
+                console.log("Audio require swipe interactions:", e);
+            }
         }
-      }, 5000);
-    }
-  </script>
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const icon = document.getElementById("audio-icon");
+            if (audioEnabled) {
+                icon.className = "fa-solid fa-volume-high";
+                showToast("Sensory Audio Enabled!");
+                playFlipSound();
+            } else {
+                icon.className = "fa-solid fa-volume-xmark";
+                showToast("Sensory Audio Muted!");
+            }
+        }
+
+        // --- DIRECT GOOGLE SHEETS & SUPABASE CONNECTOR ---
+        async function loadMenuSystem() {
+            const badge = document.getElementById("sync-source-badge");
+            
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                if (response.ok) {
+                    const csvText = await response.text();
+                    const sheetItems = parseCSV(csvText);
+                    if (sheetItems.length > 0) {
+                        menuItems = sheetItems;
+                        badge.innerHTML = `<span class="text-green-400 font-bold"><i class="fa-solid fa-cloud-arrow-down"></i> Google Sheets Connected (${menuItems.length} Items)</span>`;
+                        renderBook();
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.log("Sheets fetch bypass, shifting to Supabase Database...", err);
+            }
+
+            try {
+                const response = await fetch(`${SUPABASE_URL}menu_items?select=*`, {
+                    headers: { "apikey": SUPABASE_KEY }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.length > 0) {
+                        menuItems = data;
+                        badge.innerHTML = `<span class="text-yellow-500 font-bold"><i class="fa-solid fa-database"></i> Live Supabase Synchronized (${menuItems.length} Items)</span>`;
+                        renderBook();
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.log("Supabase pipeline offline, utilizing fully detailed default catalog", err);
+            }
+
+            menuItems = defaultMenu;
+            badge.innerHTML = `<span class="text-yellow-600 font-bold"><i class="fa-solid fa-book-open"></i> Full Local Catalog Active (${menuItems.length} Dishes)</span>`;
+            renderBook();
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.split(/\r?\n/);
+            if (lines.length < 2) return [];
+
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^["']|["']$/g, '').toLowerCase());
+            const findIndex = (keys) => headers.findIndex(h => keys.some(k => h.includes(k)));
+
+            const nameIdx = findIndex(['name', 'item', 'food', 'title']);
+            const priceIdx = findIndex(['price', 'rate', 'cost', 'amount']);
+            const catIdx = findIndex(['category', 'type', 'group']);
+            const descIdx = findIndex(['description', 'detail', 'info', 'desc']);
+
+            const list = [];
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                const row = [];
+                let insideQuote = false;
+                let field = "";
+                for (let j = 0; j < line.length; j++) {
+                    const c = line[j];
+                    if (c === '"' || c === "'") insideQuote = !insideQuote;
+                    else if (c === ',' && !insideQuote) {
+                        row.push(field.trim().replace(/^["']|["']$/g, ''));
+                        field = "";
+                    } else {
+                        field += c;
+                    }
+                }
+                row.push(field.trim().replace(/^["']|["']$/g, ''));
+
+                const targetName = row[nameIdx === -1 ? 0 : nameIdx];
+                if (!targetName) continue;
+
+                const priceNum = parseFloat(row[priceIdx === -1 ? 1 : priceIdx]);
+
+                list.push({
+                    id: i,
+                    name: targetName,
+                    price: isNaN(priceNum) ? 350 : priceNum,
+                    category: row[catIdx === -1 ? 2 : catIdx] || 'Specialties',
+                    description: row[descIdx === -1 ? 3 : descIdx] || 'The Back Door premium recipe.'
+                });
+            }
+            return list;
+        }
+
+        // --- DYNAMIC BOOK RENDERER ---
+        function getPagesStructure() {
+            const categories = {};
+            menuItems.forEach(item => {
+                const cat = item.category || "General";
+                if (!categories[cat]) categories[cat] = [];
+                categories[cat].push(item);
+            });
+
+            const pages = [];
+            pages.push({ type: "cover", title: "THE BACK DOOR", subtitle: "HOTEL SAPPHIRE YAMUNANAGAR" });
+
+            Object.keys(categories).forEach(cat => {
+                pages.push({ type: "category", category: cat, items: categories[cat] });
+            });
+
+            pages.push({ type: "cart" });
+            return pages;
+        }
+
+        function renderBook() {
+            const bookEl = document.getElementById("book");
+            bookEl.innerHTML = "";
+            totalPagesArray = getPagesStructure();
+
+            totalPagesArray.forEach((page, index) => {
+                const pageDiv = document.createElement("div");
+                pageDiv.className = `book-page ${index === currentPageIndex ? 'page-active' : 'page-hidden'}`;
+
+                let html = "";
+                if (page.type === "cover") {
+                    html = `
+                        <div class="page-face page-front flex flex-col justify-between p-6 text-center border-[3px] border-double border-[#d4af3750] m-1 h-[98%] rounded-xl">
+                            <div class="pt-4">
+                                <span class="text-[10px] tracking-[0.4em] text-gold serif-font font-bold">THE BACK DOOR RESTAURANT</span>
+                                <div class="w-12 h-[1px] bg-gold/30 mx-auto my-1.5"></div>
+                            </div>
+                            <div class="my-auto flex flex-col items-center">
+                                <i class="fa-solid fa-gem text-gold text-5xl mb-6 animate-pulse"></i>
+                                <h1 class="serif-font text-3xl font-black text-gold tracking-widest uppercase">HOTEL SAPPHIRE</h1>
+                                <p class="text-[9px] tracking-[0.2em] text-amber-100/50 mt-1 uppercase">Yamunanagar's Finest Multi-Cuisine Dine</p>
+                                <div class="w-20 h-[1px] bg-gold/40 my-6"></div>
+                                <span class="text-[10px] text-gray-400 italic">Sweep/Swipe to Flip the Fine-Dine Catalog</span>
+                            </div>
+                            <div class="pb-4">
+                                <p class="text-[11px] text-gold/80 flex items-center justify-center space-x-2 animate-bounce">
+                                    <span>Swipe Left to Start</span> <i class="fa-solid fa-arrow-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                } else if (page.type === "category") {
+                    const itemCards = page.items.map(item => `
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-gold/10 hover:border-gold/30 transition shadow-inner">
+                            <div class="flex-grow pr-3">
+                                <div class="flex items-center space-x-1.5">
+                                    <span class="w-2 h-2 rounded-full ${page.category.toLowerCase().includes('non') ? 'bg-red-500' : 'bg-green-500'}"></span>
+                                    <h4 class="font-bold text-xs md:text-sm text-gold">${item.name}</h4>
+                                </div>
+                                <p class="text-[9px] md:text-[10px] text-gray-400 mt-1 leading-relaxed line-clamp-2">${item.description || 'Premium recipe selection prepared with luxury ingredients.'}</p>
+                                <span class="text-xs font-semibold text-white block mt-1 font-mono">₹ ${item.price}</span>
+                            </div>
+                            <button onclick="addToCart(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.price})" class="flex-shrink-0 bg-gold hover:bg-yellow-500 text-black px-3 py-1.5 rounded-lg font-bold text-[10px] flex items-center space-x-1 transition shadow duration-300">
+                                <i class="fa-solid fa-plus"></i> <span>ADD</span>
+                            </button>
+                        </div>
+                    `).join("");
+
+                    html = `
+                        <div class="page-face page-front p-4 flex flex-col justify-between h-[99%]">
+                            <div>
+                                <div class="text-center pb-2 border-b border-gold/15 mb-3">
+                                    <span class="text-[9px] tracking-widest text-gold/55 uppercase">The Back Door • Sapphire</span>
+                                    <h2 class="serif-font text-base md:text-xl font-bold text-gold uppercase tracking-wider mt-0.5">${page.category}</h2>
+                                </div>
+                                <div class="space-y-2 overflow-y-auto max-h-[350px] custom-scroll pr-1">
+                                    ${itemCards}
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-gold/10 flex justify-between items-center text-[9px] text-gold/50 uppercase font-mono">
+                                <span>Swipe Left or Right</span>
+                                <span>Page ${index + 1}</span>
+                            </div>
+                        </div>
+                    `;
+                } else if (page.type === "cart") {
+                    html = `
+                        <div class="page-face page-front p-4 flex flex-col justify-between h-[99%]">
+                            <div class="flex flex-col h-full justify-between">
+                                <div class="text-center pb-2 border-b border-gold/15 mb-3">
+                                    <span class="text-[9px] tracking-widest text-gold/55 uppercase">Your Dining Order</span>
+                                    <h2 class="serif-font text-base md:text-xl font-bold text-gold uppercase tracking-wider">ORDER TRAY SUMMARY</h2>
+                                </div>
+                                
+                                <div id="cart-items-box" class="flex-grow overflow-y-auto max-h-[160px] custom-scroll space-y-2 pr-1 mb-2">
+                                    <p class="text-center text-gray-500 text-xs py-10">Your tray is currently empty.</p>
+                                </div>
+
+                                <div class="bg-black/40 p-3 rounded-lg border border-gold/15 space-y-1.5 text-[11px] font-mono">
+                                    <div class="flex justify-between text-gray-400">
+                                        <span>Subtotal:</span>
+                                        <span id="bill-subtotal">₹ 0.00</span>
+                                    </div>
+                                    <div class="flex justify-between text-gray-400">
+                                        <span>SGST (5.0%):</span>
+                                        <span id="bill-sgst">₹ 0.00</span>
+                                    </div>
+                                    <div class="flex justify-between text-gray-400">
+                                        <span>CGST (5.0%):</span>
+                                        <span id="bill-cgst">₹ 0.00</span>
+                                    </div>
+                                    <div class="h-[1px] bg-gold/15 my-1"></div>
+                                    <div class="flex justify-between text-gold font-bold text-xs md:text-sm">
+                                        <span class="serif-font">Total Payable Amount:</span>
+                                        <span id="bill-total">₹ 0.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 pt-2">
+                                    <div class="flex justify-between items-center bg-gold/5 px-3 py-1.5 rounded border border-gold/15">
+                                        <span class="text-[10px] text-gray-400">Dine-In Location:</span>
+                                        <span id="display-table" class="text-[11px] font-bold text-gold cursor-pointer underline" onclick="openTableModal()">SELECT TABLE</span>
+                                    </div>
+                                    <div class="grid grid-cols-12 gap-2">
+                                        <button onclick="askForBill()" id="bill-request-btn" class="col-span-4 bg-red-950 hover:bg-red-900 text-red-400 border border-red-500/30 font-bold rounded-lg text-[10px] uppercase tracking-wider transition duration-300 py-3">
+                                            <i class="fa-solid fa-file-invoice-dollar block mb-0.5 text-xs"></i> Ask For Bill
+                                        </button>
+                                        <button onclick="placeOrder()" id="order-btn" class="col-span-8 bg-gold hover:bg-yellow-500 text-black font-extrabold rounded-lg tracking-widest text-[11px] flex items-center justify-center space-x-1.5 transition shadow duration-300 py-3">
+                                            <i class="fa-solid fa-utensils"></i>
+                                            <span>PLACE ORDER</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                pageDiv.innerHTML = html;
+                bookEl.appendChild(pageDiv);
+            });
+
+            updatePageDisplay();
+        }
+
+        // --- NAVIGATION & SWIPE MATRICES ---
+        function updatePageDisplay() {
+            const pages = document.querySelectorAll(".book-page");
+            pages.forEach((p, idx) => {
+                p.className = `book-page ${idx === currentPageIndex ? 'page-active' : 'page-hidden'}`;
+            });
+
+            document.getElementById("page-num-indicator").innerText = `PAGE ${currentPageIndex + 1} / ${totalPagesArray.length}`;
+            if (totalPagesArray[currentPageIndex] && totalPagesArray[currentPageIndex].type === "cart") {
+                refreshCartView();
+            }
+        }
+
+        function nextPage() {
+            if (currentPageIndex < totalPagesArray.length - 1) {
+                currentPageIndex++;
+                playFlipSound();
+                updatePageDisplay();
+            }
+        }
+
+        function prevPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                playFlipSound();
+                updatePageDisplay();
+            }
+        }
+
+        function goToCartPage() {
+            const cartIndex = totalPagesArray.findIndex(p => p.type === "cart");
+            if (cartIndex !== -1) {
+                currentPageIndex = cartIndex;
+                playFlipSound();
+                updatePageDisplay();
+            }
+        }
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener("touchstart", e => touchStartX = e.changedTouches[0].screenX, { passive: true });
+        document.addEventListener("touchend", e => {
+            touchEndX = e.changedTouches[0].screenX;
+            const dist = touchStartX - touchEndX;
+            if (dist > 50) nextPage();
+            else if (dist < -50) prevPage();
+        }, { passive: true });
+
+        function dismissHint() {
+            document.getElementById("swipe-hint").style.opacity = "0";
+            setTimeout(() => document.getElementById("swipe-hint").style.display = "none", 500);
+            playFlipSound();
+        }
+
+        // --- ORDER ENGINE OPERATIONS ---
+        function addToCart(id, name, price) {
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ id, name, price, quantity: 1 });
+            }
+            localStorage.setItem('sapphire_active_cart', JSON.stringify(cart));
+            updateCartCounter();
+            showToast(`${name} added!`);
+            playFlipSound();
+        }
+
+        function updateCartCounter() {
+            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById("cart-count").innerText = total;
+        }
+
+        function changeQuantity(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                    showToast("Removed from Tray.");
+                }
+                localStorage.setItem('sapphire_active_cart', JSON.stringify(cart));
+                updateCartCounter();
+                refreshCartView();
+            }
+        }
+
+        function refreshCartView() {
+            const box = document.getElementById("cart-items-box");
+            if (!box) return;
+
+            // Set up visual UI for custom tracking status
+            if (selectedTable) {
+                const displayEl = document.getElementById("display-table");
+                if (displayEl) displayEl.innerText = selectedTable.toUpperCase();
+            }
+
+            if (cart.length === 0) {
+                box.innerHTML = `<p class="text-center text-gray-500 text-xs py-10">Your tray is empty.</p>`;
+                updateCalculations(0);
+                return;
+            }
+
+            let subtotal = 0;
+            box.innerHTML = cart.map(item => {
+                const totalItem = item.price * item.quantity;
+                subtotal += totalItem;
+                return `
+                    <div class="flex items-center justify-between p-2 rounded-lg bg-black/30 border border-gold/10 text-xs">
+                        <div class="flex-grow">
+                            <span class="font-semibold text-white">${item.name}</span>
+                            <div class="text-[9px] text-gray-400 mt-0.5">₹ ${item.price} each</div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex items-center space-x-1 border border-gold/25 rounded px-1.5 py-0.5 bg-black/20">
+                                <button onclick="changeQuantity(${item.id}, -1)" class="text-gold font-bold px-1 text-xs">-</button>
+                                <span class="font-mono text-white text-xs">${item.quantity}</span>
+                                <button onclick="changeQuantity(${item.id}, 1)" class="text-gold font-bold px-1 text-xs">+</button>
+                            </div>
+                            <span class="font-mono text-gold font-bold min-w-[50px] text-right">₹ ${totalItem}</span>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            updateCalculations(subtotal);
+        }
+
+        function updateCalculations(subtotal) {
+            const sgst = parseFloat((subtotal * 0.05).toFixed(2));
+            const cgst = parseFloat((subtotal * 0.05).toFixed(2));
+            const grandTotal = parseFloat((subtotal + sgst + cgst).toFixed(2));
+
+            document.getElementById("bill-subtotal").innerText = `₹ ${subtotal.toFixed(2)}`;
+            document.getElementById("bill-sgst").innerText = `₹ ${sgst.toFixed(2)}`;
+            document.getElementById("bill-cgst").innerText = `₹ ${cgst.toFixed(2)}`;
+            document.getElementById("bill-total").innerText = `₹ ${grandTotal.toFixed(2)}`;
+        }
+
+        // --- TABLE CONTROLS ---
+        function openTableModal() {
+            document.getElementById("table-modal").classList.remove("hidden");
+        }
+
+        function selectTable(num) {
+            selectedTable = `Table ${num}`;
+            document.querySelectorAll(".table-btn").forEach(btn => {
+                btn.className = "table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs";
+                if (btn.innerText === `T-${num}`) btn.className = "table-btn p-3 rounded border-2 border-gold bg-gold text-black font-bold text-xs";
+            });
+            document.getElementById("custom-table").value = "";
+        }
+
+        function saveTableSelection() {
+            const custom = document.getElementById("custom-table").value.trim();
+            if (custom) selectedTable = custom;
+
+            if (!selectedTable) {
+                showToast("Please choose a location!");
+                return;
+            }
+
+            localStorage.setItem('sapphire_active_table', selectedTable);
+            document.getElementById("display-table").innerText = selectedTable.toUpperCase();
+            document.getElementById("table-modal").classList.add("hidden");
+            showToast(`Confirmed Location: ${selectedTable}`);
+        }
+
+        // --- ORDER PIPELINE TO COUNTER PANEL ---
+        async function placeOrder() {
+            if (cart.length === 0) {
+                showToast("Your tray is empty!");
+                return;
+            }
+
+            if (!selectedTable) {
+                openTableModal();
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const sgst = parseFloat((subtotal * 0.05).toFixed(2));
+            const cgst = parseFloat((subtotal * 0.05).toFixed(2));
+            const grandTotal = parseFloat((subtotal + sgst + cgst).toFixed(2));
+
+            const order = {
+                table_number: selectedTable,
+                items: JSON.stringify(cart),
+                subtotal,
+                sgst,
+                cgst,
+                grand_total: grandTotal,
+                status: "Pending"
+            };
+
+            const btn = document.getElementById("order-btn");
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>SENDING...</span>`;
+
+            try {
+                const response = await fetch(`${SUPABASE_URL}orders`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": SUPABASE_KEY
+                    },
+                    body: JSON.stringify(order)
+                });
+
+                if (response.ok) {
+                    showToast("🌟 Order received at counter!");
+                    cart = [];
+                    localStorage.removeItem('sapphire_active_cart');
+                    updateCartCounter();
+                    refreshCartView();
+                    document.getElementById("cart-items-box").innerHTML = `
+                        <div class="text-center py-8 text-green-400 flex flex-col items-center">
+                            <i class="fa-solid fa-circle-check text-4xl mb-2 animate-bounce"></i>
+                            <h3 class="serif-font font-bold">Tray Dispatched!</h3>
+                            <p class="text-[10px] text-gray-400 mt-1">Please wait while we prepare your gourmet delicacies.</p>
+                        </div>
+                    `;
+                } else {
+                    throw new Error("Supabase internal error");
+                }
+            } catch (err) {
+                let offline = JSON.parse(localStorage.getItem("sapphire_fallback_orders") || "[]");
+                offline.push({ ...order, id: Date.now(), created_at: new Date() });
+                localStorage.setItem("sapphire_fallback_orders", JSON.stringify(offline));
+                
+                showToast("Internet offline. Order queued locally!");
+                cart = [];
+                localStorage.removeItem('sapphire_active_cart');
+                updateCartCounter();
+                refreshCartView();
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-utensils"></i> <span>PLACE ORDER</span>`;
+            }
+        }
+
+        // --- ASK FOR BILL CALL ACTION ---
+        async function askForBill() {
+            if (!selectedTable) {
+                openTableModal();
+                return;
+            }
+
+            if (!confirm(`Request the final thermal invoice for ${selectedTable}?`)) return;
+
+            const billPayload = {
+                table_number: selectedTable,
+                items: JSON.stringify([]), // Send empty array to declare signal status code
+                subtotal: 0,
+                sgst: 0,
+                cgst: 0,
+                grand_total: 0,
+                status: "Bill Requested"
+            };
+
+            const btn = document.getElementById("bill-request-btn");
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Processing`;
+
+            try {
+                const response = await fetch(`${SUPABASE_URL}orders`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": SUPABASE_KEY
+                    },
+                    body: JSON.stringify(billPayload)
+                });
+
+                if (response.ok) {
+                    showToast("🧾 Counter notified! Bringing your bill shortly.");
+                } else {
+                    showToast("Could not send bill request. Please ask a server.");
+                }
+            } catch (e) {
+                showToast("Network failure. Please ask a server for assistance.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-file-invoice-dollar block mb-0.5 text-xs"></i> Ask For Bill`;
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toast-message").innerText = msg;
+            toast.style.transform = "translateY(0)";
+            setTimeout(() => toast.style.transform = "translateY(-150%)", 3000);
+        }
+
+        window.onload = function() {
+            initializeSessionContext();
+            loadMenuSystem();
+            document.body.addEventListener('click', () => {
+                const hint = document.getElementById("swipe-hint");
+                if (hint && hint.style.display !== "none") dismissHint();
+            }, { once: true });
+        }
+    </script>
 </body>
 </html>
