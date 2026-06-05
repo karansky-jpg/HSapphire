@@ -1,975 +1,1022 @@
+SAPPHIRE
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Sapphire - Premium Digital Menu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <style>
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: radial-gradient(circle at center, #1a140f 0%, #060403 100%);
-            color: #f6efe2;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            user-select: none;
-            -webkit-user-select: none;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Sapphire - Smart Ordering</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            royalGreen: {
+              DEFAULT: '#0A5C36',
+              dark: '#063d23',
+              light: '#eefcf5',
+            },
+            royalBlue: {
+              DEFAULT: '#0B3C5D',
+              dark: '#07273d',
+              light: '#f0f5fa',
+            },
+            accentGold: '#D4AF37',
+          }
         }
-        .serif-font {
-            font-family: 'Cinzel', serif;
-        }
-        /* 3D Page flip container */
-        .book-container {
-            perspective: 1500px;
-            position: relative;
-        }
-        .book-page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease-in-out;
-            transform-origin: left center;
-        }
-        .page-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.95);
-        }
-        .page-front {
-            z-index: 2;
-            background: linear-gradient(135deg, #17130f 0%, #1f1914 100%);
-            border: 2px solid rgba(212, 175, 55, 0.22);
-        }
-        /* Scrollbar customization */
-        .custom-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scroll::-webkit-scrollbar-track {
-            background: rgba(212, 175, 55, 0.02);
-        }
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background: rgba(212, 175, 55, 0.2);
-            border-radius: 4px;
-        }
-        /* Theme highlights */
-        .gold-border {
-            border: 1px solid rgba(212, 175, 55, 0.3);
-        }
-        .gold-glow {
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-        }
-        .text-gold {
-            color: #d4af37;
-        }
-        .bg-gold {
-            background-color: #d4af37;
-        }
-        /* Page animation states */
-        .page-hidden {
-            pointer-events: none;
-            opacity: 0;
-            z-index: 0 !important;
-            transform: scale(0.96) rotateY(-8deg);
-        }
-        .page-active {
-            pointer-events: auto;
-            opacity: 1;
-            z-index: 10;
-            transform: scale(1) rotateY(0deg);
-        }
-        .rate-button-pulse {
-            animation: pulseGlow 2.5s infinite;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 4px rgba(212, 175, 55, 0.15); }
-            50% { box-shadow: 0 0 12px rgba(212, 175, 55, 0.4); }
-        }
-    </style>
+      }
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    h1, h2, h3, .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+    /* Hide scrollbars */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body class="flex flex-col justify-between h-screen w-screen relative">
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-    <header class="w-full bg-[#100c09] border-b border-[#d4af3720] py-2 px-4 z-50 text-center flex justify-between items-center h-[52px]">
-        <div class="flex items-center space-x-2">
-            <span class="text-gold text-base"><i class="fa-solid fa-gem animate-pulse"></i></span>
-            <span class="serif-font text-xs md:text-sm tracking-widest font-bold text-white">THE BACK DOOR • SAPPHIRE</span>
+  <!-- TOP PREMIUM APP BAR -->
+  <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <!-- Logo & Name -->
+      <div class="flex items-center gap-3">
+        <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-12 w-12 object-contain" onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=100'">
+        <div>
+          <h1 class="text-xl font-bold text-royalGreen flex items-center gap-1 leading-none">
+            Sapphire <span class="text-accentGold text-sm font-serif">★ ★ ★ ★ ★</span>
+          </h1>
+          <p class="text-xs text-gray-500 tracking-wider uppercase mt-0.5">Hotel & Restaurant</p>
         </div>
-        <a href="https://karan-digital-menu-agency.vercel.app/#contact" target="_blank" class="text-[9px] md:text-xs tracking-widest font-semibold text-gold hover:text-white transition duration-300 border border-[#d4af3735] px-3 py-1 rounded-full bg-[#19130e]">
-            Created By. KARAN DIGITAL MENU AGENCY <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[8px]"></i>
-        </a>
-    </header>
+      </div>
 
-    <main class="flex-grow w-full max-w-md mx-auto relative px-3 py-3 flex items-center justify-center h-[calc(100vh-112px)] overflow-hidden">
+      <!-- Live Location Badge -->
+      <div id="session-badge" class="hidden md:flex items-center gap-2 bg-royalGreen-light border border-royalGreen/20 px-3 py-1.5 rounded-full text-royalGreen font-semibold text-sm">
+        <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+        <span id="session-label">Checking Table...</span>
+      </div>
+
+      <!-- Cart Button Trigger -->
+      <button onclick="toggleCart(true)" class="relative bg-royalBlue text-white p-2.5 rounded-xl flex items-center gap-2 hover:bg-royalBlue-dark transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-accentGold text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+        <span class="hidden sm:inline text-sm font-medium">Cart</span>
+      </button>
+    </div>
+
+    <!-- Small Mobile Table Badge Banner -->
+    <div id="mobile-session-badge" class="bg-royalGreen text-white text-center py-1.5 text-xs font-semibold tracking-wider flex items-center justify-center gap-2 md:hidden">
+      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+      <span id="mobile-session-label">Loading location...</span>
+    </div>
+  </header>
+
+  <!-- SELECTION INTERFACE (Lobby Screen if no table code in URL) -->
+  <div id="lobby-screen" class="hidden fixed inset-0 z-50 bg-royalBlue-dark bg-opacity-95 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full my-8 shadow-2xl text-center relative border border-accentGold/20">
+      <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-20 w-20 mx-auto object-contain mb-4">
+      <h2 class="text-3xl font-bold text-royalBlue mb-1 font-serif">Welcome to Hotel Sapphire</h2>
+      <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Please select your Table Number (for Restaurant Dine-In) or Room Number (for Room Service) to begin your digital dining experience.</p>
+      
+      <div class="mb-6">
+        <div class="flex border-b border-gray-100 justify-center gap-6 mb-4">
+          <button onclick="switchLobbyTab('restaurant')" id="tab-btn-restaurant" class="pb-2 border-b-2 border-royalGreen text-royalGreen font-bold transition text-base">Restaurant Dining (R1 - R10)</button>
+          <button onclick="switchLobbyTab('rooms')" id="tab-btn-rooms" class="pb-2 border-b-2 border-transparent text-gray-400 hover:text-royalBlue transition text-base">Room Service (T1 - T10)</button>
+        </div>
+
+        <!-- Restaurant Grid -->
+        <div id="lobby-restaurant-grid" class="grid grid-cols-5 gap-3 max-w-md mx-auto">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Room Grid -->
+        <div id="lobby-rooms-grid" class="hidden grid grid-cols-5 gap-3 max-w-md mx-auto">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="text-xs text-gray-400 border-t border-gray-100 pt-4">
+        Can't find your desk? Please contact our hospitality staff for immediate assistance.
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDER STATUS TOP STRIP (Floating Notification) -->
+  <div id="active-status-bar" class="hidden max-w-6xl mx-auto w-full px-4 mt-4">
+    <div class="rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border" id="status-card-container">
+      <div class="flex items-center gap-3">
+        <div class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" id="status-pulse-ping"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3" id="status-indicator-dot"></span>
+        </div>
+        <div>
+          <span class="text-xs uppercase tracking-wider text-gray-400 block font-semibold">Active Session Status</span>
+          <h4 class="font-bold text-gray-800" id="current-status-title">Active &amp; Seated</h4>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+        <div class="text-right">
+          <span class="text-xs text-gray-400 block">Current Bill Balance</span>
+          <span class="font-bold text-royalGreen text-lg" id="running-total">₹0.00</span>
+        </div>
+        <button onclick="requestBill()" class="bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-red-700 transition shadow-sm active:scale-95" id="request-bill-btn">
+          Ask for Bill
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN FOOD BROWSER -->
+  <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-6">
+    <!-- Category Quick Filters -->
+    <div class="flex items-center justify-between gap-4 mb-6">
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 w-full" id="category-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Search Input -->
+    <div class="relative mb-8 max-w-md">
+      <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </span>
+      <input type="text" id="menu-search" oninput="filterMenu()" placeholder="Search dishes, desserts, mocktails..." class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-royalGreen focus:border-transparent shadow-sm">
+    </div>
+
+    <!-- Menu Items Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-grid">
+      <!-- Rendered dynamically -->
+      <div class="col-span-full text-center py-20 text-gray-400">
+        <svg class="animate-spin h-10 w-10 mx-auto mb-4 text-royalGreen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="font-serif text-lg">Curating premium culinary selections...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-royalBlue text-white py-12 mt-12 border-t border-accentGold/20">
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="https://i.ibb.co/N2d75D6f/1779955616222.png" alt="Hotel Sapphire" class="h-10 w-10 object-contain brightness-0 invert">
+          <h3 class="text-xl font-bold font-serif text-white">Hotel Sapphire</h3>
+        </div>
+        <p class="text-sm text-gray-300 leading-relaxed">Experience royal hospitality, handpicked culinary delights, and state-of-the-art contact-free dining. Made for your comfort.</p>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4 text-accentGold font-serif">Quick Guidelines</h4>
+        <ul class="text-sm text-gray-300 space-y-2">
+          <li>• Place your orders directly from the device.</li>
+          <li>• Monitor your food preparations in real-time.</li>
+          <li>• Ready for the bill? Simply tap "Ask for Bill" at the top.</li>
+          <li>• Self-directed. Fast. Contact-free.</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4 text-accentGold font-serif">Hospitality Desk</h4>
+        <p class="text-sm text-gray-300">Need emergency assistance? Call us directly from your room intercom at <span class="font-semibold text-white">999</span>, or let our staff know.</p>
+        <div class="mt-4 flex gap-2">
+          <span class="text-xs bg-royalGreen/50 border border-royalGreen text-green-300 px-3 py-1 rounded-full">5-Star Cleanliness</span>
+          <span class="text-xs bg-royalGreen/50 border border-royalGreen text-green-300 px-3 py-1 rounded-full">Automated Billing</span>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 mt-8 pt-8 border-t border-white/10 text-center text-xs text-gray-400">
+      &copy; 2026 Hotel Sapphire Group. All rights reserved. Managed digitally.
+    </div>
+  </footer>
+
+  <!-- CART SIDE DRAWER (Hidden by default) -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+    <div class="absolute inset-0 overflow-hidden">
+      <!-- Backdrop -->
+      <div onclick="toggleCart(false)" class="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity" aria-hidden="true"></div>
+
+      <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+        <div class="pointer-events-auto w-screen max-w-md">
+          <div class="flex h-full flex-col bg-white shadow-2xl border-l border-gray-100">
+            <!-- Cart Header -->
+            <div class="px-6 py-5 bg-royalBlue text-white flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accentGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                <h2 class="text-lg font-bold font-serif" id="slide-over-title">Your Order Basket</h2>
+              </div>
+              <button onclick="toggleCart(false)" class="text-gray-300 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Cart Body / Items -->
+            <div class="flex-1 overflow-y-auto px-6 py-4 space-y-4" id="cart-items-container">
+              <!-- Rendered Dynamically -->
+            </div>
+
+            <!-- Pricing Breakdown -->
+            <div class="border-t border-gray-100 bg-gray-50 px-6 py-6 space-y-3">
+              <div class="flex justify-between text-sm text-gray-500">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">₹0.00</span>
+              </div>
+              <div class="flex justify-between text-xs text-gray-400">
+                <span>CGST (5%)</span>
+                <span id="cart-cgst">₹0.00</span>
+              </div>
+              <div class="flex justify-between text-xs text-gray-400">
+                <span>SGST (5%)</span>
+                <span id="cart-sgst">₹0.00</span>
+              </div>
+              <div class="flex justify-between text-base font-bold text-gray-800 border-t border-gray-200/60 pt-3">
+                <span>Estimated Total (incl. GST)</span>
+                <span id="cart-estimated-total" class="text-royalGreen text-lg">₹0.00</span>
+              </div>
+
+              <!-- Action button inside Cart -->
+              <button onclick="placeOrder()" id="place-order-btn" class="w-full mt-4 bg-royalGreen text-white py-3.5 rounded-2xl font-semibold hover:bg-royalGreen-dark transition-all duration-200 shadow-md active:scale-98 flex items-center justify-center gap-2">
+                <span>Send Order to Kitchen</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WAITER CALLED OVERLAY MODAL -->
+  <div id="waiter-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-accentGold text-center">
+      <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="h-10 w-10 text-red-600 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </div>
+      <h3 class="text-2xl font-bold font-serif text-royalBlue mb-2">Bill Requested!</h3>
+      <p class="text-gray-500 text-sm mb-4">A waiter is on their way with your final physical bill. Please prepare your preferred payment option.</p>
+      
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 mb-6">
+        <span class="text-xs text-gray-400 uppercase tracking-wider block">Your Final Bill Amount</span>
+        <span class="text-3xl font-extrabold text-royalGreen" id="modal-final-bill">₹0.00</span>
+        <p class="text-xs text-gray-400 mt-1">Includes 5% CGST + 5% SGST</p>
+      </div>
+
+      <button onclick="dismissWaiterModal()" class="w-full bg-royalBlue text-white py-3 rounded-2xl hover:bg-royalBlue-dark font-semibold transition active:scale-95">
+        Dismiss Notice
+      </button>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // SUPABASE CREDENTIALS & INITIAL SETUP
+    const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
+    const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
+    
+    // Global parameters
+    let currentTable = null;
+    let menuItems = [];
+    let cart = [];
+    let activeSession = null; // Stored DB record of order/session for current table
+    let selectedCategory = 'All';
+
+    // Premium Fallback Menu
+    const FALLBACK_MENU = [
+      { name: "Hara Bhara Kebab", category: "Starters", price: 220, description: "Delicately spiced spinach, green peas, and potato patties fried to perfection." },
+      { name: "Paneer Tikka Multani", category: "Starters", price: 290, description: "Cottage cheese squares stuffed with cream, mushrooms, herbs, grilled in clay oven." },
+      { name: "Murg Tikka Lazeez", category: "Starters", price: 340, description: "Succulent chicken chunks marinated in special royal green yogurt mix, cooked over charcoal." },
+      { name: "Dal Makhani Sapphire", category: "Main Course", price: 280, description: "Black lentils slow cooked overnight with butter and fresh tomato cream sauce." },
+      { name: "Murg Makhani (Butter Chicken)", category: "Main Course", price: 380, description: "Charcoal grilled chicken pulled off-bone, simmered in premium rich cream tomato gravy." },
+      { name: "Subz Shahi Biryani", category: "Main Course", price: 290, description: "Long grain basmati rice layered with garden fresh vegetables, saffron, and aromatic spices." },
+      { name: "Kesar Pista Kulfi", category: "Dessert", price: 140, description: "Traditional Indian frozen ice cream enriched with pure saffron threads and crushed pistachios." },
+      { name: "Sizzling Chocolate Brownie", category: "Dessert", price: 190, description: "Hot homemade brownie served with premium vanilla scoop on a sizzling iron platter." },
+      { name: "Virgin Mojito Splash", category: "Beverages", price: 120, description: "Muddled fresh mint sprigs, lime wedges, simple syrup topped with sparkling club soda." },
+      { name: "Cold Coffee Premium", category: "Beverages", price: 150, description: "Chilled blended espresso, whole milk, and rich vanilla ice cream topped with chocolate shaving." }
+    ];
+
+    // Read parameters from URL or LocalStorage
+    function initSession() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let table = urlParams.get('table');
+
+      if (!table) {
+        table = localStorage.getItem('sapphire_session_table');
+      }
+
+      if (table && isValidTable(table)) {
+        currentTable = table;
+        localStorage.setItem('sapphire_session_table', table);
         
-        <div id="swipe-hint" class="absolute inset-0 bg-black/95 z-40 flex flex-col items-center justify-center text-center p-6 transition-opacity duration-500">
-            <div class="w-20 h-20 rounded-full border-2 border-gold flex items-center justify-center mb-4 rate-button-pulse">
-                <i class="fa-solid fa-hand-pointer text-gold text-3xl animate-bounce"></i>
-            </div>
-            <h3 class="serif-font text-xl text-gold mb-2 tracking-wider">Swipe to Flip Pages</h3>
-            <p class="text-xs text-gray-400 max-w-xs leading-relaxed">Simply swipe left or right to browse pages like an authentic physical menu book. Add items to order instantly.</p>
-            <div id="sync-source-badge" class="mt-4 text-[10px] text-gray-500 bg-gray-950 border border-gray-800 px-3 py-1 rounded font-mono">
-                Acquiring Google Sheets configuration...
-            </div>
-            <button onclick="dismissHint()" class="mt-6 px-8 py-2.5 bg-gold text-black rounded font-bold text-xs tracking-widest hover:bg-yellow-500 transition">ENTER MENU</button>
-        </div>
+        // Ensure table is in query parameter for continuous direct reference
+        if (!urlParams.get('table')) {
+          window.history.replaceState(null, '', `?table=${table}`);
+        }
 
-        <div class="w-full h-full max-h-[570px] relative book-container flex items-center justify-center">
-            <div id="book" class="w-full h-full relative">
+        // Hide lobby, configure page labels
+        document.getElementById('lobby-screen').classList.add('hidden');
+        document.getElementById('session-badge').classList.remove('hidden');
+        
+        const friendlyName = getFriendlyTableName(table);
+        document.getElementById('session-label').textContent = friendlyName;
+        document.getElementById('mobile-session-label').textContent = friendlyName;
+
+        // Initialize Supabase Sync/State
+        checkOrCreateTableSession();
+      } else {
+        // Show lobby selection screen
+        showLobby();
+      }
+    }
+
+    function isValidTable(table) {
+      const isRoom = /^T\d+$/.test(table) && parseInt(table.slice(1)) <= 10;
+      const isTable = /^R\d+$/.test(table) && parseInt(table.slice(1)) <= 10;
+      return isRoom || isTable;
+    }
+
+    function getFriendlyTableName(table) {
+      if (table.startsWith('R')) {
+        return `Dining Table ${table}`;
+      } else if (table.startsWith('T')) {
+        return `Room Service ${table}`;
+      }
+      return table;
+    }
+
+    // Lobby Selection UI Handler
+    function showLobby() {
+      document.getElementById('lobby-screen').classList.remove('hidden');
+      
+      // Populate Restaurant dining
+      const restGrid = document.getElementById('lobby-restaurant-grid');
+      restGrid.innerHTML = '';
+      for (let i = 1; i <= 10; i++) {
+        restGrid.innerHTML += `
+          <button onclick="selectLobbyLocation('R${i}')" class="bg-royalGreen-light hover:bg-royalGreen hover:text-white border border-royalGreen/20 p-3 rounded-2xl font-bold transition text-royalGreen flex flex-col items-center justify-center">
+            <span class="text-xs uppercase font-normal text-gray-500 hover:text-white/80">Table</span>
+            R${i}
+          </button>
+        `;
+      }
+
+      // Populate Rooms
+      const roomGrid = document.getElementById('lobby-rooms-grid');
+      roomGrid.innerHTML = '';
+      for (let i = 1; i <= 10; i++) {
+        roomGrid.innerHTML += `
+          <button onclick="selectLobbyLocation('T${i}')" class="bg-royalBlue-light hover:bg-royalBlue hover:text-white border border-royalBlue/20 p-3 rounded-2xl font-bold transition text-royalBlue flex flex-col items-center justify-center">
+            <span class="text-xs uppercase font-normal text-gray-500">Room</span>
+            T${i}
+          </button>
+        `;
+      }
+    }
+
+    function selectLobbyLocation(tableId) {
+      window.location.search = `?table=${tableId}`;
+    }
+
+    function switchLobbyTab(tab) {
+      const restBtn = document.getElementById('tab-btn-restaurant');
+      const roomBtn = document.getElementById('tab-btn-rooms');
+      const restGrid = document.getElementById('lobby-restaurant-grid');
+      const roomGrid = document.getElementById('lobby-rooms-grid');
+
+      if (tab === 'restaurant') {
+        restBtn.className = "pb-2 border-b-2 border-royalGreen text-royalGreen font-bold transition text-base";
+        roomBtn.className = "pb-2 border-b-2 border-transparent text-gray-400 hover:text-royalBlue transition text-base";
+        restGrid.classList.remove('hidden');
+        roomGrid.classList.add('hidden');
+      } else {
+        roomBtn.className = "pb-2 border-b-2 border-royalBlue text-royalBlue font-bold transition text-base";
+        restBtn.className = "pb-2 border-b-2 border-transparent text-gray-400 hover:text-royalGreen transition text-base";
+        roomGrid.classList.remove('hidden');
+        restGrid.classList.add('hidden');
+      }
+    }
+
+    // SUPABASE INTEGRATION CALLS (Robust Handlers)
+    async function requestSupabase(endpoint, method = 'GET', body = null) {
+      const url = `${SUPABASE_URL}${endpoint}`;
+      const headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=representation"
+      };
+      
+      const config = { method, headers };
+      if (body) {
+        config.body = JSON.stringify(body);
+      }
+
+      try {
+        const res = await fetch(url, config);
+        if (!res.ok) {
+          throw new Error(`DB request failed with status code ${res.status}`);
+        }
+        return await res.json();
+      } catch (err) {
+        console.warn("Supabase integration error. Falling back to simulated network.", err);
+        return null;
+      }
+    }
+
+    // Session Management in DB
+    async function checkOrCreateTableSession() {
+      // Fetch active session if exists
+      let orders = await requestSupabase(`orders?table_id=eq.${currentTable}&status=neq.completed`, 'GET');
+      
+      if (orders && orders.length > 0) {
+        activeSession = orders[0];
+      } else {
+        // Localstorage check for active order if Supabase is running locally/offline
+        let localBackup = localStorage.getItem(`sapphire_session_backup_${currentTable}`);
+        if (localBackup) {
+          activeSession = JSON.parse(localBackup);
+        } else {
+          // Create new active session record
+          const payload = {
+            table_id: currentTable,
+            items: JSON.stringify([]),
+            total_amount: 0,
+            status: 'active', // Active continuous GREEN status
+            created_at: new Date().toISOString()
+          };
+          
+          let created = await requestSupabase('orders', 'POST', [payload]);
+          if (created && created.length > 0) {
+            activeSession = created[0];
+          } else {
+            // Local simulation backup
+            payload.id = Date.now();
+            activeSession = payload;
+          }
+          localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(activeSession));
+        }
+      }
+
+      // Propagate Local Storage so counter can read updates in real-time
+      localStorage.setItem(`table_status_${currentTable}`, activeSession.status);
+      localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(activeSession));
+
+      updateSessionUI();
+    }
+
+    function updateSessionUI() {
+      if (!activeSession) return;
+
+      const activeBar = document.getElementById('active-status-bar');
+      const pulsePing = document.getElementById('status-pulse-ping');
+      const dot = document.getElementById('status-indicator-dot');
+      const container = document.getElementById('status-card-container');
+      const title = document.getElementById('current-status-title');
+      const runningTotal = document.getElementById('running-total');
+      const requestBtn = document.getElementById('request-bill-btn');
+
+      activeBar.classList.remove('hidden');
+
+      let colorClass = "";
+      let label = "";
+
+      // Check current state
+      switch (activeSession.status) {
+        case 'active':
+          // Continuous GREEN light (Customer seated & browsing)
+          colorClass = "bg-green-500";
+          label = "Seated & Browsing Menu";
+          container.className = "rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border bg-green-50/60 border-green-200";
+          requestBtn.classList.remove('hidden');
+          break;
+        case 'ordered':
+          // YELLOW light (Food is preparing / do not disturb)
+          colorClass = "bg-amber-500";
+          label = "Culinary preparations in progress";
+          container.className = "rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border bg-amber-50/60 border-amber-200";
+          requestBtn.classList.remove('hidden');
+          break;
+        case 'bill_requested':
+          // RED light (Waiter bringing the invoice)
+          colorClass = "bg-red-600";
+          label = "Billing requested. Waiter on the way!";
+          container.className = "rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border bg-red-50/60 border-red-200";
+          requestBtn.classList.add('hidden'); // hidden since already requested
+          
+          // Trigger modal
+          document.getElementById('modal-final-bill').textContent = `₹${parseFloat(activeSession.total_amount).toFixed(2)}`;
+          document.getElementById('waiter-modal').classList.remove('hidden');
+          break;
+      }
+
+      // Apply light coloring
+      pulsePing.className = `animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${colorClass}`;
+      dot.className = `relative inline-flex rounded-full h-3 w-3 ${colorClass}`;
+      title.textContent = label;
+      
+      // Update running total
+      runningTotal.textContent = `₹${parseFloat(activeSession.total_amount || 0).toFixed(2)}`;
+    }
+
+    // LOAD DYNAMIC MENU FROM GOOGLE SHEET
+    async function loadMenu() {
+      const sheetUrl = "https://docs.google.com/spreadsheets/d/1_YNC57MPCAUlxlNydQzcrgKPZwBI0CB12awVte6u4_A/export?format=csv";
+      
+      try {
+        const response = await fetch(sheetUrl);
+        if (!response.ok) throw new Error("Could not fetch CSV from Sheet");
+        const text = await response.text();
+        
+        const parsed = parseCSV(text);
+        if (parsed && parsed.length > 0) {
+          menuItems = parsed;
+        } else {
+          menuItems = FALLBACK_MENU;
+        }
+      } catch (err) {
+        console.warn("Failed to read from Google Sheets, mounting fallback design menu.", err);
+        menuItems = FALLBACK_MENU;
+      }
+
+      renderCategories();
+      renderMenu();
+    }
+
+    function parseCSV(text) {
+      const lines = text.split('\n');
+      if (lines.length < 2) return null;
+
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+      const items = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        let line = lines[i];
+        if (!line.trim()) continue;
+
+        const values = [];
+        let current = '';
+        let inQuotes = false;
+
+        for (let j = 0; j < line.length; j++) {
+          let char = line[j];
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            values.push(current.trim().replace(/^"|"$/g, ''));
+            current = '';
+          } else {
+            current += char;
+          }
+        }
+        values.push(current.trim().replace(/^"|"$/g, ''));
+
+        const row = {};
+        headers.forEach((header, index) => {
+          row[header.toLowerCase()] = values[index] || '';
+        });
+
+        const name = row.name || row.item || row.title || '';
+        const price = parseFloat(row.price || row.rate || row.cost) || 0;
+        const category = row.category || row.type || 'Main Course';
+        const description = row.description || row.ingredients || row.details || '';
+
+        if (name && price > 0) {
+          items.push({ name, category, price, description });
+        }
+      }
+      return items;
+    }
+
+    function renderCategories() {
+      const categories = ['All', ...new Set(menuItems.map(item => item.category))];
+      const listContainer = document.getElementById('category-list');
+      listContainer.innerHTML = '';
+
+      categories.forEach(cat => {
+        const isActive = selectedCategory === cat;
+        const activeStyles = "bg-royalGreen text-white shadow-sm font-semibold border-transparent";
+        const inactiveStyles = "bg-white text-gray-600 hover:text-royalGreen hover:bg-royalGreen-light border-gray-200";
+        
+        listContainer.innerHTML += `
+          <button onclick="setCategory('${cat}')" class="whitespace-nowrap px-5 py-2.5 rounded-full border text-sm transition-all flex items-center gap-1.5 active:scale-95 ${isActive ? activeStyles : inactiveStyles}">
+            ${cat}
+          </button>
+        `;
+      });
+    }
+
+    function setCategory(cat) {
+      selectedCategory = cat;
+      renderCategories();
+      renderMenu();
+    }
+
+    function renderMenu(filterText = '') {
+      const grid = document.getElementById('menu-grid');
+      grid.innerHTML = '';
+
+      const query = filterText.toLowerCase();
+      const filtered = menuItems.filter(item => {
+        const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+        const matchesQuery = item.name.toLowerCase().includes(query) || item.description.toLowerCase().includes(query);
+        return matchesCategory && matchesQuery;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 text-gray-400">
+            <p class="text-lg">No culinary matches found for "${filterText}" in ${selectedCategory}.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        // Check if item in current cart
+        const cartItem = cart.find(c => c.name === item.name);
+        const quantity = cartItem ? cartItem.qty : 0;
+
+        grid.innerHTML += `
+          <div class="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-xs hover:shadow-md transition duration-300 flex flex-col h-full group hover:border-royalGreen/10">
+            <!-- Details Panel -->
+            <div class="p-6 flex-grow flex flex-col justify-between">
+              <div>
+                <div class="flex items-start justify-between gap-2 mb-2">
+                  <span class="text-xs font-bold text-accentGold uppercase tracking-wider">${item.category}</span>
+                  <span class="font-serif font-extrabold text-royalGreen text-lg">₹${parseFloat(item.price).toFixed(2)}</span>
                 </div>
-        </div>
-    </main>
-
-    <div id="cart-dock" class="fixed bottom-16 right-4 z-40 flex items-center space-x-2">
-        <button onclick="goToCartPage()" class="relative bg-gold hover:bg-yellow-500 text-black font-bold p-4 rounded-full shadow-lg transition duration-300 focus:outline-none flex items-center justify-center gold-glow">
-            <i class="fa-solid fa-cart-shopping text-xl"></i>
-            <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border border-black font-extrabold animate-pulse">0</span>
-        </button>
-    </div>
-
-    <div class="fixed bottom-16 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-2 bg-black/80 px-3 py-1 rounded-full border border-gold/10">
-        <button onclick="prevPage()" class="text-gold hover:text-white px-2.5 py-0.5"><i class="fa-solid fa-chevron-left"></i></button>
-        <span id="page-num-indicator" class="text-xs tracking-widest text-gold serif-font">PAGE 1</span>
-        <button onclick="nextPage()" class="text-gold hover:text-white px-2.5 py-0.5"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-
-    <footer class="w-full bg-[#060403] border-t border-[#d4af3710] py-2 px-4 z-50 text-center h-[50px] flex items-center justify-center">
-        <a href="https://www.google.com/search?q=Hotel+sapphire+yamunanagar+reviews#lrd=0x390ef9efb8133fef:0x513c3a68f03efa87,3,5" target="_blank" class="flex items-center space-x-2 text-xs text-[#d4af37] hover:text-white font-medium transition duration-300 border border-[#d4af3725] rounded-full px-5 py-1.5 bg-[#0e0a07] rate-button-pulse">
-            <i class="fa-solid fa-star text-yellow-500 animate-pulse"></i>
-            <span>Rate Us & Give Feedback on Google</span>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-        </a>
-    </footer>
-
-    <div id="table-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-[#16120e] border-2 border-gold rounded-xl p-6 w-full max-w-sm text-center shadow-2xl relative">
-            <h3 class="serif-font text-gold text-base mb-3 tracking-wider font-bold">CHOOSE YOUR TABLE</h3>
-            <p class="text-[11px] text-gray-400 mb-5 leading-relaxed">Confirm your Dining Cabin / Table number below to print bills at the counter.</p>
-            
-            <div class="grid grid-cols-4 gap-2 mb-5">
-                <button onclick="selectTable(1)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-1</button>
-                <button onclick="selectTable(2)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-2</button>
-                <button onclick="selectTable(3)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-3</button>
-                <button onclick="selectTable(4)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-4</button>
-                <button onclick="selectTable(5)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-5</button>
-                <button onclick="selectTable(6)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-6</button>
-                <button onclick="selectTable(7)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-7</button>
-                <button onclick="selectTable(8)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-8</button>
-                <button onclick="selectTable(9)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-9</button>
-                <button onclick="selectTable(10)" class="table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs">T-10</button>
-            </div>
-            
-            <div class="flex flex-col space-y-2">
-                <input type="text" id="custom-table" placeholder="Or Enter Cabin / Suite Room" class="bg-black/40 text-white text-center border border-gold/25 rounded py-2 px-3 focus:outline-none focus:border-gold text-xs">
-                <button onclick="saveTableSelection()" class="w-full bg-gold text-black py-2.5 rounded font-bold text-xs tracking-widest hover:bg-yellow-500 transition">CONFIRM LOCATION</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-[#16120e] border border-gold px-4 py-3 rounded-lg shadow-xl flex items-center space-x-2 text-xs md:text-sm text-gold transform translate-y-[-150%] transition-transform duration-300 max-w-[90%] pointer-events-none">
-        <i id="toast-icon" class="fa-solid fa-circle-check"></i>
-        <span id="toast-message">Item Added!</span>
-    </div>
-
-    <div class="fixed bottom-16 left-4 z-40">
-        <button onclick="toggleAudio()" id="audio-btn" class="bg-black/80 hover:bg-[#16120e] border border-gold/30 text-gold p-3 rounded-full shadow-lg transition duration-300 flex items-center justify-center">
-            <i id="audio-icon" class="fa-solid fa-volume-high"></i>
-        </button>
-    </div>
-
-    <script>
-        // --- API INTEGRATIONS ---
-        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1_YNC57MPCAUlxlNydQzcrgKPZwBI0CB12awVte6u4_A/export?format=csv";
-        const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
-        const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
-
-        let menuItems = [];
-        let cart = [];
-        let currentPageIndex = 0;
-        let selectedTable = null;
-        let audioEnabled = true;
-        let totalPagesArray = [];
-
-        // --- TRACKING INITIALIZATION ENGINE ---
-        function initializeSessionContext() {
-            // 1. Check URL parameters for explicit tracking query keys
-            const urlParams = new URLSearchParams(window.location.search);
-            const tableParam = urlParams.get('table');
-            const roomParam = urlParams.get('room');
-
-            if (tableParam) {
-                selectedTable = `Table ${tableParam}`;
-                localStorage.setItem('sapphire_active_table', selectedTable);
-            } else if (roomParam) {
-                selectedTable = `Room ${roomParam}`;
-                localStorage.setItem('sapphire_active_table', selectedTable);
-            } else {
-                // 2. Local storage recovery fallback loop
-                const savedTable = localStorage.getItem('sapphire_active_table');
-                if (savedTable) {
-                    selectedTable = savedTable;
-                }
-            }
-
-            // 3. Load previous cart state
-            const savedCart = localStorage.getItem('sapphire_active_cart');
-            if (savedCart) {
-                try {
-                    cart = JSON.parse(savedCart);
-                    updateCartCounter();
-                } catch(e) {
-                    cart = [];
-                }
-            }
-        }
-
-        // --- FULL DIRECT PARSED BACKUP MENU CATALOG (FROM PDF) ---
-        const defaultMenu = [
-            // Page 1: Bar Bites
-            { id: 1, name: "Crispy Veg Nuggets", price: 345, category: "Bar Bites", description: "Medley of veggies and potato mix fried with spicy mayo." },
-            { id: 2, name: "Channa Chaat", price: 445, category: "Bar Bites", description: "Boiled chickpeas with onion, tomato, ground spices with lemon." },
-            { id: 3, name: "Chicken Pop Corn", price: 495, category: "Bar Bites", description: "Bite-sized tender and crisp chunks of chicken seasoned to perfection." },
-            { id: 4, name: "Spinach Leaf Chaat", price: 445, category: "Bar Bites", description: "Chaat snack made with crispy spinach fritters topped with tangy flavours." },
-            { id: 5, name: "Peanut Masala", price: 395, category: "Bar Bites", description: "Crunchy peanuts topped with spicy tangy onion and tomato mix." },
-            { id: 6, name: "Masala Papad Duo", price: 245, category: "Bar Bites", description: "Topped with a tangy spicy onion and tomato mix (Plain available for 145)." },
-            { id: 7, name: "Fresh Cut Fruit", price: 345, category: "Bar Bites", description: "Assorted seasonal fresh cut fruits." },
-            { id: 8, name: "French Fries", price: 375, category: "Bar Bites", description: "Crispy golden fried potato strips." },
-            { id: 9, name: "Cocktail Platter", price: 695, category: "Bar Bites", description: "Combo of assorted premium nuts and papads." },
-            { id: 10, name: "Chips & Dip Platter", price: 495, category: "Bar Bites", description: "Onion crisps, jalapeno & potato poppers, potato chips, nachos, salsa, jalapeno ketchup, hot BBQ, sour cream." },
-
-            // Page 2: Soups
-            { id: 11, name: "Khow Suey (Veg)", price: 495, category: "Soups", description: "Noodles with coconut milk, soup served with assorted condiments." },
-            { id: 12, name: "Khow Suey (Chicken)", price: 595, category: "Soups", description: "Noodles with coconut milk, chicken soup served with assorted condiments." },
-            { id: 13, name: "Tibetan Dumpling (Veg)", price: 395, category: "Soups", description: "Traditional Tibetan dish combining dumplings & vegetables in flavorful broth." },
-            { id: 14, name: "Tibetan Dumpling (Chicken)", price: 495, category: "Soups", description: "Traditional Tibetan dish combining chicken dumplings in flavorful broth." },
-            { id: 15, name: "Burnt Garlic Clear (Veg)", price: 325, category: "Soups", description: "Vegetable soup cooked with delightful flavour of burnt garlic." },
-            { id: 16, name: "Burnt Garlic Clear (Chicken)", price: 375, category: "Soups", description: "Chicken clear soup with delightful flavour & aroma of burnt garlic." },
-            { id: 17, name: "Manchow Soup (Veg)", price: 325, category: "Soups", description: "Hot and spicy Indo-Chinese soup with assorted vegetables." },
-            { id: 18, name: "Manchow Soup (Chicken)", price: 375, category: "Soups", description: "Hot and spicy Indo-Chinese soup with chicken & egg drops." },
-            { id: 19, name: "Mushroom Cappuccino", price: 325, category: "Soups", description: "A delicious mushroom soup served with savory milk foam." },
-            { id: 20, name: "Oven Roasted Tomato Soup", price: 325, category: "Soups", description: "Flavorful soup made of oven-roasted tomatoes with broth." },
-
-            // Page 3: Salads
-            { id: 21, name: "Back Door Caesar (Veg)", price: 495, category: "Salads", description: "Lettuce, croutons, caesar dressing, parmesan cheese." },
-            { id: 22, name: "Back Door Caesar (Chicken)", price: 595, category: "Salads", description: "Lettuce, croutons, caesar dressing, parmesan cheese with grilled chicken." },
-            { id: 23, name: "Kimchi Salad (Veg)", price: 445, category: "Salads", description: "Korean-inspired salad with a refreshing and flavourful twist." },
-            { id: 24, name: "Kimchi Salad (Chicken)", price: 545, category: "Salads", description: "Korean-inspired salad with tender chicken slices." },
-            { id: 25, name: "Beetroot Quinoa", price: 495, category: "Salads", description: "Roasted earthy beetroot on a bed of healthy quinoa." },
-            { id: 26, name: "Smoked Watermelon & Feta", price: 495, category: "Salads", description: "Cubes of watermelon tossed with fresh cream & crumbled feta." },
-            { id: 27, name: "Garden Green Salad", price: 245, category: "Salads", description: "A platter of fresh garden crisp vegetables." },
-
-            // Page 4: Small Plates
-            { id: 28, name: "Honey Chilli Potato", price: 545, category: "Small Plates", description: "Crisp potato fingers tossed in sweet honey chilli glaze." },
-            { id: 29, name: "Channa Chilli", price: 545, category: "Small Plates", description: "Crunchy chickpeas tossed with soya and chilli sauce." },
-            { id: 30, name: "Baked Tex Mex Nachos (Veg)", price: 545, category: "Small Plates", description: "Baked tortilla chips with cheese, salsa and fresh veggies." },
-            { id: 31, name: "Baked Tex Mex Nachos (Chicken)", price: 595, category: "Small Plates", description: "Baked tortilla chips with cheese, salsa, veggies and chicken." },
-            { id: 32, name: "Mexican Baked Bean Tacos (Veg)", price: 495, category: "Small Plates", description: "Hard shell tacos with lettuce, baked kidney beans and sour cream." },
-            { id: 33, name: "Mexican Baked Bean Tacos (Chicken)", price: 595, category: "Small Plates", description: "Hard shell tacos with chicken, baked kidney beans and sour cream." },
-            { id: 34, name: "Hummus with Falafel", price: 545, category: "Small Plates", description: "Creamy hummus with crispy falafel balls, herbs and spices." },
-            { id: 35, name: "Corn Pepper Cheese Roll", price: 545, category: "Small Plates", description: "Deep fried bell peppers & corn with cheese served with sweet chilli dip." },
-            { id: 36, name: "Chilli Garlic Cigars", price: 545, category: "Small Plates", description: "Cheese-filled deep-fried cigar rolls served with dip." },
-            { id: 37, name: "Cajun Chicken Sticks", price: 595, category: "Small Plates", description: "Crispy fried boneless chicken in cajun spice mix." },
-            { id: 38, name: "Grilled Chicken Specialty", price: 675, category: "Small Plates", description: "Juicy, tender, flavourful grilled boneless chicken." },
-            { id: 39, name: "Crisp Batter Fish Finger", price: 945, category: "Small Plates", description: "Crispy batter-fried fish fingers served with tartar sauce." },
-
-            // Page 5: Dim-Sum & Sizzlers
-            { id: 40, name: "Crystal Veg. Dimsum", price: 425, category: "Dim-Sum & Sizzler", description: "Translucent dumplings stuffed with exotic garden veggies." },
-            { id: 41, name: "Golden Garlic Mushroom Dimsum", price: 425, category: "Dim-Sum & Sizzler", description: "Steamed dimsum filled with garlicky wild mushrooms." },
-            { id: 42, name: "Waterchestnut Dimsum", price: 495, category: "Dim-Sum & Sizzler", description: "Dumplings with crunchy waterchestnuts & herbs." },
-            { id: 43, name: "Ginger Panda in Chilli Oil", price: 495, category: "Dim-Sum & Sizzler", description: "Delicious ginger veggie wontons drenched in aromatic chilli oil." },
-            { id: 44, name: "Chicken Bok-Choy Dimsum", price: 625, category: "Dim-Sum & Sizzler", description: "Steamed chicken and bok-choy filling." },
-            { id: 45, name: "Chicken Gyoza in Chilli Oil", price: 625, category: "Dim-Sum & Sizzler", description: "Pan-seared chicken dumplings served with hot chilli oil." },
-            { id: 46, name: "Veg Sizzler Platter", price: 795, category: "Dim-Sum & Sizzler", description: "Paneer shashlik, veg patty, herbed rice, veggies, wedges in BBQ sauce." },
-            { id: 47, name: "Non Veg Sizzler Platter", price: 995, category: "Dim-Sum & Sizzler", description: "Chicken shashlik, BBQ chicken, herbed rice, veggies, wedges in BBQ sauce." },
-
-            // Page 6: Sushi & Baos
-            { id: 48, name: "California Roll (8 Pcs)", price: 845, category: "Sushi & Baos", description: "Asparagus, cucumber, avocado, sesame, Japanese mayo." },
-            { id: 49, name: "Dragon Maki Roll (8 Pcs)", price: 845, category: "Sushi & Baos", description: "Avocado, shiitake mushroom, pickled cucumber." },
-            { id: 50, name: "Cream Cheese Roll (8 Pcs)", price: 845, category: "Sushi & Baos", description: "Cream cheese, spring onion, Japanese mayo, cucumber, lettuce." },
-            { id: 51, name: "Asparagus Tempura Roll", price: 925, category: "Sushi & Baos", description: "Asparagus, spicy mayo, cream cheese, sesame & flakes." },
-            { id: 52, name: "Spicy Avocado Roll (8 Pcs)", price: 925, category: "Sushi & Baos", description: "Avocado, spicy mayo, pickled cucumber, sesame." },
-            { id: 53, name: "Teriyaki Chicken Roll", price: 945, category: "Sushi & Baos", description: "Teriyaki glazed chicken, cucumber, avocado, spicy mayo." },
-            { id: 54, name: "Prawn Tempura Roll", price: 995, category: "Sushi & Baos", description: "Prawns hand rolled with sesame and tempura flakes." },
-            { id: 55, name: "Thai Basil Mushroom Bao (2)", price: 495, category: "Sushi & Baos", description: "Steamed fluffy buns stuffed with basil mushroom." },
-            { id: 56, name: "Five Spice Cottage Cheese Bao (2)", price: 495, category: "Sushi & Baos", description: "Fluffy baos with five-spice infused paneer." },
-            { id: 57, name: "Korean Chicken Bao (2)", price: 595, category: "Sushi & Baos", description: "Spicy Korean glazed chicken inside warm baos." },
-
-            // Page 7: Asian Appetizers
-            { id: 58, name: "Veg. Salt & Pepper", price: 545, category: "Asian Appetizers", description: "Exotic veggies seasoned with salt, pepper & spices." },
-            { id: 59, name: "Crackling Corn & Spinach", price: 545, category: "Asian Appetizers", description: "Crispy corn kernels, tender spinach with paprika." },
-            { id: 60, name: "Shanghai Style Lotus Stem", price: 645, category: "Asian Appetizers", description: "Deep-fried lotus stem in honey chilli sauce." },
-            { id: 61, name: "Cheese Chilli Dry", price: 595, category: "Asian Appetizers", description: "Indian cottage cheese tossed in flavorful spices." },
-            { id: 62, name: "Drums of Heaven", price: 695, category: "Asian Appetizers", description: "Crispy chicken wings tossed in five-spice sauce." },
-            { id: 63, name: "Chilli Chicken Dry", price: 695, category: "Asian Appetizers", description: "Marinated tender chicken tossed with peppers & green chillies." },
-            { id: 64, name: "Chilli Garlic Prawn", price: 995, category: "Asian Appetizers", description: "Deep fried scallion prawns in chilli garlic sauce." },
-
-            // Page 8 & 9: Indian Appetizers
-            { id: 65, name: "Beetroot Galouti Kebab", price: 645, category: "Indian Starters", description: "Melt-in-mouth kebab made of roasted beets & spices." },
-            { id: 66, name: "Malai Broccoli Royal", price: 595, category: "Indian Starters", description: "Broccoli florets marinated in cardamom cream & grilled." },
-            { id: 67, name: "Paneer Tikka (Kasundi / Malai)", price: 545, category: "Indian Starters", description: "Cottage cheese cubes marinated in mustard/cream and tandoored." },
-            { id: 68, name: "Dahi Kebab Spiced", price: 545, category: "Indian Starters", description: "Crispy fried hung curd patties flavored with cardamoms." },
-            { id: 69, name: "Mutton Shami Kebab", price: 795, category: "Indian Starters", description: "Fine mutton patties blended with lentils and spices." },
-            { id: 70, name: "Tandoori Chicken Classic", price: 695, category: "Indian Starters", description: "Clay-oven roasted spring chicken marinated with home spices." },
-            { id: 71, name: "Angara Murgh Tikka", price: 695, category: "Indian Starters", description: "Fiery red hot spicy tandoored chicken cubes." },
-            { id: 72, name: "Amritsari Fish Crisp", price: 945, category: "Indian Starters", description: "Carom-seeded crispy deep-fried river fish." },
-            { id: 73, name: "Tandoori Platter (Veg)", price: 945, category: "Indian Starters", description: "Paneer Tikka, masala chaap, malai broccoli, stuffed mushroom, pineapple." },
-            { id: 74, name: "Tandoori Platter (Non-Veg)", price: 1095, category: "Indian Starters", description: "Angara tikka, Afghani chicken tikka, chicken seekh, mutton seekh, fish tikka." },
-
-            // Page 10: Pizzeria
-            { id: 75, name: "Margherita Pizza", price: 595, category: "Pizzeria", description: "Topped with fresh mozzarella, basil, and cherry tomatoes." },
-            { id: 76, name: "Exotica Pizza (Veg)", price: 645, category: "Pizzeria", description: "Broccoli, zucchini, olive, jalapeno & herbs." },
-            { id: 77, name: "Exotica Pizza (Chicken)", price: 745, category: "Pizzeria", description: "Exotic pizza with loaded grilled chicken and fresh herbs." },
-            { id: 78, name: "Paneer Tikka Pizza", price: 645, category: "Pizzeria", description: "Indian cottage cheese tikka, onion, capsicum, red paprika." },
-            { id: 79, name: "Chicken Tikka Pizza", price: 745, category: "Pizzeria", description: "Tender chicken tikka chunks with onions, capsicums and jalapenos." },
-
-            // Page 11: Pasta
-            { id: 80, name: "Spaghetti Aglio E Olio", price: 595, category: "Pastas & Lasagna", description: "Tossed in premium olive oil, garlic, chilli flakes & parmesan." },
-            { id: 81, name: "Penne Alfredo (Veg)", price: 595, category: "Pastas & Lasagna", description: "Tossed in incredibly rich and creamy alfredo sauce." },
-            { id: 82, name: "Penne Alfredo (Chicken)", price: 695, category: "Pastas & Lasagna", description: "Penne tossed in creamy alfredo sauce with succulent chicken." },
-            { id: 83, name: "Penne Arrabbiata (Veg)", price: 595, category: "Pastas & Lasagna", description: "Spiced chunky Italian tomato sauce with fresh basil." },
-            { id: 84, name: "Pulled Butter Chicken Lasagna", price: 795, category: "Pastas & Lasagna", description: "Layers of pasta sheet filled with shredded tandoori chicken & makhani cheese sauce." },
-
-            // Page 12: Full Plates
-            { id: 85, name: "Stir Fried Greens & Rice", price: 545, category: "Full Plates", description: "Asian green veggies in chilli garlic sauce served with jasmine rice." },
-            { id: 86, name: "Classic Thai Curry (Veg)", price: 795, category: "Full Plates", description: "Creamy Green or Red Thai curry served with jasmine rice." },
-            { id: 87, name: "Classic Thai Curry (Chicken)", price: 845, category: "Full Plates", description: "Classic Green/Red curry with chicken served with jasmine rice." },
-            { id: 88, name: "Herb Crusted Grilled Fish", price: 945, category: "Full Plates", description: "Sol fish fillet marinated in herbs with mashed potatoes & veggies." },
-
-            // Page 13: Indian Main Course
-            { id: 89, name: "Dal Makhani Signature", price: 445, category: "Indian Mains", description: "Black lentils cooked overnight with cream & pure butter." },
-            { id: 90, name: "Kadai Paneer Deluxe", price: 575, category: "Indian Mains", description: "Paneer chunks with crushed whole spices, capsicum and tomatoes." },
-            { id: 91, name: "Paneer Butter Masala", price: 575, category: "Indian Mains", description: "Cottage cheese cubes simmered in a velvet butter-tomato gravy." },
-            { id: 92, name: "Butter Chicken Classic", price: 675, category: "Indian Mains", description: "Tandoori chicken shredded and cooked in creamy tomato makhani gravy." },
-            { id: 93, name: "Mutton Rogan Josh", price: 895, category: "Indian Mains", description: "Traditional Kashmiri style mutton slow-cooked with root spices." },
-            { id: 94, name: "Backdoor Special Mutton", price: 895, category: "Indian Mains", description: "Chef's secret spices slow-cooked robust mutton gravy." },
-
-            // Page 14: Rice, Noodles, Breads & Raitas
-            { id: 95, name: "Butter Naan Hot", price: 125, category: "Breads & Rice", description: "Flaky and soft refined flour bread glazed with premium butter." },
-            { id: 96, name: "Bread Basket (Assorted)", price: 395, category: "Breads & Rice", description: "Includes Tandoori Roti, Butter Naan, Missi Roti, Laccha Paratha." },
-            { id: 97, name: "Hakka Noodles (Veg)", price: 495, category: "Breads & Rice", description: "Stir-fried noodles with crisp veggies." },
-            { id: 98, name: "Hakka Noodles (Chicken)", price: 645, category: "Breads & Rice", description: "Stir-fried noodles tossed with chicken and egg." },
-            { id: 99, name: "Biryani (Chicken)", price: 845, category: "Breads & Rice", description: "Basmati rice slow-dum cooked with marinated chicken and saffron." },
-            { id: 100, name: "Fried Rice (Veg)", price: 495, category: "Breads & Rice", description: "Classic Chinese wok-tossed fried rice." },
-
-            // Page 15: Desserts
-            { id: 101, name: "Chocolate Cigar Roll", price: 345, category: "Desserts & Ice Cream", description: "Crispy fried rolls filled with choco brownie served with vanilla ice cream." },
-            { id: 102, name: "Sizzling Brownie", price: 345, category: "Desserts & Ice Cream", description: "Warm chocolate brownie served on a sizzling hot plate with vanilla scoop." },
-            { id: 103, name: "Gulab Jamun Nest Sweet", price: 245, category: "Desserts & Ice Cream", description: "Traditional hot sweet gulab jamuns served in an edible crisp nest." }
-        ];
-
-        // --- ASMR ACOUSTIC ENGINE (PRO ENVIRONMENT SENSORY FLIP) ---
-        function playFlipSound() {
-            if (!audioEnabled) return;
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const bufferSize = ctx.sampleRate * 0.45;
-                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-                const data = buffer.getChannelData(0);
-                
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-
-                const noise = ctx.createBufferSource();
-                noise.buffer = buffer;
-
-                const bandpass = ctx.createBiquadFilter();
-                bandpass.type = "bandpass";
-                bandpass.frequency.setValueAtTime(1400, ctx.currentTime);
-                bandpass.frequency.exponentialRampToValueAtTime(320, ctx.currentTime + 0.4);
-                bandpass.Q.setValueAtTime(3.5, ctx.currentTime);
-
-                const noiseGain = ctx.createGain();
-                noiseGain.gain.setValueAtTime(0, ctx.currentTime);
-                noiseGain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.05);
-                noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.42);
-
-                const osc = ctx.createOscillator();
-                const oscGain = ctx.createGain();
-                osc.type = "sine";
-                osc.frequency.setValueAtTime(75, ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(240, ctx.currentTime + 0.35);
-
-                oscGain.gain.setValueAtTime(0, ctx.currentTime);
-                oscGain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.1);
-                oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
-
-                noise.connect(bandpass);
-                bandpass.connect(noiseGain);
-                noiseGain.connect(ctx.destination);
-
-                osc.connect(oscGain);
-                oscGain.connect(ctx.destination);
-
-                noise.start();
-                osc.start();
-                noise.stop(ctx.currentTime + 0.45);
-                osc.stop(ctx.currentTime + 0.45);
-            } catch (e) {
-                console.log("Audio require swipe interactions:", e);
-            }
-        }
-
-        function toggleAudio() {
-            audioEnabled = !audioEnabled;
-            const icon = document.getElementById("audio-icon");
-            if (audioEnabled) {
-                icon.className = "fa-solid fa-volume-high";
-                showToast("Sensory Audio Enabled!");
-                playFlipSound();
-            } else {
-                icon.className = "fa-solid fa-volume-xmark";
-                showToast("Sensory Audio Muted!");
-            }
-        }
-
-        // --- DIRECT GOOGLE SHEETS & SUPABASE CONNECTOR ---
-        async function loadMenuSystem() {
-            const badge = document.getElementById("sync-source-badge");
-            
-            try {
-                const response = await fetch(SHEET_CSV_URL);
-                if (response.ok) {
-                    const csvText = await response.text();
-                    const sheetItems = parseCSV(csvText);
-                    if (sheetItems.length > 0) {
-                        menuItems = sheetItems;
-                        badge.innerHTML = `<span class="text-green-400 font-bold"><i class="fa-solid fa-cloud-arrow-down"></i> Google Sheets Connected (${menuItems.length} Items)</span>`;
-                        renderBook();
-                        return;
-                    }
-                }
-            } catch (err) {
-                console.log("Sheets fetch bypass, shifting to Supabase Database...", err);
-            }
-
-            try {
-                const response = await fetch(`${SUPABASE_URL}menu_items?select=*`, {
-                    headers: { "apikey": SUPABASE_KEY }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data && data.length > 0) {
-                        menuItems = data;
-                        badge.innerHTML = `<span class="text-yellow-500 font-bold"><i class="fa-solid fa-database"></i> Live Supabase Synchronized (${menuItems.length} Items)</span>`;
-                        renderBook();
-                        return;
-                    }
-                }
-            } catch (err) {
-                console.log("Supabase pipeline offline, utilizing fully detailed default catalog", err);
-            }
-
-            menuItems = defaultMenu;
-            badge.innerHTML = `<span class="text-yellow-600 font-bold"><i class="fa-solid fa-book-open"></i> Full Local Catalog Active (${menuItems.length} Dishes)</span>`;
-            renderBook();
-        }
-
-        function parseCSV(csvText) {
-            const lines = csvText.split(/\r?\n/);
-            if (lines.length < 2) return [];
-
-            const headers = lines[0].split(',').map(h => h.trim().replace(/^["']|["']$/g, '').toLowerCase());
-            const findIndex = (keys) => headers.findIndex(h => keys.some(k => h.includes(k)));
-
-            const nameIdx = findIndex(['name', 'item', 'food', 'title']);
-            const priceIdx = findIndex(['price', 'rate', 'cost', 'amount']);
-            const catIdx = findIndex(['category', 'type', 'group']);
-            const descIdx = findIndex(['description', 'detail', 'info', 'desc']);
-
-            const list = [];
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line) continue;
-
-                const row = [];
-                let insideQuote = false;
-                let field = "";
-                for (let j = 0; j < line.length; j++) {
-                    const c = line[j];
-                    if (c === '"' || c === "'") insideQuote = !insideQuote;
-                    else if (c === ',' && !insideQuote) {
-                        row.push(field.trim().replace(/^["']|["']$/g, ''));
-                        field = "";
-                    } else {
-                        field += c;
-                    }
-                }
-                row.push(field.trim().replace(/^["']|["']$/g, ''));
-
-                const targetName = row[nameIdx === -1 ? 0 : nameIdx];
-                if (!targetName) continue;
-
-                const priceNum = parseFloat(row[priceIdx === -1 ? 1 : priceIdx]);
-
-                list.push({
-                    id: i,
-                    name: targetName,
-                    price: isNaN(priceNum) ? 350 : priceNum,
-                    category: row[catIdx === -1 ? 2 : catIdx] || 'Specialties',
-                    description: row[descIdx === -1 ? 3 : descIdx] || 'The Back Door premium recipe.'
-                });
-            }
-            return list;
-        }
-
-        // --- DYNAMIC BOOK RENDERER ---
-        function getPagesStructure() {
-            const categories = {};
-            menuItems.forEach(item => {
-                const cat = item.category || "General";
-                if (!categories[cat]) categories[cat] = [];
-                categories[cat].push(item);
-            });
-
-            const pages = [];
-            pages.push({ type: "cover", title: "THE BACK DOOR", subtitle: "HOTEL SAPPHIRE YAMUNANAGAR" });
-
-            Object.keys(categories).forEach(cat => {
-                pages.push({ type: "category", category: cat, items: categories[cat] });
-            });
-
-            pages.push({ type: "cart" });
-            return pages;
-        }
-
-        function renderBook() {
-            const bookEl = document.getElementById("book");
-            bookEl.innerHTML = "";
-            totalPagesArray = getPagesStructure();
-
-            totalPagesArray.forEach((page, index) => {
-                const pageDiv = document.createElement("div");
-                pageDiv.className = `book-page ${index === currentPageIndex ? 'page-active' : 'page-hidden'}`;
-
-                let html = "";
-                if (page.type === "cover") {
-                    html = `
-                        <div class="page-face page-front flex flex-col justify-between p-6 text-center border-[3px] border-double border-[#d4af3750] m-1 h-[98%] rounded-xl">
-                            <div class="pt-4">
-                                <span class="text-[10px] tracking-[0.4em] text-gold serif-font font-bold">THE BACK DOOR RESTAURANT</span>
-                                <div class="w-12 h-[1px] bg-gold/30 mx-auto my-1.5"></div>
-                            </div>
-                            <div class="my-auto flex flex-col items-center">
-                                <i class="fa-solid fa-gem text-gold text-5xl mb-6 animate-pulse"></i>
-                                <h1 class="serif-font text-3xl font-black text-gold tracking-widest uppercase">HOTEL SAPPHIRE</h1>
-                                <p class="text-[9px] tracking-[0.2em] text-amber-100/50 mt-1 uppercase">Yamunanagar's Finest Multi-Cuisine Dine</p>
-                                <div class="w-20 h-[1px] bg-gold/40 my-6"></div>
-                                <span class="text-[10px] text-gray-400 italic">Sweep/Swipe to Flip the Fine-Dine Catalog</span>
-                            </div>
-                            <div class="pb-4">
-                                <p class="text-[11px] text-gold/80 flex items-center justify-center space-x-2 animate-bounce">
-                                    <span>Swipe Left to Start</span> <i class="fa-solid fa-arrow-right"></i>
-                                </p>
-                            </div>
-                        </div>
-                    `;
-                } else if (page.type === "category") {
-                    const itemCards = page.items.map(item => `
-                        <div class="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-gold/10 hover:border-gold/30 transition shadow-inner">
-                            <div class="flex-grow pr-3">
-                                <div class="flex items-center space-x-1.5">
-                                    <span class="w-2 h-2 rounded-full ${page.category.toLowerCase().includes('non') ? 'bg-red-500' : 'bg-green-500'}"></span>
-                                    <h4 class="font-bold text-xs md:text-sm text-gold">${item.name}</h4>
-                                </div>
-                                <p class="text-[9px] md:text-[10px] text-gray-400 mt-1 leading-relaxed line-clamp-2">${item.description || 'Premium recipe selection prepared with luxury ingredients.'}</p>
-                                <span class="text-xs font-semibold text-white block mt-1 font-mono">₹ ${item.price}</span>
-                            </div>
-                            <button onclick="addToCart(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.price})" class="flex-shrink-0 bg-gold hover:bg-yellow-500 text-black px-3 py-1.5 rounded-lg font-bold text-[10px] flex items-center space-x-1 transition shadow duration-300">
-                                <i class="fa-solid fa-plus"></i> <span>ADD</span>
-                            </button>
-                        </div>
-                    `).join("");
-
-                    html = `
-                        <div class="page-face page-front p-4 flex flex-col justify-between h-[99%]">
-                            <div>
-                                <div class="text-center pb-2 border-b border-gold/15 mb-3">
-                                    <span class="text-[9px] tracking-widest text-gold/55 uppercase">The Back Door • Sapphire</span>
-                                    <h2 class="serif-font text-base md:text-xl font-bold text-gold uppercase tracking-wider mt-0.5">${page.category}</h2>
-                                </div>
-                                <div class="space-y-2 overflow-y-auto max-h-[350px] custom-scroll pr-1">
-                                    ${itemCards}
-                                </div>
-                            </div>
-                            <div class="pt-2 border-t border-gold/10 flex justify-between items-center text-[9px] text-gold/50 uppercase font-mono">
-                                <span>Swipe Left or Right</span>
-                                <span>Page ${index + 1}</span>
-                            </div>
-                        </div>
-                    `;
-                } else if (page.type === "cart") {
-                    html = `
-                        <div class="page-face page-front p-4 flex flex-col justify-between h-[99%]">
-                            <div class="flex flex-col h-full justify-between">
-                                <div class="text-center pb-2 border-b border-gold/15 mb-3">
-                                    <span class="text-[9px] tracking-widest text-gold/55 uppercase">Your Dining Order</span>
-                                    <h2 class="serif-font text-base md:text-xl font-bold text-gold uppercase tracking-wider">ORDER TRAY SUMMARY</h2>
-                                </div>
-                                
-                                <div id="cart-items-box" class="flex-grow overflow-y-auto max-h-[160px] custom-scroll space-y-2 pr-1 mb-2">
-                                    <p class="text-center text-gray-500 text-xs py-10">Your tray is currently empty.</p>
-                                </div>
-
-                                <div class="bg-black/40 p-3 rounded-lg border border-gold/15 space-y-1.5 text-[11px] font-mono">
-                                    <div class="flex justify-between text-gray-400">
-                                        <span>Subtotal:</span>
-                                        <span id="bill-subtotal">₹ 0.00</span>
-                                    </div>
-                                    <div class="flex justify-between text-gray-400">
-                                        <span>SGST (5.0%):</span>
-                                        <span id="bill-sgst">₹ 0.00</span>
-                                    </div>
-                                    <div class="flex justify-between text-gray-400">
-                                        <span>CGST (5.0%):</span>
-                                        <span id="bill-cgst">₹ 0.00</span>
-                                    </div>
-                                    <div class="h-[1px] bg-gold/15 my-1"></div>
-                                    <div class="flex justify-between text-gold font-bold text-xs md:text-sm">
-                                        <span class="serif-font">Total Payable Amount:</span>
-                                        <span id="bill-total">₹ 0.00</span>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-2 pt-2">
-                                    <div class="flex justify-between items-center bg-gold/5 px-3 py-1.5 rounded border border-gold/15">
-                                        <span class="text-[10px] text-gray-400">Dine-In Location:</span>
-                                        <span id="display-table" class="text-[11px] font-bold text-gold cursor-pointer underline" onclick="openTableModal()">SELECT TABLE</span>
-                                    </div>
-                                    <div class="grid grid-cols-12 gap-2">
-                                        <button onclick="askForBill()" id="bill-request-btn" class="col-span-4 bg-red-950 hover:bg-red-900 text-red-400 border border-red-500/30 font-bold rounded-lg text-[10px] uppercase tracking-wider transition duration-300 py-3">
-                                            <i class="fa-solid fa-file-invoice-dollar block mb-0.5 text-xs"></i> Ask For Bill
-                                        </button>
-                                        <button onclick="placeOrder()" id="order-btn" class="col-span-8 bg-gold hover:bg-yellow-500 text-black font-extrabold rounded-lg tracking-widest text-[11px] flex items-center justify-center space-x-1.5 transition shadow duration-300 py-3">
-                                            <i class="fa-solid fa-utensils"></i>
-                                            <span>PLACE ORDER</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                pageDiv.innerHTML = html;
-                bookEl.appendChild(pageDiv);
-            });
-
-            updatePageDisplay();
-        }
-
-        // --- NAVIGATION & SWIPE MATRICES ---
-        function updatePageDisplay() {
-            const pages = document.querySelectorAll(".book-page");
-            pages.forEach((p, idx) => {
-                p.className = `book-page ${idx === currentPageIndex ? 'page-active' : 'page-hidden'}`;
-            });
-
-            document.getElementById("page-num-indicator").innerText = `PAGE ${currentPageIndex + 1} / ${totalPagesArray.length}`;
-            if (totalPagesArray[currentPageIndex] && totalPagesArray[currentPageIndex].type === "cart") {
-                refreshCartView();
-            }
-        }
-
-        function nextPage() {
-            if (currentPageIndex < totalPagesArray.length - 1) {
-                currentPageIndex++;
-                playFlipSound();
-                updatePageDisplay();
-            }
-        }
-
-        function prevPage() {
-            if (currentPageIndex > 0) {
-                currentPageIndex--;
-                playFlipSound();
-                updatePageDisplay();
-            }
-        }
-
-        function goToCartPage() {
-            const cartIndex = totalPagesArray.findIndex(p => p.type === "cart");
-            if (cartIndex !== -1) {
-                currentPageIndex = cartIndex;
-                playFlipSound();
-                updatePageDisplay();
-            }
-        }
-
-        let touchStartX = 0;
-        let touchEndX = 0;
-        document.addEventListener("touchstart", e => touchStartX = e.changedTouches[0].screenX, { passive: true });
-        document.addEventListener("touchend", e => {
-            touchEndX = e.changedTouches[0].screenX;
-            const dist = touchStartX - touchEndX;
-            if (dist > 50) nextPage();
-            else if (dist < -50) prevPage();
-        }, { passive: true });
-
-        function dismissHint() {
-            document.getElementById("swipe-hint").style.opacity = "0";
-            setTimeout(() => document.getElementById("swipe-hint").style.display = "none", 500);
-            playFlipSound();
-        }
-
-        // --- ORDER ENGINE OPERATIONS ---
-        function addToCart(id, name, price) {
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.quantity++;
-            } else {
-                cart.push({ id, name, price, quantity: 1 });
-            }
-            localStorage.setItem('sapphire_active_cart', JSON.stringify(cart));
-            updateCartCounter();
-            showToast(`${name} added!`);
-            playFlipSound();
-        }
-
-        function updateCartCounter() {
-            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById("cart-count").innerText = total;
-        }
-
-        function changeQuantity(id, delta) {
-            const item = cart.find(i => i.id === id);
-            if (item) {
-                item.quantity += delta;
-                if (item.quantity <= 0) {
-                    cart = cart.filter(i => i.id !== id);
-                    showToast("Removed from Tray.");
-                }
-                localStorage.setItem('sapphire_active_cart', JSON.stringify(cart));
-                updateCartCounter();
-                refreshCartView();
-            }
-        }
-
-        function refreshCartView() {
-            const box = document.getElementById("cart-items-box");
-            if (!box) return;
-
-            // Set up visual UI for custom tracking status
-            if (selectedTable) {
-                const displayEl = document.getElementById("display-table");
-                if (displayEl) displayEl.innerText = selectedTable.toUpperCase();
-            }
-
-            if (cart.length === 0) {
-                box.innerHTML = `<p class="text-center text-gray-500 text-xs py-10">Your tray is empty.</p>`;
-                updateCalculations(0);
-                return;
-            }
-
-            let subtotal = 0;
-            box.innerHTML = cart.map(item => {
-                const totalItem = item.price * item.quantity;
-                subtotal += totalItem;
-                return `
-                    <div class="flex items-center justify-between p-2 rounded-lg bg-black/30 border border-gold/10 text-xs">
-                        <div class="flex-grow">
-                            <span class="font-semibold text-white">${item.name}</span>
-                            <div class="text-[9px] text-gray-400 mt-0.5">₹ ${item.price} each</div>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <div class="flex items-center space-x-1 border border-gold/25 rounded px-1.5 py-0.5 bg-black/20">
-                                <button onclick="changeQuantity(${item.id}, -1)" class="text-gold font-bold px-1 text-xs">-</button>
-                                <span class="font-mono text-white text-xs">${item.quantity}</span>
-                                <button onclick="changeQuantity(${item.id}, 1)" class="text-gold font-bold px-1 text-xs">+</button>
-                            </div>
-                            <span class="font-mono text-gold font-bold min-w-[50px] text-right">₹ ${totalItem}</span>
-                        </div>
+                <h3 class="text-lg font-bold text-royalBlue group-hover:text-royalGreen transition mb-1">${item.name}</h3>
+                <p class="text-gray-500 text-xs leading-relaxed line-clamp-3">${item.description || 'No description available for this item.'}</p>
+              </div>
+
+              <!-- Quantity Controls / Add to Basket -->
+              <div class="mt-6 pt-4 border-t border-gray-50 flex items-center justify-between">
+                ${quantity === 0 ? `
+                  <button onclick="addToCart('${encodeURIComponent(item.name)}', ${item.price})" class="w-full bg-royalGreen-light text-royalGreen hover:bg-royalGreen hover:text-white px-4 py-2.5 rounded-2xl text-xs font-semibold tracking-wide transition-all active:scale-95 flex items-center justify-center gap-1.5 border border-royalGreen/15">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg> Add to Basket
+                  </button>
+                ` : `
+                  <div class="flex items-center justify-between w-full">
+                    <span class="text-xs font-semibold text-royalGreen bg-royalGreen-light px-2.5 py-1 rounded-full border border-royalGreen/10">In basket: ${quantity}</span>
+                    <div class="flex items-center gap-1">
+                      <button onclick="adjustQty('${encodeURIComponent(item.name)}', -1)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center font-bold text-sm transition">-</button>
+                      <span class="w-6 text-center font-bold text-sm text-royalBlue">${quantity}</span>
+                      <button onclick="adjustQty('${encodeURIComponent(item.name)}', 1)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center font-bold text-sm transition">+</button>
                     </div>
-                `;
-            }).join("");
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
 
-            updateCalculations(subtotal);
+    function filterMenu() {
+      const txt = document.getElementById('menu-search').value;
+      renderMenu(txt);
+    }
+
+    // CART OPERATIONS
+    function toggleCart(show) {
+      const drawer = document.getElementById('cart-drawer');
+      if (show) {
+        drawer.classList.remove('hidden');
+        renderCartItems();
+      } else {
+        drawer.classList.add('hidden');
+      }
+    }
+
+    function addToCart(encodedName, price) {
+      const name = decodeURIComponent(encodedName);
+      const existing = cart.find(c => c.name === name);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      localStorage.setItem(`sapphire_cart_${currentTable}`, JSON.stringify(cart));
+      updateCartBadge();
+      renderMenu();
+    }
+
+    function adjustQty(encodedName, amount) {
+      const name = decodeURIComponent(encodedName);
+      const item = cart.find(c => c.name === name);
+      if (!item) return;
+
+      item.qty += amount;
+      if (item.qty <= 0) {
+        cart = cart.filter(c => c.name !== name);
+      }
+      localStorage.setItem(`sapphire_cart_${currentTable}`, JSON.stringify(cart));
+      updateCartBadge();
+      renderMenu();
+      if (!document.getElementById('cart-drawer').classList.contains('hidden')) {
+        renderCartItems();
+      }
+    }
+
+    function updateCartBadge() {
+      const totalCount = cart.reduce((acc, curr) => acc + curr.qty, 0);
+      document.getElementById('cart-count').textContent = totalCount;
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cart-items-container');
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center p-8">
+            <svg class="h-16 w-16 text-gray-300 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <h4 class="font-bold text-gray-700">Basket is empty</h4>
+            <p class="text-sm text-gray-400 mt-1">Pick some delicious items from the main menu to start dining.</p>
+          </div>
+        `;
+        document.getElementById('cart-subtotal').textContent = "₹0.00";
+        document.getElementById('cart-cgst').textContent = "₹0.00";
+        document.getElementById('cart-sgst').textContent = "₹0.00";
+        document.getElementById('cart-estimated-total').textContent = "₹0.00";
+        document.getElementById('place-order-btn').disabled = true;
+        document.getElementById('place-order-btn').classList.add('opacity-50', 'cursor-not-allowed');
+        return;
+      }
+
+      document.getElementById('place-order-btn').disabled = false;
+      document.getElementById('place-order-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+      let subtotal = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.qty;
+        subtotal += itemTotal;
+
+        container.innerHTML += `
+          <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 flex items-center justify-between gap-2">
+            <div class="flex-grow">
+              <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
+              <p class="text-xs text-gray-500 mt-0.5">₹${parseFloat(item.price).toFixed(2)} each</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1.5 bg-white border border-gray-150 rounded-lg p-1 shadow-2xs">
+                <button onclick="adjustQty('${encodeURIComponent(item.name)}', -1)" class="w-6 h-6 rounded-md bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold transition">-</button>
+                <span class="w-5 text-center font-bold text-xs text-royalBlue">${item.qty}</span>
+                <button onclick="adjustQty('${encodeURIComponent(item.name)}', 1)" class="w-6 h-6 rounded-md bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold transition">+</button>
+              </div>
+              <span class="font-semibold text-royalGreen text-sm w-16 text-right">₹${itemTotal.toFixed(2)}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      const cgst = subtotal * 0.05;
+      const sgst = subtotal * 0.05;
+      const total = subtotal + cgst + sgst;
+
+      document.getElementById('cart-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('cart-cgst').textContent = `₹${cgst.toFixed(2)}`;
+      document.getElementById('cart-sgst').textContent = `₹${sgst.toFixed(2)}`;
+      document.getElementById('cart-estimated-total').textContent = `₹${total.toFixed(2)}`;
+    }
+
+    // PLACE ORDER & SYNC WITH DB
+    async function placeOrder() {
+      if (cart.length === 0) return;
+
+      // Disable button
+      const orderBtn = document.getElementById('place-order-btn');
+      orderBtn.disabled = true;
+      orderBtn.innerHTML = `
+        <svg class="animate-spin h-5 w-5 mr-3 text-white" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg> Sending order...
+      `;
+
+      try {
+        // Calculate new aggregates
+        let existingItems = [];
+        if (activeSession && activeSession.items) {
+          try {
+            existingItems = JSON.parse(activeSession.items);
+          } catch (e) {
+            existingItems = [];
+          }
         }
 
-        function updateCalculations(subtotal) {
-            const sgst = parseFloat((subtotal * 0.05).toFixed(2));
-            const cgst = parseFloat((subtotal * 0.05).toFixed(2));
-            const grandTotal = parseFloat((subtotal + sgst + cgst).toFixed(2));
+        // Merge cart items into active session items
+        cart.forEach(cartItem => {
+          const match = existingItems.find(ex => ex.name === cartItem.name);
+          if (match) {
+            match.qty += cartItem.qty;
+          } else {
+            existingItems.push({ ...cartItem });
+          }
+        });
 
-            document.getElementById("bill-subtotal").innerText = `₹ ${subtotal.toFixed(2)}`;
-            document.getElementById("bill-sgst").innerText = `₹ ${sgst.toFixed(2)}`;
-            document.getElementById("bill-cgst").innerText = `₹ ${cgst.toFixed(2)}`;
-            document.getElementById("bill-total").innerText = `₹ ${grandTotal.toFixed(2)}`;
+        const subtotal = existingItems.reduce((acc, curr) => acc + (curr.price * curr.qty), 0);
+        const cgst = subtotal * 0.05;
+        const sgst = subtotal * 0.05;
+        const total = subtotal + cgst + sgst;
+
+        const updatedPayload = {
+          items: JSON.stringify(existingItems),
+          total_amount: total,
+          status: 'ordered', // Status turns YELLOW indicating prepared food queue
+          updated_at: new Date().toISOString()
+        };
+
+        // Call database
+        let updatedResult = null;
+        if (activeSession && activeSession.id) {
+          updatedResult = await requestSupabase(`orders?id=eq.${activeSession.id}`, 'PATCH', updatedPayload);
         }
 
-        // --- TABLE CONTROLS ---
-        function openTableModal() {
-            document.getElementById("table-modal").classList.remove("hidden");
+        if (updatedResult && updatedResult.length > 0) {
+          activeSession = updatedResult[0];
+        } else {
+          // Simulated fallback
+          activeSession = {
+            ...activeSession,
+            ...updatedPayload,
+            status: 'ordered'
+          };
         }
 
-        function selectTable(num) {
-            selectedTable = `Table ${num}`;
-            document.querySelectorAll(".table-btn").forEach(btn => {
-                btn.className = "table-btn p-3 rounded border border-gold/15 hover:bg-gold hover:text-black font-bold transition text-xs";
-                if (btn.innerText === `T-${num}`) btn.className = "table-btn p-3 rounded border-2 border-gold bg-gold text-black font-bold text-xs";
-            });
-            document.getElementById("custom-table").value = "";
+        // Save progress to LocalStorage for offline and counter tracking
+        localStorage.setItem(`table_status_${currentTable}`, 'ordered');
+        localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(activeSession));
+        localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(activeSession));
+
+        // Clear local Cart
+        cart = [];
+        localStorage.removeItem(`sapphire_cart_${currentTable}`);
+        updateCartBadge();
+        
+        // UI updates
+        toggleCart(false);
+        renderMenu();
+        updateSessionUI();
+
+        // Inform customer using a custom HTML element overlay (No native browser alerts)
+        showCustomAlert("Success", "Your premium dish orders have been dispatched directly to the Kitchen master chef!", "success");
+
+      } catch (err) {
+        console.error(err);
+        showCustomAlert("Error", "Could not dispatch your order. Please try again.", "error");
+      } finally {
+        orderBtn.disabled = false;
+        orderBtn.innerHTML = `
+          <span>Send Order to Kitchen</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        `;
+      }
+    }
+
+    // REQUEST BILL TRIGGER
+    async function requestBill() {
+      if (!activeSession) return;
+
+      const updatedPayload = {
+        status: 'bill_requested', // Sets RED status indicator
+        updated_at: new Date().toISOString()
+      };
+
+      let updatedResult = await requestSupabase(`orders?id=eq.${activeSession.id}`, 'PATCH', updatedPayload);
+
+      if (updatedResult && updatedResult.length > 0) {
+        activeSession = updatedResult[0];
+      } else {
+        activeSession = {
+          ...activeSession,
+          ...updatedPayload,
+        };
+      }
+
+      localStorage.setItem(`table_status_${currentTable}`, 'bill_requested');
+      localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(activeSession));
+      localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(activeSession));
+
+      updateSessionUI();
+    }
+
+    function dismissWaiterModal() {
+      document.getElementById('waiter-modal').classList.add('hidden');
+    }
+
+    // CUSTOM MODAL ALERTS FOR AN INTEGRATED IFRAME FEEL (Never use browser alert())
+    function showCustomAlert(title, message, type) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs";
+      
+      const isSuccess = type === 'success';
+      const themeColor = isSuccess ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50';
+      const icon = isSuccess ? 
+        `<svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>` :
+        `<svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
+
+      alertDiv.innerHTML = `
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-gray-100 text-center animate-bounce-short">
+          <div class="w-16 h-16 ${themeColor} rounded-full flex items-center justify-center mx-auto mb-4">
+            ${icon}
+          </div>
+          <h3 class="text-xl font-bold font-serif text-royalBlue mb-1">${title}</h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-6">${message}</p>
+          <button onclick="this.closest('.fixed').remove()" class="w-full bg-royalGreen text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-royalGreen-dark transition">
+            Excellent
+          </button>
+        </div>
+      `;
+      document.body.appendChild(alertDiv);
+    }
+
+    // POLLING MONITOR TO SYNC CHANGES MADE FROM COUNTER (e.g. checkout clearing session)
+    setInterval(async () => {
+      if (!currentTable || !activeSession) return;
+
+      // Poll Supabase
+      const latest = await requestSupabase(`orders?id=eq.${activeSession.id}`, 'GET');
+      if (latest && latest.length > 0) {
+        const item = latest[0];
+        
+        // If the table status changed to completed, it means counter checked it out!
+        if (item.status === 'completed') {
+          // Reset local session data
+          localStorage.removeItem(`sapphire_cart_${currentTable}`);
+          localStorage.removeItem(`sapphire_session_backup_${currentTable}`);
+          localStorage.removeItem(`table_status_${currentTable}`);
+          localStorage.removeItem(`table_session_${currentTable}`);
+          cart = [];
+          activeSession = null;
+          location.reload();
+        } else {
+          activeSession = item;
+          localStorage.setItem(`table_status_${currentTable}`, item.status);
+          localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(item));
+          localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(item));
+          updateSessionUI();
         }
-
-        function saveTableSelection() {
-            const custom = document.getElementById("custom-table").value.trim();
-            if (custom) selectedTable = custom;
-
-            if (!selectedTable) {
-                showToast("Please choose a location!");
-                return;
-            }
-
-            localStorage.setItem('sapphire_active_table', selectedTable);
-            document.getElementById("display-table").innerText = selectedTable.toUpperCase();
-            document.getElementById("table-modal").classList.add("hidden");
-            showToast(`Confirmed Location: ${selectedTable}`);
+      } else {
+        // Fallback local storage sync in case of local simulation
+        const localStatus = localStorage.getItem(`table_status_${currentTable}`);
+        if (localStatus === 'completed') {
+          localStorage.removeItem(`sapphire_cart_${currentTable}`);
+          localStorage.removeItem(`sapphire_session_backup_${currentTable}`);
+          localStorage.removeItem(`table_status_${currentTable}`);
+          localStorage.removeItem(`table_session_${currentTable}`);
+          cart = [];
+          activeSession = null;
+          location.reload();
         }
+      }
+    }, 4000);
 
-        // --- ORDER PIPELINE TO COUNTER PANEL ---
-        async function placeOrder() {
-            if (cart.length === 0) {
-                showToast("Your tray is empty!");
-                return;
-            }
+    // Initializer
+    window.addEventListener('DOMContentLoaded', () => {
+      initSession();
+      loadMenu();
 
-            if (!selectedTable) {
-                openTableModal();
-                return;
-            }
-
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const sgst = parseFloat((subtotal * 0.05).toFixed(2));
-            const cgst = parseFloat((subtotal * 0.05).toFixed(2));
-            const grandTotal = parseFloat((subtotal + sgst + cgst).toFixed(2));
-
-            const order = {
-                table_number: selectedTable,
-                items: JSON.stringify(cart),
-                subtotal,
-                sgst,
-                cgst,
-                grand_total: grandTotal,
-                status: "Pending"
-            };
-
-            const btn = document.getElementById("order-btn");
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>SENDING...</span>`;
-
-            try {
-                const response = await fetch(`${SUPABASE_URL}orders`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "apikey": SUPABASE_KEY
-                    },
-                    body: JSON.stringify(order)
-                });
-
-                if (response.ok) {
-                    showToast("🌟 Order received at counter!");
-                    cart = [];
-                    localStorage.removeItem('sapphire_active_cart');
-                    updateCartCounter();
-                    refreshCartView();
-                    document.getElementById("cart-items-box").innerHTML = `
-                        <div class="text-center py-8 text-green-400 flex flex-col items-center">
-                            <i class="fa-solid fa-circle-check text-4xl mb-2 animate-bounce"></i>
-                            <h3 class="serif-font font-bold">Tray Dispatched!</h3>
-                            <p class="text-[10px] text-gray-400 mt-1">Please wait while we prepare your gourmet delicacies.</p>
-                        </div>
-                    `;
-                } else {
-                    throw new Error("Supabase internal error");
-                }
-            } catch (err) {
-                let offline = JSON.parse(localStorage.getItem("sapphire_fallback_orders") || "[]");
-                offline.push({ ...order, id: Date.now(), created_at: new Date() });
-                localStorage.setItem("sapphire_fallback_orders", JSON.stringify(offline));
-                
-                showToast("Internet offline. Order queued locally!");
-                cart = [];
-                localStorage.removeItem('sapphire_active_cart');
-                updateCartCounter();
-                refreshCartView();
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-utensils"></i> <span>PLACE ORDER</span>`;
-            }
+      // Load existing cart if any
+      const savedCart = localStorage.getItem(`sapphire_cart_${currentTable}`);
+      if (savedCart) {
+        try {
+          cart = JSON.parse(savedCart);
+          updateCartBadge();
+        } catch (e) {
+          cart = [];
         }
-
-        // --- ASK FOR BILL CALL ACTION ---
-        async function askForBill() {
-            if (!selectedTable) {
-                openTableModal();
-                return;
-            }
-
-            if (!confirm(`Request the final thermal invoice for ${selectedTable}?`)) return;
-
-            const billPayload = {
-                table_number: selectedTable,
-                items: JSON.stringify([]), // Send empty array to declare signal status code
-                subtotal: 0,
-                sgst: 0,
-                cgst: 0,
-                grand_total: 0,
-                status: "Bill Requested"
-            };
-
-            const btn = document.getElementById("bill-request-btn");
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Processing`;
-
-            try {
-                const response = await fetch(`${SUPABASE_URL}orders`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "apikey": SUPABASE_KEY
-                    },
-                    body: JSON.stringify(billPayload)
-                });
-
-                if (response.ok) {
-                    showToast("🧾 Counter notified! Bringing your bill shortly.");
-                } else {
-                    showToast("Could not send bill request. Please ask a server.");
-                }
-            } catch (e) {
-                showToast("Network failure. Please ask a server for assistance.");
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-file-invoice-dollar block mb-0.5 text-xs"></i> Ask For Bill`;
-            }
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById("toast");
-            document.getElementById("toast-message").innerText = msg;
-            toast.style.transform = "translateY(0)";
-            setTimeout(() => toast.style.transform = "translateY(-150%)", 3000);
-        }
-
-        window.onload = function() {
-            initializeSessionContext();
-            loadMenuSystem();
-            document.body.addEventListener('click', () => {
-                const hint = document.getElementById("swipe-hint");
-                if (hint && hint.style.display !== "none") dismissHint();
-            }, { once: true });
-        }
-    </script>
+      }
+    });
+  </script>
 </body>
 </html>
