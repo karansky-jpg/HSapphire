@@ -1,4 +1,3 @@
-KDMA
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +27,10 @@ KDMA
       }
     }
   </script>
-  <!-- Google Fonts -->
+  <!-- Google Fonts & FontAwesome for icons -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -94,7 +95,7 @@ KDMA
         <span class="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full font-semibold" id="active-guest-counter">0 Active Guests</span>
       </div>
 
-      <!-- STATUS LEGENDE -->
+      <!-- STATUS LEGEND -->
       <div class="grid grid-cols-4 gap-2 mb-6 p-2 bg-gray-50 rounded-2xl border border-gray-100 text-center">
         <div>
           <span class="inline-block w-2.5 h-2.5 rounded-full bg-gray-300"></span>
@@ -134,29 +135,114 @@ KDMA
     <!-- RIGHT PANEL: ACTIVE ORDERS COMMAND POST (7 Cols) -->
     <section class="lg:col-span-7 flex flex-col gap-6">
       <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-xs flex-grow">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-4 mb-4 gap-2">
-          <div>
-            <h2 class="text-xl font-bold text-royalBlue font-serif">Kitchen Preparation Queue</h2>
-            <p class="text-xs text-gray-400">Incoming dishes & hospitality service requests</p>
+        
+        <!-- MAIN DASHBOARD TABS -->
+        <div class="flex bg-gray-100 p-1 rounded-2xl mb-6">
+          <button id="tab-btn-queue" onclick="switchMainTab('queue')" class="flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-royalBlue shadow-sm">
+            <i class="fa-solid fa-utensils mr-1.5 text-royalGreen"></i> Kitchen Queue
+          </button>
+          <button id="tab-btn-menu" onclick="switchMainTab('menu')" class="flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition-all text-gray-500 hover:text-royalBlue">
+            <i class="fa-solid fa-book-open mr-1.5 text-accentGold"></i> Live Menu Database
+          </button>
+        </div>
+
+        <!-- VIEW 1: KITCHEN PREPARATION QUEUE -->
+        <div id="kitchen-queue-view" class="space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-4 mb-4 gap-2">
+            <div>
+              <h2 class="text-xl font-bold text-royalBlue font-serif">Kitchen Preparation Queue</h2>
+              <p class="text-xs text-gray-400">Incoming dishes & hospitality service requests</p>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="setQueueFilter('all')" id="q-filter-all" class="px-3 py-1 bg-royalBlue text-white rounded-lg text-xs font-semibold transition shadow-3xs">All</button>
+              <button onclick="setQueueFilter('ordered')" id="q-filter-ordered" class="px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-lg text-xs font-semibold transition border border-gray-200">Pending</button>
+              <button onclick="setQueueFilter('bill_requested')" id="q-filter-bill" class="px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-lg text-xs font-semibold transition border border-gray-200">Bill Requests</button>
+            </div>
           </div>
-          <div class="flex items-center gap-1.5">
-            <button onclick="setQueueFilter('all')" id="q-filter-all" class="px-3 py-1 bg-royalBlue text-white rounded-lg text-xs font-semibold transition shadow-3xs">All</button>
-            <button onclick="setQueueFilter('ordered')" id="q-filter-ordered" class="px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-lg text-xs font-semibold transition border border-gray-200">Pending</button>
-            <button onclick="setQueueFilter('bill_requested')" id="q-filter-bill" class="px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-lg text-xs font-semibold transition border border-gray-200">Bill Requests</button>
+
+          <!-- Dynamic Order Queue -->
+          <div class="space-y-4" id="order-queue-container">
+            <!-- Populated dynamically -->
+            <div class="text-center py-20 text-gray-400">
+              <svg class="animate-spin h-10 w-10 mx-auto mb-4 text-royalGreen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <p class="font-serif text-base text-gray-500">Listening to live guest portals...</p>
+            </div>
           </div>
         </div>
 
-        <!-- Dynamic Order Queue -->
-        <div class="space-y-4" id="order-queue-container">
-          <!-- Populated dynamically -->
-          <div class="text-center py-20 text-gray-400">
-            <svg class="animate-spin h-10 w-10 mx-auto mb-4 text-royalGreen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="font-serif text-base text-gray-500">Listening to live guest portals...</p>
+        <!-- VIEW 2: LIVE MENU MANAGER -->
+        <div id="menu-manager-view" class="hidden space-y-6">
+          <!-- Google Sheets Live Sync Module -->
+          <div class="bg-royalGreen/5 border border-royalGreen/20 p-4 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h3 class="font-bold text-royalGreen text-sm"><i class="fa-solid fa-cloud-arrow-down mr-1"></i> Global Sheet Sync Engine</h3>
+              <p class="text-xs text-gray-500 mt-1">Download and deploy real-time dish items and updated pricing directly from your configured Google Sheet spreadsheet.</p>
+            </div>
+            <button onclick="syncMenuFromSheetsToSupabase()" id="sheet-sync-btn" class="w-full sm:w-auto px-5 py-2.5 bg-royalGreen hover:bg-royalGreen-dark text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition">
+              <i class="fa-solid fa-rotate"></i> Sync Live Menu Sheets
+            </button>
+          </div>
+
+          <!-- Add / Edit Dish Manual Form -->
+          <div class="bg-gray-50 border border-gray-200 p-5 rounded-2xl">
+            <h3 id="form-title" class="text-xs font-bold text-royalBlue uppercase tracking-wider mb-3">Add New Dish</h3>
+            <form id="menu-item-form" onsubmit="handleFormSubmit(event)" class="space-y-3">
+              <input type="hidden" id="edit-item-id">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <input type="text" id="item-name" placeholder="Dish Name (e.g., Dal Makhani)" required class="md:col-span-1 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-royalGreen focus:outline-none">
+                <input type="number" id="item-price" placeholder="Price (₹)" required class="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-royalGreen focus:outline-none">
+                <select id="item-category" required class="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-royalGreen focus:outline-none">
+                  <option value="">Select Category</option>
+                  <option value="Starters">Starters</option>
+                  <option value="Main Course">Main Course</option>
+                  <option value="Dessert">Dessert</option>
+                  <option value="Beverages">Beverages</option>
+                </select>
+              </div>
+              <div class="flex gap-2">
+                <input type="text" id="item-desc" placeholder="Dish description..." class="flex-grow px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-royalGreen focus:outline-none">
+                <button type="submit" id="submit-form-btn" class="px-6 py-2.5 bg-royalBlue hover:bg-royalBlue-dark text-white rounded-xl text-xs font-bold transition">
+                  Save Item
+                </button>
+                <button type="button" id="cancel-edit-btn" onclick="resetFormState()" class="hidden px-4 py-2.5 bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-xl text-xs font-bold transition">
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Real-time Filter & Search -->
+          <div class="flex flex-col sm:flex-row gap-3 items-center justify-between border-t border-gray-100 pt-4">
+            <div class="relative w-full sm:max-w-xs">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </span>
+              <input type="text" id="admin-search" oninput="filterAdminMenu()" placeholder="Search active menu..." class="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royalGreen text-xs">
+            </div>
+            <select id="admin-filter-category" onchange="filterAdminMenu()" class="w-full sm:w-auto px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-royalGreen focus:outline-none">
+              <option value="All">All Categories</option>
+            </select>
+          </div>
+
+          <!-- Live Menu Catalog Listing -->
+          <div class="border border-gray-150 rounded-2xl overflow-hidden bg-white">
+            <div class="grid grid-cols-12 bg-gray-50 border-b border-gray-150 p-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+              <span class="col-span-5">Dish Title</span>
+              <span class="col-span-3">Category</span>
+              <span class="col-span-2 text-right">Price</span>
+              <span class="col-span-2 text-center">Actions</span>
+            </div>
+            <div id="admin-menu-list" class="divide-y divide-gray-100 max-h-[350px] overflow-y-auto">
+              <div class="text-center py-12 text-gray-400 text-xs">
+                Fetching live menu database...
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </section>
   </main>
@@ -171,9 +257,7 @@ KDMA
           <h3 class="font-bold text-lg font-serif">Checkout &amp; Bill Generator</h3>
         </div>
         <button onclick="closeBillingModal()" class="text-gray-300 hover:text-white transition">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <i class="fa-solid fa-xmark text-xl"></i>
         </button>
       </div>
 
@@ -185,9 +269,7 @@ KDMA
       <!-- Action Buttons at bottom -->
       <div class="border-t border-gray-100 bg-gray-50 p-4 flex gap-3">
         <button onclick="printInvoice()" class="flex-1 bg-royalGreen text-white py-3 rounded-2xl font-bold hover:bg-royalGreen-dark transition flex items-center justify-center gap-2 shadow-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-          </svg> Print Receipt
+          <i class="fa-solid fa-print"></i> Print Receipt
         </button>
         <button onclick="completeCheckout()" class="flex-1 bg-royalBlue text-white py-3 rounded-2xl font-bold hover:bg-royalBlue-dark transition shadow-sm">
           Complete &amp; Clear Table
@@ -207,9 +289,7 @@ KDMA
       <div class="bg-royalBlue text-white px-6 py-4 flex items-center justify-between">
         <h3 class="font-bold text-lg font-serif">Completed Transactions History</h3>
         <button onclick="closeHistory()" class="text-gray-300 hover:text-white transition">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <i class="fa-solid fa-xmark text-xl"></i>
         </button>
       </div>
       <div class="p-6 max-h-[50vh] overflow-y-auto space-y-4" id="history-log-container">
@@ -241,12 +321,58 @@ KDMA
   <script>
     const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
     const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1_YNC57MPCAUlxlNydQzcrgKPZwBI0CB12awVte6u4_A/export?format=csv";
 
     // App state
     let activeOrders = [];
     let historyLogs = [];
     let currentQueueFilter = 'all';
     let selectedBillingSession = null;
+    let adminMenuItems = [];
+
+    // CUSTOM CONFIRM DIALOG MODAL (Complies with iframe preview guards)
+    function showCustomDialog(title, message, onConfirm = null) {
+      const dialogId = 'custom-dialog-' + Date.now();
+      const dialogDiv = document.createElement('div');
+      dialogDiv.id = dialogId;
+      dialogDiv.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs";
+      
+      dialogDiv.innerHTML = `
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-gray-100 text-center animate-fade-in">
+          <div class="w-16 h-16 bg-royalGreen/10 text-royalGreen rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fa-solid fa-circle-info text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold font-serif text-royalBlue mb-1">${title}</h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-6">${message}</p>
+          <div class="flex gap-3">
+            ${onConfirm ? `
+              <button id="${dialogId}-cancel-btn" class="flex-1 bg-gray-150 hover:bg-gray-200 text-gray-600 py-2.5 rounded-xl text-xs font-bold transition">
+                Cancel
+              </button>
+              <button id="${dialogId}-confirm-btn" class="flex-1 bg-royalGreen hover:bg-royalGreen-dark text-white py-2.5 rounded-xl text-xs font-bold transition">
+                Confirm
+              </button>
+            ` : `
+              <button id="${dialogId}-cancel-btn" class="w-full bg-royalGreen hover:bg-royalGreen-dark text-white py-2.5 rounded-xl text-xs font-semibold transition">
+                Dismiss
+              </button>
+            `}
+          </div>
+        </div>
+      `;
+      document.body.appendChild(dialogDiv);
+      
+      document.getElementById(`${dialogId}-cancel-btn`).onclick = () => {
+        dialogDiv.remove();
+      };
+
+      if (onConfirm) {
+        document.getElementById(`${dialogId}-confirm-btn`).onclick = () => {
+          onConfirm();
+          dialogDiv.remove();
+        };
+      }
+    }
 
     // Supabase standard request builder
     async function dbRequest(endpoint, method = 'GET', body = null) {
@@ -275,13 +401,12 @@ KDMA
 
     // SYNC ACTIVE SESSIONS
     async function fetchActiveSessions() {
-      // Fetch all incomplete active sessions from Supabase
       let orders = await dbRequest('orders?status=neq.completed', 'GET');
       
       if (orders) {
         activeOrders = orders;
       } else {
-        // Local simulation fallback: compile active rooms/tables from LocalStorage
+        // Local simulation fallback
         activeOrders = [];
         for (let i = 1; i <= 10; i++) {
           const keys = [`R${i}`, `T${i}`];
@@ -297,7 +422,6 @@ KDMA
         }
       }
 
-      // Propagate status into localStorage globally so both frames stay synced perfectly
       activeOrders.forEach(o => {
         localStorage.setItem(`table_status_${o.table_id}`, o.status);
         localStorage.setItem(`table_session_${o.table_id}`, JSON.stringify(o));
@@ -384,6 +508,284 @@ KDMA
       document.getElementById('active-guest-counter').textContent = `${activeGuestCounter} Active Sessions`;
     }
 
+    // MAIN CONSOLE VIEW SWITCHER
+    function switchMainTab(tab) {
+      const qBtn = document.getElementById('tab-btn-queue');
+      const mBtn = document.getElementById('tab-btn-menu');
+      const qView = document.getElementById('kitchen-queue-view');
+      const mView = document.getElementById('menu-manager-view');
+
+      if (tab === 'queue') {
+        qBtn.className = "flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-royalBlue shadow-sm";
+        mBtn.className = "flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition-all text-gray-500 hover:text-royalBlue";
+        qView.classList.remove('hidden');
+        mView.classList.add('hidden');
+      } else {
+        mBtn.className = "flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-royalBlue shadow-sm";
+        qBtn.className = "flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition-all text-gray-500 hover:text-royalBlue";
+        mView.classList.remove('hidden');
+        qView.classList.add('hidden');
+        fetchMenuItems(); // Refresh Database List
+      }
+    }
+
+    // FETCH MENU LIST FOR LIVE DATABASE DESK
+    async function fetchMenuItems() {
+      try {
+        const response = await dbRequest('menu_items?select=*', 'GET');
+        if (response) {
+          adminMenuItems = response;
+        } else {
+          adminMenuItems = [];
+        }
+        renderAdminMenu();
+        populateAdminCategories();
+      } catch (err) {
+        console.error("Unable to load live menu panel", err);
+      }
+    }
+
+    function renderAdminMenu() {
+      const container = document.getElementById('admin-menu-list');
+      const searchQuery = document.getElementById('admin-search').value.toLowerCase();
+      const selectedCat = document.getElementById('admin-filter-category').value;
+
+      const filtered = adminMenuItems.filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(searchQuery) || (item.description && item.description.toLowerCase().includes(searchQuery));
+        const matchesCategory = selectedCat === 'All' || item.category === selectedCat;
+        return matchesSearch && matchesCategory;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-gray-400 text-xs">
+            No matching items found inside the active database records.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="grid grid-cols-12 p-3 text-xs items-center hover:bg-gray-50 transition border-b border-gray-100">
+          <div class="col-span-5">
+            <p class="font-bold text-royalBlue">${item.name}</p>
+            <p class="text-[10px] text-gray-400 truncate max-w-[200px] mt-0.5">${item.description || 'No description provided.'}</p>
+          </div>
+          <span class="col-span-3 font-semibold text-gray-500">${item.category}</span>
+          <span class="col-span-2 text-right font-bold text-royalGreen">₹${parseFloat(item.price).toFixed(2)}</span>
+          <div class="col-span-2 flex justify-center gap-1.5">
+            <button onclick="editMenuItem('${item.id}')" class="text-royalBlue hover:text-royalBlue-dark p-1" title="Edit Item">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button onclick="deleteMenuItem('${item.id}')" class="text-red-600 hover:text-red-800 p-1" title="Delete Item">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function populateAdminCategories() {
+      const select = document.getElementById('admin-filter-category');
+      const categories = ['All', ...new Set(adminMenuItems.map(item => item.category))];
+      
+      const currentVal = select.value;
+      select.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join("");
+      if (categories.includes(currentVal)) {
+        select.value = currentVal;
+      }
+    }
+
+    function filterAdminMenu() {
+      renderAdminMenu();
+    }
+
+    // FORM HANDLERS FOR MANUALLY ADDING / EDITING ITEMS
+    function editMenuItem(itemId) {
+      const item = adminMenuItems.find(i => i.id.toString() === itemId.toString());
+      if (!item) return;
+
+      document.getElementById('edit-item-id').value = item.id;
+      document.getElementById('item-name').value = item.name;
+      document.getElementById('item-price').value = item.price;
+      document.getElementById('item-category').value = item.category;
+      document.getElementById('item-desc').value = item.description || '';
+
+      document.getElementById('form-title').innerText = "Edit Dish - " + item.name;
+      document.getElementById('submit-form-btn').innerText = "Update Item";
+      document.getElementById('cancel-edit-btn').classList.remove('hidden');
+    }
+
+    function resetFormState() {
+      document.getElementById('edit-item-id').value = '';
+      document.getElementById('menu-item-form').reset();
+      
+      document.getElementById('form-title').innerText = "Add New Dish";
+      document.getElementById('submit-form-btn').innerText = "Save Item";
+      document.getElementById('cancel-edit-btn').classList.add('hidden');
+    }
+
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const id = document.getElementById('edit-item-id').value;
+      const name = document.getElementById('item-name').value;
+      const price = parseFloat(document.getElementById('item-price').value);
+      const category = document.getElementById('item-category').value;
+      const description = document.getElementById('item-desc').value;
+
+      const payload = { name, price, category, description };
+
+      try {
+        let result;
+        if (id) {
+          result = await dbRequest(`menu_items?id=eq.${id}`, 'PATCH', payload);
+          if (result) showCustomDialog("Success", "Dish parameters updated successfully!");
+        } else {
+          result = await dbRequest('menu_items', 'POST', [payload]);
+          if (result) showCustomDialog("Success", "New dish added to the catalog!");
+        }
+        resetFormState();
+        fetchMenuItems();
+      } catch (err) {
+        console.error(err);
+        showCustomDialog("Error", "Could not submit form entries to Supabase schema.");
+      }
+    }
+
+    // INDIVIDUAL DELETE HANDLER
+    async function deleteMenuItem(itemId) {
+      showCustomDialog("Confirm Delete", "Are you sure you want to permanently remove this item from the active database? This will change guest catalogs instantly.", async () => {
+        try {
+          const response = await fetch(`${SUPABASE_URL}menu_items?id=eq.${itemId}`, {
+            method: "DELETE",
+            headers: {
+              "apikey": SUPABASE_KEY,
+              "Authorization": `Bearer ${SUPABASE_KEY}`
+            }
+          });
+          if (response.ok) {
+            showCustomDialog("Success", "Dish removed successfully.");
+            fetchMenuItems();
+          } else {
+            showCustomDialog("Error", "Could not delete dish.");
+          }
+        } catch (err) {
+          console.error(err);
+          showCustomDialog("Error", "An error occurred with your server connection.");
+        }
+      });
+    }
+
+    // LIVE SPREADSHEET DEPLOYMENT SYNC ENGINE
+    async function syncMenuFromSheetsToSupabase() {
+      const syncBtn = document.getElementById('sheet-sync-btn');
+      syncBtn.disabled = true;
+      syncBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-1.5"></i> Running live sync...`;
+      
+      try {
+        const response = await fetch(SHEET_CSV_URL);
+        if (!response.ok) throw new Error("Could not fetch CSV from Google Sheets");
+        const csvText = await response.text();
+        
+        // Custom parser integration to support quoted strings safely
+        const lines = csvText.split(/\r?\n/);
+        if (lines.length < 2) {
+          showCustomDialog("Parsing Error", "Retrieved sheet does not contain enough data.");
+          return;
+        }
+
+        const headers = lines[0].split(',').map(h => h.trim().replace(/^["']|["']$/g, '').toLowerCase());
+        const nameIdx = headers.findIndex(h => h.includes('name') || h.includes('item') || h.includes('title'));
+        const priceIdx = headers.findIndex(h => h.includes('price') || h.includes('rate') || h.includes('cost'));
+        const catIdx = headers.findIndex(h => h.includes('category') || h.includes('type'));
+        const descIdx = headers.findIndex(h => h.includes('description') || h.includes('desc') || h.includes('ingredients'));
+
+        let processedCount = 0;
+        let createdCount = 0;
+        let updatedCount = 0;
+
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+
+          const row = [];
+          let insideQuote = false;
+          let field = "";
+          for (let j = 0; j < line.length; j++) {
+            const c = line[j];
+            if (c === '"' || c === "'") {
+              insideQuote = !insideQuote;
+            } else if (c === ',' && !insideQuote) {
+              row.push(field.trim().replace(/^["']|["']$/g, ''));
+              field = "";
+            } else {
+              field += c;
+            }
+          }
+          row.push(field.trim().replace(/^["']|["']$/g, ''));
+
+          const dishName = row[nameIdx === -1 ? 0 : nameIdx];
+          if (!dishName) continue;
+
+          const dishPrice = parseFloat(row[priceIdx === -1 ? 1 : priceIdx]) || 150;
+          const dishCat = row[catIdx === -1 ? 2 : catIdx] || 'Main Course';
+          const dishDesc = row[descIdx === -1 ? 3 : descIdx] || 'Premium selection.';
+
+          const payload = {
+            name: dishName,
+            price: dishPrice,
+            category: dishCat,
+            description: dishDesc
+          };
+
+          // Query matching entries to verify patch versus post mapping
+          const checkRes = await fetch(`${SUPABASE_URL}menu_items?name=eq.${encodeURIComponent(dishName)}`, {
+            headers: { "apikey": SUPABASE_KEY }
+          });
+          
+          if (checkRes.ok) {
+            const existing = await checkRes.json();
+            if (existing && existing.length > 0) {
+              // Update matched entry
+              const patchRes = await fetch(`${SUPABASE_URL}menu_items?id=eq.${existing[0].id}`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  "apikey": SUPABASE_KEY,
+                  "Authorization": `Bearer ${SUPABASE_KEY}`
+                },
+                body: JSON.stringify(payload)
+              });
+              if (patchRes.ok) updatedCount++;
+            } else {
+              // Create new record
+              const postRes = await fetch(`${SUPABASE_URL}menu_items`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "apikey": SUPABASE_KEY,
+                  "Authorization": `Bearer ${SUPABASE_KEY}`
+                },
+                body: JSON.stringify([payload])
+              });
+              if (postRes.ok) createdCount++;
+            }
+            processedCount++;
+          }
+        }
+        
+        showCustomDialog("Sync Complete", `Successfully processed ${processedCount} rows.<br>Created ${createdCount} new dishes.<br>Updated ${updatedCount} existing prices.`);
+        fetchMenuItems(); // Refresh Database list
+      } catch (err) {
+        console.error(err);
+        showCustomDialog("Sync Error", "An error occurred while uploading sheet data to Supabase. Check your network connection.");
+      } finally {
+        syncBtn.disabled = false;
+        syncBtn.innerHTML = `<i class="fa-solid fa-rotate"></i> Sync Live Menu Sheets`;
+      }
+    }
+
     // QUEUE FILTER TOGGLES
     function setQueueFilter(filter) {
       currentQueueFilter = filter;
@@ -394,7 +796,6 @@ KDMA
         bill_requested: document.getElementById('q-filter-bill')
       };
 
-      // Reset style classes
       Object.keys(buttons).forEach(key => {
         if (key === filter) {
           buttons[key].className = "px-3 py-1 bg-royalBlue text-white rounded-lg text-xs font-semibold transition shadow-3xs";
@@ -411,7 +812,6 @@ KDMA
       const container = document.getElementById('order-queue-container');
       container.innerHTML = '';
 
-      // Filter active sessions having items
       let ordersWithItems = activeOrders.filter(o => {
         try {
           const itemsArr = JSON.parse(o.items || "[]");
@@ -421,7 +821,6 @@ KDMA
         }
       });
 
-      // Filter by current menu filter tabs
       if (currentQueueFilter === 'ordered') {
         ordersWithItems = ordersWithItems.filter(o => o.status === 'ordered');
       } else if (currentQueueFilter === 'bill_requested') {
@@ -431,9 +830,7 @@ KDMA
       if (ordersWithItems.length === 0) {
         container.innerHTML = `
           <div class="text-center py-16 text-gray-400">
-            <svg class="h-12 w-12 mx-auto mb-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-            </svg>
+            <i class="fa-solid fa-utensils text-4xl text-gray-200 mb-3"></i>
             <p class="font-bold text-gray-500 text-sm">No active orders queued</p>
             <p class="text-xs text-gray-400 mt-1">Perfect! Kitchen is clean and all guests are catered.</p>
           </div>
@@ -446,9 +843,8 @@ KDMA
         let itemsHTML = '';
         
         items.forEach(item => {
-          // Check item prep stage from local log state
           const stateKey = `prep_state_${order.id}_${item.name}`;
-          const currentStage = localStorage.getItem(stateKey) || "Pending"; // Pending, Preparing, Served
+          const currentStage = localStorage.getItem(stateKey) || "Pending"; 
           
           let stateColor = "text-red-600 bg-red-50 border-red-100";
           if (currentStage === 'Preparing') stateColor = "text-amber-600 bg-amber-50 border-amber-100";
@@ -463,7 +859,6 @@ KDMA
               <div class="flex items-center gap-1.5 self-end sm:self-auto">
                 <span class="text-[10px] px-2.5 py-1 rounded-full border ${stateColor} font-bold">${currentStage}</span>
                 
-                <!-- Status Action Toggles -->
                 <button onclick="updateDishStage('${order.id}', '${encodeURIComponent(item.name)}', 'Preparing')" class="p-1 text-xs font-semibold text-amber-600 hover:bg-amber-100 rounded border border-transparent" title="Set to Preparing">Prep</button>
                 <button onclick="updateDishStage('${order.id}', '${encodeURIComponent(item.name)}', 'Served')" class="p-1 text-xs font-semibold text-green-600 hover:bg-green-100 rounded border border-transparent" title="Set to Served">Serve</button>
               </div>
@@ -492,7 +887,7 @@ KDMA
 
             <div class="flex items-center justify-between pt-1 text-xs text-gray-400">
               <span>Timestamp: ${new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-              <span class="font-bold text-royalGreen">Current Running Balance: ₹${parseFloat(order.total_amount).toFixed(2)}</span>
+              <span class="font-bold text-royalGreen">Current Balance: ₹${parseFloat(order.total_amount).toFixed(2)}</span>
             </div>
           </div>
         `;
@@ -508,21 +903,18 @@ KDMA
       return table;
     }
 
-    // UPDATE PREPARATION STAGE FOR DISHES INDIVIDUALLY
     function updateDishStage(orderId, encodedItemName, stage) {
       const itemName = decodeURIComponent(encodedItemName);
       localStorage.setItem(`prep_state_${orderId}_${itemName}`, stage);
       renderOrderQueue();
     }
 
-    // FOCUS DIRECT SELECT / CLICK TABLE TRIGGER
+    // CLICK TABLE TRIGGER
     async function viewTableDetails(tableId) {
       const activeOrder = activeOrders.find(o => o.table_id === tableId);
       
       if (!activeOrder) {
-        // Option to manually initiate session
-        const forceOpen = confirm(`Table ${tableId} is currently vacant. Would you like to force initialize a guest session here?`);
-        if (forceOpen) {
+        showCustomDialog("Occupancy Override", `Table ${tableId} is currently vacant. Would you like to force initialize an guest dining session here?`, async () => {
           const payload = {
             table_id: tableId,
             items: JSON.stringify([]),
@@ -532,13 +924,12 @@ KDMA
           };
           let created = await dbRequest('orders', 'POST', [payload]);
           if (!created || created.length === 0) {
-            // Local fallback backup
             payload.id = Date.now();
             localStorage.setItem(`table_status_${tableId}`, 'active');
             localStorage.setItem(`table_session_${tableId}`, JSON.stringify(payload));
           }
           fetchActiveSessions();
-        }
+        });
         return;
       }
 
@@ -591,19 +982,17 @@ KDMA
       const finalTotal = subtotal + cgst + sgst;
 
       content.innerHTML = `
-        <!-- Table Information -->
         <div class="bg-royalGreen-light border border-royalGreen/10 p-4 rounded-2xl flex items-center justify-between">
           <div>
             <span class="text-xs text-gray-400 uppercase tracking-wider block">Session Target</span>
             <span class="font-serif font-extrabold text-xl text-royalGreen">${getFriendlyTableName(order.table_id)}</span>
           </div>
           <div class="text-right">
-            <span class="text-xs text-gray-400 uppercase tracking-wider block">Session Duration</span>
+            <span class="text-xs text-gray-400 uppercase tracking-wider block">Start Time</span>
             <span class="text-xs font-bold text-royalBlue bg-royalBlue-light px-2.5 py-1 rounded-full">${new Date(order.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
           </div>
         </div>
 
-        <!-- Ordered Items summary -->
         <div>
           <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Itemized Summary</h4>
           <div class="bg-gray-50 border border-gray-150 rounded-2xl p-4 max-h-[25vh] overflow-y-auto">
@@ -611,7 +1000,6 @@ KDMA
           </div>
         </div>
 
-        <!-- Calculations panel with mandated 5% SGST + 5% CGST rules -->
         <div class="space-y-2 border-t border-gray-100 pt-4">
           <div class="flex justify-between text-sm text-gray-500">
             <span>Subtotal</span>
@@ -626,7 +1014,7 @@ KDMA
             <span>₹${sgst.toFixed(2)}</span>
           </div>
           <div class="flex justify-between text-lg font-bold text-royalBlue border-t border-gray-200/60 pt-3">
-            <span>Grand Total (Rounding)</span>
+            <span>Grand Total</span>
             <span class="text-royalGreen font-extrabold">₹${finalTotal.toFixed(2)}</span>
           </div>
         </div>
@@ -835,13 +1223,10 @@ KDMA
     async function executePurge() {
       const inputPass = document.getElementById('admin-pw').value;
       if (inputPass === 'sapphireadmin') {
-        // Purge History in Supabase
         await dbRequest('orders', 'DELETE'); // Purge target logs
         
-        // Wipe local database history elements
         localStorage.removeItem('sapphire_history_log');
         
-        // Purge local states of Tables to ensure fresh start
         for (let i = 1; i <= 10; i++) {
           localStorage.removeItem(`table_status_R${i}`);
           localStorage.removeItem(`table_session_R${i}`);
@@ -849,12 +1234,12 @@ KDMA
           localStorage.removeItem(`table_session_T${i}`);
         }
 
-        alert("Database system purged! History has been permanently archived/deleted successfully.");
+        showCustomDialog("Purge Success", "Database transaction history cleared and logs permanently archived.");
         cancelPurge();
         closeHistory();
         fetchActiveSessions();
       } else {
-        alert("Incorrect administrator authentication credentials!");
+        showCustomDialog("Authorization Failed", "Incorrect manager credential code entered.");
         document.getElementById('admin-pw').value = '';
       }
     }
@@ -866,4 +1251,4 @@ KDMA
     });
   </script>
 </body>
-    </html>
+</html>
