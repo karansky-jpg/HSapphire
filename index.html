@@ -1,4 +1,3 @@
-SAPPHIRE
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +27,10 @@ SAPPHIRE
       }
     }
   </script>
-  <!-- Google Fonts -->
+  <!-- Google Fonts & FontAwesome for icons -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -71,9 +72,7 @@ SAPPHIRE
 
       <!-- Cart Button Trigger -->
       <button onclick="toggleCart(true)" class="relative bg-royalBlue text-white p-2.5 rounded-xl flex items-center gap-2 hover:bg-royalBlue-dark transition">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-        </svg>
+        <i class="fa-solid fa-basket-shopping text-lg"></i>
         <span id="cart-count" class="absolute -top-1 -right-1 bg-accentGold text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
         <span class="hidden sm:inline text-sm font-medium">Cart</span>
       </button>
@@ -81,7 +80,7 @@ SAPPHIRE
 
     <!-- Small Mobile Table Badge Banner -->
     <div id="mobile-session-badge" class="bg-royalGreen text-white text-center py-1.5 text-xs font-semibold tracking-wider flex items-center justify-center gap-2 md:hidden">
-      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
       <span id="mobile-session-label">Loading location...</span>
     </div>
   </header>
@@ -117,7 +116,7 @@ SAPPHIRE
   </div>
 
   <!-- ORDER STATUS TOP STRIP (Floating Notification) -->
-  <div id="active-status-bar" class="hidden max-w-6xl mx-auto w-full px-4 mt-4">
+  <div id="active-status-bar" class="hidden max-w-6xl mx-auto w-full px-4 mt-4 animate-fade-in">
     <div class="rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border" id="status-card-container">
       <div class="flex items-center gap-3">
         <div class="relative flex h-3 w-3">
@@ -153,11 +152,9 @@ SAPPHIRE
     <!-- Search Input -->
     <div class="relative mb-8 max-w-md">
       <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
+        <i class="fa-solid fa-magnifying-glass"></i>
       </span>
-      <input type="text" id="menu-search" oninput="filterMenu()" placeholder="Search dishes, desserts, mocktails..." class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-royalGreen focus:border-transparent shadow-sm">
+      <input type="text" id="menu-search" oninput="filterMenu()" placeholder="Search dishes, desserts, mocktails..." class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-royalGreen focus:border-transparent shadow-sm text-sm">
     </div>
 
     <!-- Menu Items Grid -->
@@ -218,15 +215,11 @@ SAPPHIRE
             <!-- Cart Header -->
             <div class="px-6 py-5 bg-royalBlue text-white flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accentGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
+                <i class="fa-solid fa-basket-shopping text-accentGold text-xl animate-pulse"></i>
                 <h2 class="text-lg font-bold font-serif" id="slide-over-title">Your Order Basket</h2>
               </div>
               <button onclick="toggleCart(false)" class="text-gray-300 hover:text-white transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <i class="fa-solid fa-xmark text-xl"></i>
               </button>
             </div>
 
@@ -257,9 +250,7 @@ SAPPHIRE
               <!-- Action button inside Cart -->
               <button onclick="placeOrder()" id="place-order-btn" class="w-full mt-4 bg-royalGreen text-white py-3.5 rounded-2xl font-semibold hover:bg-royalGreen-dark transition-all duration-200 shadow-md active:scale-98 flex items-center justify-center gap-2">
                 <span>Send Order to Kitchen</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
+                <i class="fa-solid fa-paper-plane text-xs"></i>
               </button>
             </div>
           </div>
@@ -269,12 +260,10 @@ SAPPHIRE
   </div>
 
   <!-- WAITER CALLED OVERLAY MODAL -->
-  <div id="waiter-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
+  <div id="waiter-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-accentGold text-center">
       <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <svg class="h-10 w-10 text-red-600 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-        </svg>
+        <i class="fa-solid fa-bell text-red-600 text-3xl animate-bounce"></i>
       </div>
       <h3 class="text-2xl font-bold font-serif text-royalBlue mb-2">Bill Requested!</h3>
       <p class="text-gray-500 text-sm mb-4">A waiter is on their way with your final physical bill. Please prepare your preferred payment option.</p>
@@ -296,12 +285,13 @@ SAPPHIRE
     // SUPABASE CREDENTIALS & INITIAL SETUP
     const SUPABASE_URL = "https://hdwicmptcyclrvjtujce.supabase.co/rest/v1/";
     const SUPABASE_KEY = "sb_publishable_rvGrIaZMdJCI13W9wzZmMg_t1D0aRUr";
+    const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1_YNC57MPCAUlxlNydQzcrgKPZwBI0CB12awVte6u4_A/export?format=csv";
     
     // Global parameters
     let currentTable = null;
     let menuItems = [];
     let cart = [];
-    let activeSession = null; // Stored DB record of order/session for current table
+    let activeSession = null; 
     let selectedCategory = 'All';
 
     // Premium Fallback Menu
@@ -526,7 +516,7 @@ SAPPHIRE
           container.className = "rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border bg-red-50/60 border-red-200";
           requestBtn.classList.add('hidden'); // hidden since already requested
           
-          // Trigger modal
+          // Trigger waiter invoice receipt details
           document.getElementById('modal-final-bill').textContent = `₹${parseFloat(activeSession.total_amount).toFixed(2)}`;
           document.getElementById('waiter-modal').classList.remove('hidden');
           break;
@@ -541,71 +531,99 @@ SAPPHIRE
       runningTotal.textContent = `₹${parseFloat(activeSession.total_amount || 0).toFixed(2)}`;
     }
 
-    // LOAD DYNAMIC MENU FROM GOOGLE SHEET
+    // LOAD DYNAMIC MENU FROM GOOGLE SHEET / SUPABASE
     async function loadMenu() {
-      const sheetUrl = "https://docs.google.com/spreadsheets/d/1_YNC57MPCAUlxlNydQzcrgKPZwBI0CB12awVte6u4_A/export?format=csv";
-      
+      // 1. Try Live Supabase Database sync pull
       try {
-        const response = await fetch(sheetUrl);
-        if (!response.ok) throw new Error("Could not fetch CSV from Sheet");
-        const text = await response.text();
-        
-        const parsed = parseCSV(text);
-        if (parsed && parsed.length > 0) {
-          menuItems = parsed;
-        } else {
-          menuItems = FALLBACK_MENU;
+        const response = await fetch(`${SUPABASE_URL}menu_items?select=*`, {
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.length > 0) {
+            menuItems = data;
+            console.log("Successfully connected and synced with Supabase catalog:", menuItems.length);
+            renderCategories();
+            renderMenu();
+            return;
+          }
         }
       } catch (err) {
-        console.warn("Failed to read from Google Sheets, mounting fallback design menu.", err);
-        menuItems = FALLBACK_MENU;
+        console.warn("Supabase fetch failed. Checking live Google Sheet backup...", err);
       }
 
+      // 2. Direct Fallback to dynamic Google Sheets parsing
+      try {
+        const response = await fetch(GOOGLE_SHEET_URL);
+        if (response.ok) {
+          const text = await response.text();
+          const parsed = parseCSV(text);
+          if (parsed && parsed.length > 0) {
+            menuItems = parsed;
+            console.log("Successfully retrieved direct spreadsheet catalog:", menuItems.length);
+            renderCategories();
+            renderMenu();
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("Spreadsheet access blocked. Deploying hardcoded premium catalog.", err);
+      }
+
+      // 3. Absolute offline premium fallback
+      menuItems = FALLBACK_MENU;
       renderCategories();
       renderMenu();
     }
 
+    // Bulletproof CSV Parser with support for commas inside quoted strings
     function parseCSV(text) {
-      const lines = text.split('\n');
+      const lines = text.split(/\r?\n/);
       if (lines.length < 2) return null;
 
-      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^["']|["']$/g, '').toLowerCase());
+      
+      const nameIdx = headers.findIndex(h => h.includes('name') || h.includes('item') || h.includes('title'));
+      const priceIdx = headers.findIndex(h => h.includes('price') || h.includes('rate') || h.includes('cost'));
+      const catIdx = headers.findIndex(h => h.includes('category') || h.includes('type'));
+      const descIdx = headers.findIndex(h => h.includes('description') || h.includes('desc') || h.includes('ingredients'));
+
       const items = [];
 
       for (let i = 1; i < lines.length; i++) {
-        let line = lines[i];
-        if (!line.trim()) continue;
+        const line = lines[i].trim();
+        if (!line) continue;
 
-        const values = [];
-        let current = '';
-        let inQuotes = false;
-
+        const row = [];
+        let insideQuote = false;
+        let field = "";
         for (let j = 0; j < line.length; j++) {
-          let char = line[j];
-          if (char === '"') {
-            inQuotes = !inQuotes;
-          } else if (char === ',' && !inQuotes) {
-            values.push(current.trim().replace(/^"|"$/g, ''));
-            current = '';
+          const c = line[j];
+          if (c === '"' || c === "'") {
+            insideQuote = !insideQuote;
+          } else if (c === ',' && !insideQuote) {
+            row.push(field.trim().replace(/^["']|["']$/g, ''));
+            field = "";
           } else {
-            current += char;
+            field += c;
           }
         }
-        values.push(current.trim().replace(/^"|"$/g, ''));
+        row.push(field.trim().replace(/^["']|["']$/g, ''));
 
-        const row = {};
-        headers.forEach((header, index) => {
-          row[header.toLowerCase()] = values[index] || '';
+        const targetName = row[nameIdx === -1 ? 0 : nameIdx];
+        if (!targetName) continue;
+
+        const priceNum = parseFloat(row[priceIdx === -1 ? 1 : priceIdx]);
+
+        items.push({
+          name: targetName,
+          price: isNaN(priceNum) ? 150 : priceNum,
+          category: row[catIdx === -1 ? 2 : catIdx] || 'Main Course',
+          description: row[descIdx === -1 ? 3 : descIdx] || 'Our premium specialty prepared with handpicked local ingredients.'
         });
-
-        const name = row.name || row.item || row.title || '';
-        const price = parseFloat(row.price || row.rate || row.cost) || 0;
-        const category = row.category || row.type || 'Main Course';
-        const description = row.description || row.ingredients || row.details || '';
-
-        if (name && price > 0) {
-          items.push({ name, category, price, description });
-        }
       }
       return items;
     }
@@ -641,7 +659,7 @@ SAPPHIRE
       const query = filterText.toLowerCase();
       const filtered = menuItems.filter(item => {
         const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-        const matchesQuery = item.name.toLowerCase().includes(query) || item.description.toLowerCase().includes(query);
+        const matchesQuery = item.name.toLowerCase().includes(query) || (item.description && item.description.toLowerCase().includes(query));
         return matchesCategory && matchesQuery;
       });
 
@@ -676,9 +694,7 @@ SAPPHIRE
               <div class="mt-6 pt-4 border-t border-gray-50 flex items-center justify-between">
                 ${quantity === 0 ? `
                   <button onclick="addToCart('${encodeURIComponent(item.name)}', ${item.price})" class="w-full bg-royalGreen-light text-royalGreen hover:bg-royalGreen hover:text-white px-4 py-2.5 rounded-2xl text-xs font-semibold tracking-wide transition-all active:scale-95 flex items-center justify-center gap-1.5 border border-royalGreen/15">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg> Add to Basket
+                    <i class="fa-solid fa-plus text-xs"></i> Add to Basket
                   </button>
                 ` : `
                   <div class="flex items-center justify-between w-full">
@@ -755,9 +771,7 @@ SAPPHIRE
       if (cart.length === 0) {
         container.innerHTML = `
           <div class="h-full flex flex-col items-center justify-center text-center p-8">
-            <svg class="h-16 w-16 text-gray-300 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
+            <i class="fa-solid fa-basket-shopping text-4xl text-gray-200 mb-3"></i>
             <h4 class="font-bold text-gray-700">Basket is empty</h4>
             <p class="text-sm text-gray-400 mt-1">Pick some delicious items from the main menu to start dining.</p>
           </div>
@@ -811,7 +825,6 @@ SAPPHIRE
     async function placeOrder() {
       if (cart.length === 0) return;
 
-      // Disable button
       const orderBtn = document.getElementById('place-order-btn');
       orderBtn.disabled = true;
       orderBtn.innerHTML = `
@@ -822,7 +835,6 @@ SAPPHIRE
       `;
 
       try {
-        // Calculate new aggregates
         let existingItems = [];
         if (activeSession && activeSession.items) {
           try {
@@ -850,11 +862,10 @@ SAPPHIRE
         const updatedPayload = {
           items: JSON.stringify(existingItems),
           total_amount: total,
-          status: 'ordered', // Status turns YELLOW indicating prepared food queue
+          status: 'ordered', 
           updated_at: new Date().toISOString()
         };
 
-        // Call database
         let updatedResult = null;
         if (activeSession && activeSession.id) {
           updatedResult = await requestSupabase(`orders?id=eq.${activeSession.id}`, 'PATCH', updatedPayload);
@@ -863,7 +874,6 @@ SAPPHIRE
         if (updatedResult && updatedResult.length > 0) {
           activeSession = updatedResult[0];
         } else {
-          // Simulated fallback
           activeSession = {
             ...activeSession,
             ...updatedPayload,
@@ -871,23 +881,19 @@ SAPPHIRE
           };
         }
 
-        // Save progress to LocalStorage for offline and counter tracking
         localStorage.setItem(`table_status_${currentTable}`, 'ordered');
         localStorage.setItem(`table_session_${currentTable}`, JSON.stringify(activeSession));
         localStorage.setItem(`sapphire_session_backup_${currentTable}`, JSON.stringify(activeSession));
 
-        // Clear local Cart
         cart = [];
         localStorage.removeItem(`sapphire_cart_${currentTable}`);
         updateCartBadge();
         
-        // UI updates
         toggleCart(false);
         renderMenu();
         updateSessionUI();
 
-        // Inform customer using a custom HTML element overlay (No native browser alerts)
-        showCustomAlert("Success", "Your premium dish orders have been dispatched directly to the Kitchen master chef!", "success");
+        showCustomAlert("Order Placed", "Your premium dish orders have been dispatched directly to the Kitchen master chef!", "success");
 
       } catch (err) {
         console.error(err);
@@ -896,9 +902,7 @@ SAPPHIRE
         orderBtn.disabled = false;
         orderBtn.innerHTML = `
           <span>Send Order to Kitchen</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
+          <i class="fa-solid fa-paper-plane text-xs"></i>
         `;
       }
     }
@@ -908,7 +912,7 @@ SAPPHIRE
       if (!activeSession) return;
 
       const updatedPayload = {
-        status: 'bill_requested', // Sets RED status indicator
+        status: 'bill_requested', 
         updated_at: new Date().toISOString()
       };
 
@@ -934,7 +938,7 @@ SAPPHIRE
       document.getElementById('waiter-modal').classList.add('hidden');
     }
 
-    // CUSTOM MODAL ALERTS FOR AN INTEGRATED IFRAME FEEL (Never use browser alert())
+    // CUSTOM MODAL ALERTS
     function showCustomAlert(title, message, type) {
       const alertDiv = document.createElement('div');
       alertDiv.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs";
@@ -942,17 +946,17 @@ SAPPHIRE
       const isSuccess = type === 'success';
       const themeColor = isSuccess ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50';
       const icon = isSuccess ? 
-        `<svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>` :
-        `<svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
+        `<i class="fa-solid fa-circle-check text-green-600 text-3xl"></i>` :
+        `<i class="fa-solid fa-triangle-exclamation text-red-600 text-3xl"></i>`;
 
       alertDiv.innerHTML = `
-        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-gray-100 text-center animate-bounce-short">
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-gray-100 text-center transform scale-100 transition-all duration-300">
           <div class="w-16 h-16 ${themeColor} rounded-full flex items-center justify-center mx-auto mb-4">
             ${icon}
           </div>
           <h3 class="text-xl font-bold font-serif text-royalBlue mb-1">${title}</h3>
           <p class="text-sm text-gray-500 leading-relaxed mb-6">${message}</p>
-          <button onclick="this.closest('.fixed').remove()" class="w-full bg-royalGreen text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-royalGreen-dark transition">
+          <button onclick="this.closest('.fixed').remove()" class="w-full bg-royalGreen hover:bg-royalGreen-dark text-white py-2.5 rounded-xl text-sm font-semibold transition">
             Excellent
           </button>
         </div>
@@ -960,16 +964,14 @@ SAPPHIRE
       document.body.appendChild(alertDiv);
     }
 
-    // POLLING MONITOR TO SYNC CHANGES MADE FROM COUNTER (e.g. checkout clearing session)
+    // POLLING MONITOR
     setInterval(async () => {
       if (!currentTable || !activeSession) return;
 
-      // Poll Supabase
       const latest = await requestSupabase(`orders?id=eq.${activeSession.id}`, 'GET');
       if (latest && latest.length > 0) {
         const item = latest[0];
         
-        // If the table status changed to completed, it means counter checked it out!
         if (item.status === 'completed') {
           // Reset local session data
           localStorage.removeItem(`sapphire_cart_${currentTable}`);
@@ -987,7 +989,6 @@ SAPPHIRE
           updateSessionUI();
         }
       } else {
-        // Fallback local storage sync in case of local simulation
         const localStatus = localStorage.getItem(`table_status_${currentTable}`);
         if (localStatus === 'completed') {
           localStorage.removeItem(`sapphire_cart_${currentTable}`);
@@ -1006,7 +1007,6 @@ SAPPHIRE
       initSession();
       loadMenu();
 
-      // Load existing cart if any
       const savedCart = localStorage.getItem(`sapphire_cart_${currentTable}`);
       if (savedCart) {
         try {
